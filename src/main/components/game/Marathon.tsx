@@ -1,6 +1,5 @@
 import React from "react";
 import { GameState } from "../../Main";
-import Board from "../board/Board";
 
 interface MarathonProps {
   marathonState: GameState;
@@ -8,11 +7,7 @@ interface MarathonProps {
 
 const Marathon = (props: MarathonProps) => {
   const { marathonState } = props;
-  return (
-    <>
-      <Board gameState={marathonState} />
-    </>
-  );
+  return <div>Marathon</div>;
 };
 
 export default Marathon;
