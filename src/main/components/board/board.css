@@ -31,9 +31,9 @@
   align-items: center;
   color: black;
   margin: 0.2rem;
-  border-radius: 0.5rem;
-  border: 0.2rem solid #c5c5c5;
-  background-color: #ececec;
+  border-radius: 0.3rem;
+  border: 0.15rem solid #adadad;
+  font-weight: 700;
   transition: background-color 300ms, width 0.5s, height 0.5s, font-size 0.5s,
     color 300ms, border 300ms;
 }
@@ -41,11 +41,13 @@
 .medium-tile {
   height: 3rem;
   width: 3rem;
+  font-size: 2.25rem;
 }
 
 .small-tile {
   height: 2rem;
   width: 2rem;
+  font-size: 1.5rem;
 }
 
 /* HUD */
@@ -54,10 +56,67 @@
   gap: 1rem;
 }
 
+.swaps-container {
+  display: flex;
+  flex-direction: column;
+  border: 0.15rem solid #c5c5c5;
+  border-radius: 0.5rem;
+  padding: 0rem 0.75rem;
+}
+
 .swaps-container,
 .next-letters-container {
-  padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Found words container */
+.found-words-container {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  flex-direction: column;
+  bottom: 1rem;
+  z-index: 100;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.found-words-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 0.5rem;
+  border: 2px solid var(--dark-gray);
+  border-radius: 0.5rem;
+  height: 1.25rem;
+  overflow: auto;
+  width: 25rem;
+  border: 0.15rem solid #c5c5c5;
+}
+
+.found-words-list {
+  padding: 1rem;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.found-word-text {
+  padding: 0.25rem;
+  font-size: 1.5rem;
+}
+
+.found-word-title {
+  display: flex;
+  width: 90%;
+  justify-content: space-around;
+}
+.found-word-left-column,
+.found-word-right-column,
+.middle-divider {
+  display: flex;
+  gap: 0.3rem;
 }

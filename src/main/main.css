@@ -5,7 +5,7 @@
 .main-container {
   display: flex;
   justify-content: center;
-  background-color: #d3d6da;
+  background-color: #e4e4e4;
   height: 100vh;
   user-select: none;
   font-family: var(--font);
