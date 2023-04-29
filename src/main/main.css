@@ -1,0 +1,19 @@
+:root {
+  --font: "Nunito", sans-serif;
+}
+
+.main-container {
+  display: flex;
+  justify-content: center;
+  background-color: #d3d6da;
+  height: 100vh;
+  user-select: none;
+  font-family: var(--font);
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  width: 970px;
+  background-color: #ffffff;
+}

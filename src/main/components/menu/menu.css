@@ -1,0 +1,29 @@
+:root {
+  --transition: 300ms background-color, 300ms color, 300ms border;
+}
+
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+}
+
+.menu-button {
+  all: unset;
+  cursor: pointer;
+  transition: var(--transition);
+  background-color: #e7e7e7;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 0.5rem;
+  font-weight: 600;
+  font-size: 2rem;
+}
+
+.menu-button:hover {
+  background-color: #d4d4d4;
+}
