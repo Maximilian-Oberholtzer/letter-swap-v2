@@ -1,5 +1,6 @@
 :root {
   --font: "Nunito", sans-serif;
+  --game-width: 970px;
 }
 
 .main-container {
@@ -14,6 +15,6 @@
 .app-container {
   display: flex;
   flex-direction: column;
-  width: 970px;
+  width: var(--game-width);
   background-color: #ffffff;
 }

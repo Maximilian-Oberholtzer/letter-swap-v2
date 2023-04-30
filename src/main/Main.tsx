@@ -4,7 +4,6 @@ import "./main.css";
 import Menu from "./components/menu/Menu";
 import Blitz from "./components/game/Blitz";
 import Marathon from "./components/game/Marathon";
-import Appbar from "./components/appbar/Appbar";
 import {
   fillEmptyBoard,
   fillNewNextLetters,
@@ -92,7 +91,6 @@ const Main = () => {
   return (
     <div className="main-container">
       <div className="app-container">
-        <Appbar />
         {menuActive && (
           <Menu
             setBlitzActive={setBlitzActive}
