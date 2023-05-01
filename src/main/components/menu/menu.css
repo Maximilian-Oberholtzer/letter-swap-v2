@@ -1,6 +1,9 @@
 :root {
   --font: "Nunito", sans-serif;
   --transition: 300ms background-color, 300ms color, 300ms border;
+
+  --light-gray-1: #e9e9e9;
+  --light-gray-2: #d4d4d4;
 }
 
 .menu-container {
@@ -25,7 +28,7 @@
   all: unset;
   cursor: pointer;
   transition: var(--transition);
-  background-color: #e7e7e7;
+  background-color: var(--light-gray-1);
   border-radius: 0.5rem;
   padding: 1rem;
   margin: 0.5rem;
@@ -39,25 +42,19 @@
   align-items: center;
   cursor: pointer;
   transition: var(--transition);
-  background-color: #e7e7e7;
+  background-color: var(--light-gray-1);
   border-radius: 0.5rem;
   padding: 0.5rem;
 }
 
 .menu-button:hover,
 .menu-svg-button:hover {
-  background-color: #d4d4d4;
+  background-color: var(--light-gray-2);
 }
 
 .menu-bottom-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   margin: 1.5rem 0rem;
-}
-
-.menu-bottom-container-row {
-  display: flex;
-  gap: 2rem;
 }
