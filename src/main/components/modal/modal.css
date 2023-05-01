@@ -27,11 +27,11 @@
   max-width: var(--game-width);
   padding: 1rem 0rem;
   border-radius: 0.3rem;
-  animation: fade-in-bottom 0.3s ease-out;
+  animation: fade-in-bottom 0.2s ease-out;
 }
 
 .modal-fade-out {
-  animation: fade-out-bottom 0.3s ease-out;
+  animation: fade-out-bottom 0.2s ease-out;
 }
 
 .modal-close-button {

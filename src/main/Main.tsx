@@ -95,11 +95,13 @@ const Main = () => {
     <div className="main-container">
       <div className="app-container">
         {menuActive && (
-          <Menu
-            setMenuActive={setMenuActive}
-            setBlitzActive={setBlitzActive}
-            setMarathonActive={setMarathonActive}
-          />
+          <div className="menu-container">
+            <Menu
+              setMenuActive={setMenuActive}
+              setBlitzActive={setBlitzActive}
+              setMarathonActive={setMarathonActive}
+            />
+          </div>
         )}
         {!menuActive && (
           <div className="game-container">

@@ -15,7 +15,7 @@ const Modal = (props: ModalProps) => {
     modalElement?.classList.add("modal-fade-out");
     setTimeout(() => {
       closeModal();
-    }, 270);
+    }, 170);
   };
 
   return (

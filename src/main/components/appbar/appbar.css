@@ -11,3 +11,26 @@
 .appbar-right-container {
   margin-right: 2rem;
 }
+
+.appbar-left-container,
+.appbar-right-container {
+  margin-top: 0.5rem;
+}
+
+/* Media Queries for Title responsiveness */
+
+@media screen and (max-width: 600px) {
+  .appbar-center-container > .title-container {
+    font-size: 1.25rem;
+  }
+  .appbar-center-container > .title-container > .title-left-container > span {
+    height: 1rem;
+    width: 1rem;
+    font-size: 2rem;
+  }
+  .appbar-center-container > .title-container > .title-right-container > span {
+    height: 1rem;
+    width: 1rem;
+    font-size: 2rem;
+  }
+}

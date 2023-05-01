@@ -281,7 +281,7 @@ const applyFoundAnimation = (
       tile?.classList.remove("flip");
       // animatedPoints?.classList.remove("show-animated-points");
       setIsFlippingFound(false);
-    }, 400);
+    }, 300);
   }, 900);
 };
 
