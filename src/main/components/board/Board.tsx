@@ -123,11 +123,11 @@ const Board = (props: BoardProps) => {
       {}
     );
   };
-  const filledBorder = {
-    border: "0.15rem solid var(--dark-gray)",
+  const filledTile = {
+    backgroundColor: "var(--light-gray)",
   };
-  const emptyBorder = {
-    border: "0.15rem solid var(--light-gray)",
+  const emptyTile = {
+    backgroundColor: "#FFFFFF",
   };
 
   return (
@@ -159,7 +159,7 @@ const Board = (props: BoardProps) => {
                 className="tile"
                 id={`${rowIndex}-${colIndex}`}
                 key={`${rowIndex}-${colIndex}`}
-                style={mergeStyles(letter !== " " ? filledBorder : emptyBorder)}
+                style={mergeStyles(letter !== " " ? filledTile : emptyTile)}
                 onClick={() => {
                   if (!isFlipping && !isFlippingFound) {
                     handleBoard(rowIndex, colIndex, gameState.nextLetters[0]);
