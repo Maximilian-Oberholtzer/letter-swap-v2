@@ -61,6 +61,243 @@ export const fillNewNextLetters = (): string[] => {
   return letters;
 };
 
+//Board Checking and animation Handling
+type Direction = "row" | "column" | "diagonalRight" | "diagonalLeft";
+
+export const checkForWords = (
+  board: string[][],
+  setBoard: (newBoard: string[][]) => void,
+  foundWords: string[],
+  setFoundWords: (foundWords: string[]) => void,
+  setRecentFoundWords: (recentFoundWords: string[]) => void,
+  setIsFlippingFound: Dispatch<SetStateAction<boolean>>,
+  points: number,
+  setPoints: (points: number) => void
+): boolean => {
+  let foundWord = false;
+  let foundSequences = [];
+  let currentPoints = 0;
+
+  //check columns
+  for (let i = 0; i < BOARDSIZE; i++) {
+    let sequence = "";
+    for (let j = 0; j < BOARDSIZE; j++) {
+      sequence += board[i][j];
+      if (j === BOARDSIZE - 1) {
+        let reverseSequence = sequence.split("").reverse().join("");
+        if (words.includes(sequence.toLowerCase())) {
+          if (!foundWords.includes(sequence)) {
+            foundWord = true;
+            foundSequences.push(sequence);
+            replaceRow(board, "column", i, setIsFlippingFound, setBoard);
+          }
+        } else if (words.includes(reverseSequence.toLowerCase())) {
+          if (!foundWords.includes(reverseSequence)) {
+            foundWord = true;
+            foundSequences.push(reverseSequence);
+            replaceRow(board, "column", i, setIsFlippingFound, setBoard);
+          }
+        }
+      }
+    }
+  }
+
+  //check rows
+  for (let i = 0; i < BOARDSIZE; i++) {
+    let sequence = "";
+    for (let j = 0; j < BOARDSIZE; j++) {
+      sequence += board[j][i];
+      if (j === BOARDSIZE - 1) {
+        let reverseSequence = sequence.split("").reverse().join("");
+        if (words.includes(sequence.toLowerCase())) {
+          if (!foundWords.includes(sequence)) {
+            foundWord = true;
+            foundSequences.push(sequence);
+            replaceRow(board, "row", i, setIsFlippingFound, setBoard);
+          }
+        } else if (words.includes(reverseSequence.toLowerCase())) {
+          if (!foundWords.includes(reverseSequence)) {
+            foundWord = true;
+            foundSequences.push(reverseSequence);
+            replaceRow(board, "row", i, setIsFlippingFound, setBoard);
+          }
+        }
+      }
+    }
+  }
+
+  //check diagonal right (bottom left to top right)
+  let i = 0;
+  let j = BOARDSIZE - 1;
+  let sequence = "";
+  while (i < BOARDSIZE && j >= 0) {
+    sequence += board[j][i];
+    i++;
+    j--;
+  }
+  let reverseSequence = sequence.split("").reverse().join("");
+  if (words.includes(sequence.toLowerCase())) {
+    if (!foundWords.includes(sequence)) {
+      currentPoints += 3;
+      foundWord = true;
+      foundSequences.push(sequence);
+      replaceRow(board, "diagonalRight", i, setIsFlippingFound, setBoard);
+    }
+  } else if (words.includes(reverseSequence.toLowerCase())) {
+    if (!foundWords.includes(reverseSequence)) {
+      currentPoints += 3;
+      foundWord = true;
+      foundSequences.push(reverseSequence);
+      replaceRow(board, "diagonalRight", i, setIsFlippingFound, setBoard);
+    }
+  }
+
+  //check diagonal left (top left to bottom right)
+  i = 0;
+  sequence = "";
+  while (i < BOARDSIZE) {
+    sequence += board[i][i];
+    i++;
+  }
+  reverseSequence = sequence.split("").reverse().join("");
+  if (words.includes(sequence.toLowerCase())) {
+    if (!foundWords.includes(sequence)) {
+      currentPoints += 3;
+      foundWord = true;
+      foundSequences.push(sequence);
+      replaceRow(board, "diagonalLeft", i, setIsFlippingFound, setBoard);
+    }
+  } else if (words.includes(reverseSequence.toLowerCase())) {
+    if (!foundWords.includes(reverseSequence)) {
+      currentPoints += 3;
+      foundWord = true;
+      foundSequences.push(reverseSequence);
+      replaceRow(board, "diagonalLeft", i, setIsFlippingFound, setBoard);
+    }
+  }
+
+  if (foundWord) {
+    //play sound effect
+    // if (soundEnabled) {
+    //   foundSound.play();
+    // }
+    //effect for easter egg
+    // if (foundSequences.includes("PARTY")) {
+    //   setEffect("confetti");
+    // }
+    setFoundWords([...foundWords, ...foundSequences]);
+    setRecentFoundWords(foundSequences);
+    //calculate score based on found words
+    //bonus points for additional words
+    if (foundSequences.length > 1) {
+      currentPoints += 5 * (foundSequences.length - 1);
+    }
+    for (let i = 0; i < foundSequences.length; i++) {
+      const currentWord = foundSequences[i];
+      for (let j = 0; j < currentWord.length; j++) {
+        const currentLetter = currentWord[j];
+        // if (currentLetter === bonusLetter) {
+        //   currentPoints += pointMap[currentLetter] * 2;
+        // } else {
+        //   currentPoints += pointMap[currentLetter];
+        // }
+        currentPoints += pointMap[currentLetter];
+      }
+    }
+    // setAnimatedPoints(currentPoints);
+    setPoints(points + currentPoints);
+  }
+
+  return foundWord;
+};
+
+// If a word is found apply animation then wipe it from the board
+const replaceRow = (
+  board: string[][],
+  direction: Direction,
+  row: number,
+  setIsFlippingFound: Dispatch<SetStateAction<boolean>>,
+  setBoard: (newBoard: string[][]) => void
+) => {
+  let j = BOARDSIZE - 1; //for diagonal right
+  for (let i = 0; i < BOARDSIZE; i++) {
+    let tile;
+    switch (direction) {
+      case "column":
+        tile = document.getElementById(`${row}-${i}`);
+        applyFoundAnimation(board, tile, row, i, setIsFlippingFound, setBoard);
+        break;
+      case "row":
+        tile = document.getElementById(`${i}-${row}`);
+        applyFoundAnimation(board, tile, i, row, setIsFlippingFound, setBoard);
+        break;
+      case "diagonalRight":
+        tile = document.getElementById(`${j}-${i}`);
+        applyFoundAnimation(board, tile, j, i, setIsFlippingFound, setBoard);
+        j--;
+        break;
+      case "diagonalLeft":
+        tile = document.getElementById(`${i}-${i}`);
+        applyFoundAnimation(board, tile, i, i, setIsFlippingFound, setBoard);
+        break;
+    }
+  }
+};
+
+const applyFoundAnimation = (
+  board: string[][],
+  tile: HTMLElement | null,
+  row: number,
+  col: number,
+  setIsFlippingFound: Dispatch<SetStateAction<boolean>>,
+  setBoard: (newBoard: string[][]) => void
+) => {
+  setIsFlippingFound(true);
+  // isDark
+  //   ? tile?.classList.add("found-word-dark")
+  //   : tile?.classList.add("found-word-light");
+  tile?.classList.add("found-word");
+  //Animate title for a fun effect when a word is found
+  const titleTile = document.querySelector(".title-tile");
+  const titleTile2 = document.querySelector(".title-tile-2");
+  const animatedPoints = document.querySelector(".animated-points");
+  titleTile?.classList.add("animate-slow");
+  titleTile2?.classList.add("animate-delay-medium");
+  // animatedPoints?.classList.add("show-animated-points");
+  setTimeout(() => {
+    // tile?.classList.remove("found-word-light");
+    // tile?.classList.remove("found-word-dark");
+    tile?.classList.remove("found-word");
+    titleTile?.classList.remove("animate-slow");
+    titleTile2?.classList.remove("animate-delay-medium");
+    tile?.classList.add("flip");
+    board[row][col] = " ";
+
+    setTimeout(() => {
+      setBoard(board);
+    }, 100);
+
+    setTimeout(() => {
+      tile?.classList.remove("flip");
+      // animatedPoints?.classList.remove("show-animated-points");
+      setIsFlippingFound(false);
+    }, 400);
+  }, 900);
+};
+
+export const applyAnimation = (
+  tile: HTMLElement | null,
+  setAnimateFlip: Dispatch<SetStateAction<boolean>>
+) => {
+  tile?.classList.add("flip");
+  setAnimateFlip(true);
+
+  setTimeout(() => {
+    tile?.classList.remove("flip");
+    setAnimateFlip(false);
+  }, 250);
+};
+
 export const getRandomLetter = (): string => {
   type Letter = string;
   const alphabet: Letter[] = "abcdefghijklmnopqrstuvwxyz".split("");

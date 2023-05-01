@@ -16,6 +16,7 @@ const Appbar = (props: AppbarProps) => {
     const GameContainerElement = document.querySelector(".game-container");
     GameContainerElement?.classList.add("fade-out-right");
     setTimeout(() => {
+      GameContainerElement?.classList.add("display-none");
       setBlitzActive(false);
       setMarathonActive(false);
       setMenuActive(true);
@@ -29,6 +30,7 @@ const Appbar = (props: AppbarProps) => {
     }, 220);
 
     setTimeout(() => {
+      GameContainerElement?.classList.remove("display-none");
       GameContainerElement?.classList.remove("fade-out-right");
     }, 280);
   };
