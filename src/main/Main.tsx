@@ -58,56 +58,6 @@ const Main = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  //handle animation transitions between menu and board
-  const [menuActive, setMenuActive] = useState(() => {
-    const menuActive = localStorage.getItem("menuActive");
-    return menuActive ? JSON.parse(menuActive) : true;
-  });
-  const [blitzActive, setBlitzActive] = useState(() => {
-    const blitzActive = localStorage.getItem("blitzActive");
-    return blitzActive ? JSON.parse(blitzActive) : false;
-  });
-  const [marathonActive, setMarathonActive] = useState(() => {
-    const marathonActive = localStorage.getItem("marathonActive");
-    return marathonActive ? JSON.parse(marathonActive) : false;
-  });
-  const [canTransition, setCanTransition] = useState(false);
-  useEffect(() => {
-    localStorage.setItem("menuActive", JSON.stringify(menuActive));
-    localStorage.setItem("blitzActive", JSON.stringify(blitzActive));
-    localStorage.setItem("marathonActive", JSON.stringify(marathonActive));
-    const MenuContainerElement = document.querySelector(".menu-container");
-    const GameContainerElement = document.querySelector(".game-container");
-    if (blitzActive || marathonActive) {
-      if (canTransition) {
-        MenuContainerElement?.classList.add("fade-out-left");
-        GameContainerElement?.classList.add("fade-in-right");
-        setTimeout(() => {
-          setMenuActive(false);
-        }, 220);
-        setTimeout(() => {
-          MenuContainerElement?.classList.remove("fade-out-left");
-          GameContainerElement?.classList.remove("fade-in-right");
-        }, 250);
-      }
-    } else {
-      if (canTransition) {
-        MenuContainerElement?.classList.add("fade-in-left");
-        GameContainerElement?.classList.add("fade-out-right");
-        setTimeout(() => {
-          setMenuActive(true);
-        }, 220);
-        setTimeout(() => {
-          MenuContainerElement?.classList.remove("fade-in-left");
-          GameContainerElement?.classList.remove("fade-out-right");
-        }, 250);
-      }
-    }
-    setTimeout(() => {
-      setCanTransition(true);
-    }, 100);
-  }, [menuActive, blitzActive, marathonActive]);
-
   //game user state - local storage
   const [blitzState, setBlitzState] = useState<GameState>(() =>
     getDefaultGameState("blitz")
@@ -122,11 +72,31 @@ const Main = () => {
     localStorage.setItem("marathonData", JSON.stringify(marathonState));
   }, [blitzState, marathonState]);
 
+  //handle animation transitions between menu and board
+  const [menuActive, setMenuActive] = useState(() => {
+    const menuActive = localStorage.getItem("menuActive");
+    return menuActive ? JSON.parse(menuActive) : true;
+  });
+  const [blitzActive, setBlitzActive] = useState(() => {
+    const blitzActive = localStorage.getItem("blitzActive");
+    return blitzActive ? JSON.parse(blitzActive) : false;
+  });
+  const [marathonActive, setMarathonActive] = useState(() => {
+    const marathonActive = localStorage.getItem("marathonActive");
+    return marathonActive ? JSON.parse(marathonActive) : false;
+  });
+  useEffect(() => {
+    localStorage.setItem("menuActive", JSON.stringify(menuActive));
+    localStorage.setItem("blitzActive", JSON.stringify(blitzActive));
+    localStorage.setItem("marathonActive", JSON.stringify(marathonActive));
+  }, [menuActive, blitzActive, marathonActive]);
+
   return (
     <div className="main-container">
       <div className="app-container">
         {menuActive && (
           <Menu
+            setMenuActive={setMenuActive}
             setBlitzActive={setBlitzActive}
             setMarathonActive={setMarathonActive}
           />
@@ -134,12 +104,23 @@ const Main = () => {
         {!menuActive && (
           <div className="game-container">
             <Appbar
+              setMenuActive={setMenuActive}
               setBlitzActive={setBlitzActive}
               setMarathonActive={setMarathonActive}
             />
-            {blitzActive && <Board gameMode={"blitz"} gameState={blitzState} />}
+            {blitzActive && (
+              <Board
+                gameMode={"blitz"}
+                gameState={blitzState}
+                setGameState={setBlitzState}
+              />
+            )}
             {marathonActive && (
-              <Board gameMode={"marathon"} gameState={marathonState} />
+              <Board
+                gameMode={"marathon"}
+                gameState={marathonState}
+                setGameState={setMarathonState}
+              />
             )}
           </div>
         )}

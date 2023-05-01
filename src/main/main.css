@@ -20,6 +20,14 @@
   overflow: hidden;
 }
 
+.game-container {
+  height: 100%;
+  overflow-y: hidden;
+  transition: var(--theme-transition);
+  max-width: var(--game-width);
+  width: 100%;
+}
+
 /* Menu and board component fade animations */
 .fade-out-left {
   animation: fade-out-left 0.25s ease-in-out;
@@ -32,9 +40,6 @@
 }
 .fade-in-right {
   animation: fade-in-right 0.25s ease-in-out;
-}
-.display-none {
-  display: none;
 }
 @keyframes fade-out-left {
   0% {

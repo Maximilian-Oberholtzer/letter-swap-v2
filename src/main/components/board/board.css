@@ -1,4 +1,15 @@
+:root {
+  --font: "Nunito", sans-serif;
+  --game-width: 970px;
+  --transition: 300ms background-color, 300ms color, 300ms border;
+}
+
 /* Handling the transition from menu */
 .display-none {
   display: none;
+}
+
+/* Core Board Styling */
+.board-container {
+  display: flex;
 }

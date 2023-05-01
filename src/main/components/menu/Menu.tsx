@@ -8,12 +8,13 @@ import SettingsModal from "../modal/SettingsModal";
 import SupportModal from "../modal/SupportModal";
 
 interface MenuProps {
+  setMenuActive: Dispatch<SetStateAction<boolean>>;
   setBlitzActive: Dispatch<SetStateAction<boolean>>;
   setMarathonActive: Dispatch<SetStateAction<boolean>>;
 }
 
 const Menu = (props: MenuProps) => {
-  const { setBlitzActive, setMarathonActive } = props;
+  const { setBlitzActive, setMarathonActive, setMenuActive } = props;
 
   //handle modals
   const [instructionsModal, setInstructionsModal] = useState<boolean>(false);
@@ -113,6 +114,29 @@ const Menu = (props: MenuProps) => {
     },
   ];
 
+  //handle transition from menu to board
+  const transitionToBoard = (
+    setGameActive: Dispatch<SetStateAction<boolean>>
+  ) => {
+    const MenuContainerElement = document.querySelector(".menu-container");
+    MenuContainerElement?.classList.add("fade-out-left");
+    setTimeout(() => {
+      setMenuActive(false);
+      setGameActive(true);
+      setTimeout(() => {
+        const GameContainerElement = document.querySelector(".game-container");
+        GameContainerElement?.classList.add("fade-in-right");
+        setTimeout(() => {
+          GameContainerElement?.classList.remove("fade-in-right");
+        }, 300);
+      }, 0);
+    }, 230);
+
+    setTimeout(() => {
+      MenuContainerElement?.classList.remove("fade-out-left");
+    }, 280);
+  };
+
   return (
     <div className="menu-container">
       {/* Modals */}
@@ -124,7 +148,7 @@ const Menu = (props: MenuProps) => {
       <button
         className="menu-button"
         onClick={() => {
-          setBlitzActive(true);
+          transitionToBoard(setBlitzActive);
         }}
       >
         Daily Blitz
@@ -132,14 +156,14 @@ const Menu = (props: MenuProps) => {
       <button
         className="menu-button"
         onClick={() => {
-          setMarathonActive(true);
+          transitionToBoard(setMarathonActive);
         }}
       >
         Marathon
       </button>
       <div className="menu-bottom-container">
         {buttons.map(({ name, openModal, svgContent }) => (
-          <button className="menu-svg-button" onClick={openModal}>
+          <button className="menu-svg-button" key={name} onClick={openModal}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -147,9 +171,9 @@ const Menu = (props: MenuProps) => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2.2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               {svgContent}
             </svg>
