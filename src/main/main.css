@@ -1,0 +1,86 @@
+:root {
+  --font: "Nunito", sans-serif;
+  --game-width: 970px;
+}
+
+.main-container {
+  display: flex;
+  justify-content: center;
+  background-color: #e4e4e4;
+  height: 100vh;
+  user-select: none;
+  font-family: var(--font);
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  width: var(--game-width);
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.game-container {
+  height: 100%;
+  overflow-y: hidden;
+  transition: var(--theme-transition);
+  max-width: var(--game-width);
+  width: 100%;
+}
+
+/* Menu and board component fade animations */
+.fade-out-left {
+  animation: fade-out-left 0.25s ease-in-out;
+}
+.fade-out-right {
+  animation: fade-out-right 0.25s ease-in-out;
+}
+.fade-in-left {
+  animation: fade-in-left 0.25s ease-in-out;
+}
+.fade-in-right {
+  animation: fade-in-right 0.25s ease-in-out;
+}
+.display-none {
+  display: none;
+}
+@keyframes fade-out-left {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-10rem);
+    opacity: 0;
+  }
+}
+@keyframes fade-out-right {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(10rem);
+    opacity: 0;
+  }
+}
+@keyframes fade-in-left {
+  0% {
+    transform: translateX(-10rem);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes fade-in-right {
+  0% {
+    transform: translateX(10rem);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

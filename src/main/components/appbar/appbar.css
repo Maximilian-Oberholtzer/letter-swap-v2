@@ -1,0 +1,13 @@
+.appbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.appbar-left-container {
+  margin-left: 2rem;
+}
+
+.appbar-right-container {
+  margin-right: 2rem;
+}
