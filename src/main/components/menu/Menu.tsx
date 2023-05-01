@@ -130,7 +130,7 @@ const Menu = (props: MenuProps) => {
           GameContainerElement?.classList.remove("fade-in-right");
         }, 300);
       }, 0);
-    }, 230);
+    }, 220);
 
     setTimeout(() => {
       MenuContainerElement?.classList.remove("fade-out-left");

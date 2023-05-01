@@ -12,4 +12,27 @@
 /* Core Board Styling */
 .board-container {
   display: flex;
+  height: calc(90% - 87px) !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.board {
+  display: flex;
+  justify-content: center;
+}
+
+.tile {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  margin: 0.2rem;
+  border-radius: 0.3rem;
+  border: 0.2rem solid #d3d6da;
+  background-color: #ffffff;
+  font-size: 2.5rem;
+  font-weight: 700;
+  height: 4rem;
+  width: 4rem;
 }

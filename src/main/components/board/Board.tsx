@@ -38,7 +38,39 @@ const Board = (props: BoardProps) => {
 
   // Logic specific to blitz
 
-  return <div className="board-container">board</div>;
+  // Conditional Styles
+  const mergeStyles = (
+    ...styles: React.CSSProperties[]
+  ): React.CSSProperties => {
+    return styles.reduce(
+      (mergedStyles, style) => ({ ...mergedStyles, ...style }),
+      {}
+    );
+  };
+
+  return (
+    <div className="board-container">
+      {/* Board Component */}
+      <div className="board">
+        {gameState.board.map((row, rowIndex) => (
+          <div key={rowIndex}>
+            {row.map((letter, colIndex) => (
+              <div
+                className="tile"
+                id={`${rowIndex}-${colIndex}`}
+                key={`${rowIndex}-${colIndex}`}
+                onClick={() => {
+                  console.log(1);
+                }}
+              >
+                {letter}B
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default Board;
