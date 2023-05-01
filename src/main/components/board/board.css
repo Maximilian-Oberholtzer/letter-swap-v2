@@ -3,8 +3,8 @@
   --game-width: 970px;
   --transition: 300ms background-color, 300ms color, 300ms border;
 
-  --light-gray: #d3d6da;
-  --dark-gray: #a0a0a0;
+  --light-gray: #d8d8d8;
+  --dark-gray: #8b8b8b;
   --green: #6fb05c;
 }
 
@@ -71,9 +71,9 @@
 }
 
 .found-word {
-  background-color: var(--green);
+  background-color: var(--green) !important;
   border: 0.15rem solid var(--green) !important;
-  color: white;
+  color: white !important;
 }
 
 .flip {
@@ -167,7 +167,7 @@
   }
   .swaps-container {
     font-size: 1.25rem;
-    padding: 0.4rem;
+    padding: 0.5rem;
   }
   .next-letters-container {
     font-size: 1.25rem;
@@ -203,7 +203,7 @@
   }
   .swaps-container {
     font-size: 1.5rem;
-    padding: 0.4rem;
+    padding: 0.5rem;
   }
   .next-letters-container {
     font-size: 1.5rem;
