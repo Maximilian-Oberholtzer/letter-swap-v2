@@ -167,7 +167,7 @@
   }
   .swaps-container {
     font-size: 1.25rem;
-    padding: 0.5rem;
+    padding: 0.4rem;
   }
   .next-letters-container {
     font-size: 1.25rem;
@@ -176,7 +176,7 @@
     width: 19rem;
   }
   .found-word-text {
-    font-size: 1.75rem;
+    font-size: 1.25rem;
   }
 }
 
