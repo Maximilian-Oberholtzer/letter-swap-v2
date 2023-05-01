@@ -124,10 +124,10 @@ const Board = (props: BoardProps) => {
     );
   };
   const filledBorder = {
-    border: "0.2rem solid var(--dark-gray)",
+    border: "0.15rem solid var(--dark-gray)",
   };
   const emptyBorder = {
-    border: "0.2rem solid var(--light-gray)",
+    border: "0.15rem solid var(--light-gray)",
   };
 
   return (

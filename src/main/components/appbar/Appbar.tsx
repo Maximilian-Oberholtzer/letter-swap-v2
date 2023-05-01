@@ -30,7 +30,7 @@ const Appbar = (props: AppbarProps) => {
     }, 220);
 
     setTimeout(() => {
-      GameContainerElement?.classList.remove("display-none");
+      // GameContainerElement?.classList.remove("display-none");
       GameContainerElement?.classList.remove("fade-out-right");
     }, 280);
   };

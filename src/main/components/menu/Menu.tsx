@@ -126,6 +126,7 @@ const Menu = (props: MenuProps) => {
       setGameActive(true);
       setTimeout(() => {
         const GameContainerElement = document.querySelector(".game-container");
+        GameContainerElement?.classList.remove("display-none");
         GameContainerElement?.classList.add("fade-in-right");
         setTimeout(() => {
           GameContainerElement?.classList.remove("fade-in-right");
@@ -135,7 +136,7 @@ const Menu = (props: MenuProps) => {
 
     setTimeout(() => {
       MenuContainerElement?.classList.remove("fade-out-left");
-      MenuContainerElement?.classList.remove("display-none");
+      // MenuContainerElement?.classList.remove("display-none");
     }, 280);
   };
 

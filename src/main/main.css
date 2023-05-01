@@ -44,7 +44,7 @@
   animation: fade-in-right 0.25s ease-in-out;
 }
 .display-none {
-  display: none;
+  display: none !important;
 }
 @keyframes fade-out-left {
   0% {
