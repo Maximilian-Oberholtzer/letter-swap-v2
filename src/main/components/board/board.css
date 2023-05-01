@@ -3,8 +3,8 @@
   --game-width: 970px;
   --transition: 300ms background-color, 300ms color, 300ms border;
 
-  --light-gray: #d8d8d8;
-  --dark-gray: #8b8b8b;
+  --light-gray: #dfdfdf;
+  --dark-gray: #b6b6b6;
   --green: #6fb05c;
 }
 
@@ -146,7 +146,7 @@
 }
 
 /* Small */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 600px) {
   .tile {
     height: 3.2rem;
     width: 3.2rem;
@@ -182,7 +182,7 @@
 
 /* Large */
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 600px) {
   .tile {
     height: 4rem;
     width: 4rem;
