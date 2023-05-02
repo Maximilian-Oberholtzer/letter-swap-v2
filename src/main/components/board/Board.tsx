@@ -73,9 +73,15 @@ const Board = (props: BoardProps) => {
   }, [foundWordsExpand]);
 
   // BLITZ TIMER VARIABLES
-  const duration = 5 * 60 * 1000; // 5 minutes in milliseconds
-  const [timeLeft, setTimeLeft] = useState(duration);
-  const [progress, setProgress] = useState(100);
+  const duration = 5 * 60 * 1001; // 5 minutes in milliseconds
+  const [timeLeft, setTimeLeft] = useState(() => {
+    const storedState = localStorage.getItem("timeLeft");
+    return storedState ? JSON.parse(storedState) : duration;
+  });
+  const [progress, setProgress] = useState(() => {
+    const storedState = localStorage.getItem("progress");
+    return storedState ? JSON.parse(storedState) : 100;
+  });
   const [timerStarted, setTimerStarted] = useState(() => {
     const storedState = localStorage.getItem("timerStarted");
     return storedState ? JSON.parse(storedState) : false;
@@ -106,7 +112,9 @@ const Board = (props: BoardProps) => {
     }
   }, [gameState.swapCount, resetGame]);
 
-  // BLITZ TIMER LOGIC
+  ///////////////////////
+  // BLITZ TIMER LOGIC //
+  ///////////////////////
   useEffect(() => {
     let startTime = localStorage.getItem("startTime");
     let start = startTime ? parseInt(startTime, 10) : new Date().getTime();
@@ -135,13 +143,16 @@ const Board = (props: BoardProps) => {
   }, [duration, resetGame, timerStarted, gameState.swapCount]);
   useEffect(() => {
     localStorage.setItem("timerStarted", JSON.stringify(timerStarted));
-  }, [timerStarted]);
+    localStorage.setItem("timeLeft", JSON.stringify(timeLeft));
+    localStorage.setItem("progress", JSON.stringify(progress));
+  }, [timerStarted, timeLeft, progress]);
   const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
   function handleTimerStart() {
     setTimerStarted(true);
     localStorage.setItem("startTime", new Date().getTime().toString());
   }
+  //////////////////////////////////////////////////////////////////////
 
   // Handle clicked tile
   const handleBoard = (rowIndex: number, colIndex: number, letter: string) => {
