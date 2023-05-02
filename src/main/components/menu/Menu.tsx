@@ -11,10 +11,12 @@ interface MenuProps {
   setMenuActive: Dispatch<SetStateAction<boolean>>;
   setBlitzActive: Dispatch<SetStateAction<boolean>>;
   setMarathonActive: Dispatch<SetStateAction<boolean>>;
+  setCanTransition: Dispatch<SetStateAction<boolean>>;
 }
 
 const Menu = (props: MenuProps) => {
-  const { setBlitzActive, setMarathonActive, setMenuActive } = props;
+  const { setBlitzActive, setMarathonActive, setMenuActive, setCanTransition } =
+    props;
 
   //handle modals
   const [instructionsModal, setInstructionsModal] = useState<boolean>(false);
@@ -119,6 +121,7 @@ const Menu = (props: MenuProps) => {
     MenuContainerElement?.classList.remove("fade-in-left");
     MenuContainerElement?.classList.add("fade-out-left");
     setTimeout(() => {
+      setCanTransition(true);
       setMenuActive(false);
       setGameActive(true);
     }, 200);

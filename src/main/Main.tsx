@@ -84,9 +84,9 @@ const Main = () => {
     return marathonActive ? JSON.parse(marathonActive) : false;
   });
   //Don't transition if user loads into page
-  const canTransition = useRef(0);
+  const [canTransition, setCanTransition] = useState<boolean>(false);
   useEffect(() => {
-    if (canTransition.current > 1) {
+    if (canTransition) {
       if (!menuActive && (blitzActive || marathonActive)) {
         const GameContainerElement = document.querySelector(".game-container");
         GameContainerElement?.classList.add("fade-in-right");
@@ -95,11 +95,8 @@ const Main = () => {
         const MenuContainerElement = document.querySelector(".menu-container");
         MenuContainerElement?.classList.add("fade-in-left");
       }
-    } else {
-      //Allow useEffect to run on page load before making transitions
-      canTransition.current += 1;
     }
-  }, [menuActive, blitzActive, marathonActive]);
+  }, [menuActive, blitzActive, marathonActive, canTransition]);
   useEffect(() => {
     localStorage.setItem("menuActive", JSON.stringify(menuActive));
     localStorage.setItem("blitzActive", JSON.stringify(blitzActive));
@@ -115,6 +112,7 @@ const Main = () => {
               setMenuActive={setMenuActive}
               setBlitzActive={setBlitzActive}
               setMarathonActive={setMarathonActive}
+              setCanTransition={setCanTransition}
             />
           </div>
         )}
@@ -124,6 +122,7 @@ const Main = () => {
               setMenuActive={setMenuActive}
               setBlitzActive={setBlitzActive}
               setMarathonActive={setMarathonActive}
+              setCanTransition={setCanTransition}
             />
             {blitzActive && (
               <Board
