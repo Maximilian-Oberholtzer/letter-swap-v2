@@ -6,16 +6,19 @@ interface AppbarProps {
   setMenuActive: Dispatch<SetStateAction<boolean>>;
   setBlitzActive: Dispatch<SetStateAction<boolean>>;
   setMarathonActive: Dispatch<SetStateAction<boolean>>;
+  setCanTransition: Dispatch<SetStateAction<boolean>>;
 }
 
 const Appbar = (props: AppbarProps) => {
-  const { setMenuActive, setBlitzActive, setMarathonActive } = props;
+  const { setMenuActive, setBlitzActive, setMarathonActive, setCanTransition } =
+    props;
 
   const boardFadeOut = () => {
     const GameContainerElement = document.querySelector(".game-container");
     GameContainerElement?.classList.remove("fade-in-right");
     GameContainerElement?.classList.add("fade-out-right");
     setTimeout(() => {
+      setCanTransition(true);
       setMenuActive(true);
       setBlitzActive(false);
       setMarathonActive(false);
