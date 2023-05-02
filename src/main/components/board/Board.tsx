@@ -60,6 +60,7 @@ const Board = (props: BoardProps) => {
   const endGameAnimation = (delay: number) => {
     const row = 5;
     const col = 5;
+    setIsFlipping(true);
     setTimeout(() => {
       for (let i = 0; i < row; i++) {
         for (let j = 0; j < col; j++) {
