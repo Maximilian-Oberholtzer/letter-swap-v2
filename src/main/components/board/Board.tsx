@@ -276,7 +276,7 @@ const Board = (props: BoardProps) => {
               className="progress"
               style={{
                 width: `${progress}%`,
-                backgroundColor: minutes === 0 ? "red" : "var(--green)",
+                backgroundColor: minutes === 0 ? "var(--red)" : "var(--green)",
               }}
             />
           </div>
