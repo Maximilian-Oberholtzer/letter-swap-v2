@@ -126,6 +126,8 @@ const Menu = (props: MenuProps) => {
     }, 250);
     setTimeout(() => {
       setGameActive(true);
+      const GameContainerElement = document.querySelector(".game-container");
+      GameContainerElement?.classList.add("fade-in-right");
       MenuContainerElement?.classList.remove("fade-out-left");
     }, 400);
   };

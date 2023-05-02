@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "../theme/Theme";
 import "./main.css";
 import Menu from "./components/menu/Menu";
