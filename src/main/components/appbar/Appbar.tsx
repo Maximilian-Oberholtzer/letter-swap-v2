@@ -24,8 +24,6 @@ const Appbar = (props: AppbarProps) => {
     }, 250);
     setTimeout(() => {
       setMenuActive(true);
-      const MenuContainerElement = document.querySelector(".menu-container");
-      MenuContainerElement?.classList.add("fade-in-left");
       GameContainerElement?.classList.remove("fade-out-right");
     }, 400);
   };
