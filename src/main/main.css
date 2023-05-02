@@ -32,16 +32,16 @@
 
 /* Menu and board component fade animations */
 .fade-out-left {
-  animation: fade-out-left 0.4s ease-in-out;
+  animation: fade-out-left 0.3s ease-in-out;
 }
 .fade-out-right {
-  animation: fade-out-right 0.4s ease-in-out;
+  animation: fade-out-right 0.3s ease-in-out;
 }
 .fade-in-left {
-  animation: fade-in-left 0.4s ease-in-out;
+  animation: fade-in-left 0.3s ease-in-out;
 }
 .fade-in-right {
-  animation: fade-in-right 0.4s ease-in-out;
+  animation: fade-in-right 0.3s ease-in-out;
 }
 .display-none {
   display: none !important;
