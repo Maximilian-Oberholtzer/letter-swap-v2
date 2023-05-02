@@ -6,6 +6,8 @@
   --light-gray: #dfdfdf;
   --dark-gray: #b6b6b6;
   --green: #6fb05c;
+  --yellow: #d1d06c;
+  --red: red;
 }
 
 /* Handling the transition from menu */
@@ -61,6 +63,7 @@
 .progress-background {
   width: 20rem;
   height: 1.25rem;
+  border: 0.1rem solid var(--dark-gray);
   background-color: var(--light-gray);
   border-radius: 0.3rem;
   overflow: hidden;
