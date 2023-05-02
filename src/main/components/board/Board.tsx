@@ -55,6 +55,27 @@ const Board = (props: BoardProps) => {
   //Allow flipping animations to happen before allowing user to place another tile
   const [isFlipping, setIsFlipping] = useState(false);
   const [isFlippingFound, setIsFlippingFound] = useState(false);
+
+  //Completed game animation when user loads back in to app
+  const endGameAnimation = (delay: number) => {
+    const row = 5;
+    const col = 5;
+    setTimeout(() => {
+      for (let i = 0; i < row; i++) {
+        for (let j = 0; j < col; j++) {
+          setTimeout(() => {
+            const tile = document.getElementById(`${i}-${j}`);
+            tile?.classList.add("flip");
+            setTimeout(() => {
+              tile?.classList.remove("flip");
+              setIsFlipping(false);
+            }, 250);
+          }, i * 100);
+        }
+      }
+    }, delay);
+  };
+
   //Animated current points effect
   const [animatedPoints, setAnimatedPoints] = useState(0);
 
@@ -108,7 +129,10 @@ const Board = (props: BoardProps) => {
   // CHECKING FOR GAME OVER
   useEffect(() => {
     if (gameState.swapCount <= 0) {
-      resetGame();
+      endGameAnimation(200);
+      setTimeout(() => {
+        resetGame();
+      }, 1000);
     }
   }, [gameState.swapCount, resetGame]);
 
@@ -290,7 +314,7 @@ const Board = (props: BoardProps) => {
             toggleFoundWordsBox();
           }}
           style={{
-            height: foundWordsExpand ? `${foundWordsExpandHeight + 10}px` : "",
+            height: foundWordsExpand ? `${foundWordsExpandHeight + 20}px` : "",
             overflow: foundWordsExpand ? "auto" : "hidden",
             transition:
               "height 0.5s ease-out, width 0.5s, 300ms background-color, 300ms color, 300ms border",
