@@ -21,11 +21,11 @@ const Appbar = (props: AppbarProps) => {
       setCanTransition(true);
       setBlitzActive(false);
       setMarathonActive(false);
-    }, 250);
+    }, 270);
     setTimeout(() => {
       setMenuActive(true);
       GameContainerElement?.classList.remove("fade-out-right");
-    }, 400);
+    }, 320);
   };
 
   return (
