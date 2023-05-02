@@ -39,7 +39,7 @@ const Appbar = (props: AppbarProps) => {
     <div className="appbar-container">
       <div className="appbar-left-container">
         <button
-          className="menu-svg-button"
+          className="appbar-svg-button"
           onClick={() => {
             // transitionToMenu();
             setBlitzActive(false);
@@ -68,7 +68,7 @@ const Appbar = (props: AppbarProps) => {
       </div>
 
       <div className="appbar-right-container">
-        <button className="menu-svg-button">
+        <button className="appbar-svg-button">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

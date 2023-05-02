@@ -72,7 +72,8 @@ export const checkForWords = (
   setRecentFoundWords: (recentFoundWords: string[]) => void,
   setIsFlippingFound: Dispatch<SetStateAction<boolean>>,
   points: number,
-  setPoints: (points: number) => void
+  setPoints: (points: number) => void,
+  setAnimatedPoints: Dispatch<SetStateAction<number>>
 ): boolean => {
   let foundWord = false;
   let foundSequences = [];
@@ -204,7 +205,7 @@ export const checkForWords = (
         currentPoints += pointMap[currentLetter];
       }
     }
-    // setAnimatedPoints(currentPoints);
+    setAnimatedPoints(currentPoints);
     setPoints(points + currentPoints);
   }
 
@@ -258,18 +259,18 @@ const applyFoundAnimation = (
   //   : tile?.classList.add("found-word-light");
   tile?.classList.add("found-word");
   //Animate title for a fun effect when a word is found
-  const titleTile = document.querySelector(".title-tile");
-  const titleTile2 = document.querySelector(".title-tile-2");
+  const titleTile = document.querySelector(".title-tile-l");
+  const titleTile2 = document.querySelector(".title-tile-s");
+  titleTile?.classList.add("flip-delay-short");
+  titleTile2?.classList.add("flip-delay-long");
   const animatedPoints = document.querySelector(".animated-points");
-  titleTile?.classList.add("animate-slow");
-  titleTile2?.classList.add("animate-delay-medium");
-  // animatedPoints?.classList.add("show-animated-points");
+  animatedPoints?.classList.add("show-animated-points");
   setTimeout(() => {
     // tile?.classList.remove("found-word-light");
     // tile?.classList.remove("found-word-dark");
     tile?.classList.remove("found-word");
-    titleTile?.classList.remove("animate-slow");
-    titleTile2?.classList.remove("animate-delay-medium");
+    titleTile?.classList.remove("flip-delay-short");
+    titleTile2?.classList.remove("flip-delay-long");
     tile?.classList.add("flip");
     board[row][col] = " ";
 
@@ -279,7 +280,7 @@ const applyFoundAnimation = (
 
     setTimeout(() => {
       tile?.classList.remove("flip");
-      // animatedPoints?.classList.remove("show-animated-points");
+      animatedPoints?.classList.remove("show-animated-points");
       setIsFlippingFound(false);
     }, 300);
   }, 900);

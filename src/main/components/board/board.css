@@ -34,13 +34,14 @@
 }
 
 .next-letters-title {
-  margin: 0rem 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .tile-medium,
 .tile-small {
   cursor: unset !important;
-  border: 0.15rem solid var(--dark-gray) !important;
+  /* border: 0.15rem solid var(--dark-gray) !important; */
+  background-color: var(--light-gray) !important;
 }
 
 /* Core Board Styling */
@@ -80,6 +81,16 @@
   animation: flip 0.25s;
 }
 
+.flip-delay-short {
+  animation: flip 0.25s;
+  animation-delay: 0.3s;
+}
+
+.flip-delay-long {
+  animation: flip 0.25s;
+  animation-delay: 0.6s;
+}
+
 @keyframes flip {
   0% {
     transform: scaleX(1);
@@ -94,13 +105,6 @@
 
 /* Found Words Component Styling */
 
-.recent-found-word-text {
-  background-color: var(--green);
-  color: white;
-  border-radius: 0.3rem;
-  padding: 0rem 0.2rem;
-}
-
 .found-words-container {
   display: flex;
   position: absolute;
@@ -110,6 +114,32 @@
   z-index: 100;
   overflow: hidden;
   cursor: pointer;
+}
+
+.animated-points {
+  position: fixed;
+  bottom: 4rem;
+  font-weight: 700;
+  opacity: 0;
+}
+
+@keyframes animatePoints {
+  0% {
+    opacity: 0.1;
+    bottom: 4rem;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.1;
+    bottom: 5.5rem;
+  }
+}
+
+.show-animated-points {
+  opacity: 1;
+  animation: animatePoints 1.5s;
 }
 
 .found-words-box {
@@ -122,8 +152,15 @@
   border-radius: 0.3rem;
   height: 1.25rem;
   overflow: auto;
-
   background-color: #ffffff;
+}
+
+.recent-found-word-text {
+  background-color: var(--green);
+  color: white;
+  border-radius: 0.3rem;
+  padding: 0rem 0.2rem;
+  line-height: 1.3;
 }
 
 .found-words-title-container {
@@ -142,7 +179,7 @@
 /* Media Queries for responsiveness */
 
 /* X-Small */
-@media screen and (max-width: 300px) {
+@media screen and (max-width: 320px) {
 }
 
 /* Small */
@@ -167,7 +204,7 @@
   }
   .swaps-container {
     font-size: 1.25rem;
-    padding: 0.4rem;
+    padding: 0.4rem 0.6rem;
   }
   .next-letters-container {
     font-size: 1.25rem;
@@ -177,6 +214,9 @@
   }
   .found-word-text {
     font-size: 1.25rem;
+  }
+  .animated-points {
+    font-size: 2.2rem;
   }
 }
 
@@ -203,15 +243,18 @@
   }
   .swaps-container {
     font-size: 1.5rem;
-    padding: 0.5rem;
+    padding: 0.5rem 0.7rem;
   }
   .next-letters-container {
     font-size: 1.5rem;
   }
   .found-words-box {
-    width: 26rem;
+    width: 24rem;
   }
   .found-word-text {
     font-size: 1.75rem;
+  }
+  .animated-points {
+    font-size: 2.5rem;
   }
 }

@@ -2,19 +2,32 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: white;
+  position: relative;
+  z-index: 1000;
 }
 
 .appbar-left-container {
-  margin-left: 2rem;
+  margin-left: 1rem;
 }
 
 .appbar-right-container {
-  margin-right: 2rem;
+  margin-right: 1rem;
 }
 
 .appbar-left-container,
 .appbar-right-container {
   margin-top: 0.5rem;
+}
+
+.appbar-svg-button {
+  all: unset;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: var(--transition);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
 }
 
 /* Media Queries for Title responsiveness */
