@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "../theme/Theme";
 import "./main.css";
 import Menu from "./components/menu/Menu";
@@ -83,6 +83,23 @@ const Main = () => {
     const marathonActive = localStorage.getItem("marathonActive");
     return marathonActive ? JSON.parse(marathonActive) : false;
   });
+  //Don't transition if user loads into page
+  const canTransition = useRef(0);
+  useEffect(() => {
+    if (canTransition.current > 1) {
+      if (!menuActive && (blitzActive || marathonActive)) {
+        const GameContainerElement = document.querySelector(".game-container");
+        GameContainerElement?.classList.add("fade-in-right");
+      }
+      if (menuActive && !blitzActive && !marathonActive) {
+        const MenuContainerElement = document.querySelector(".menu-container");
+        MenuContainerElement?.classList.add("fade-in-left");
+      }
+    } else {
+      //Allow useEffect to run on page load before making transitions
+      canTransition.current += 1;
+    }
+  }, [menuActive, blitzActive, marathonActive]);
   useEffect(() => {
     localStorage.setItem("menuActive", JSON.stringify(menuActive));
     localStorage.setItem("blitzActive", JSON.stringify(blitzActive));

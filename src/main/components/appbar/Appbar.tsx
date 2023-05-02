@@ -11,29 +11,19 @@ interface AppbarProps {
 const Appbar = (props: AppbarProps) => {
   const { setMenuActive, setBlitzActive, setMarathonActive } = props;
 
-  // //handle transition back to menu
-  // const transitionToMenu = () => {
-  //   const GameContainerElement = document.querySelector(".game-container");
-  //   GameContainerElement?.classList.add("fade-out-right");
-  //   setTimeout(() => {
-  //     GameContainerElement?.classList.add("display-none");
-  //     setBlitzActive(false);
-  //     setMarathonActive(false);
-  //     setMenuActive(true);
-  //     setTimeout(() => {
-  //       const MenuContainerElement = document.querySelector(".menu-container");
-  //       MenuContainerElement?.classList.add("fade-in-left");
-  //       setTimeout(() => {
-  //         MenuContainerElement?.classList.remove("fade-in-left");
-  //       }, 300);
-  //     }, 0);
-  //   }, 220);
-
-  //   setTimeout(() => {
-  //     // GameContainerElement?.classList.remove("display-none");
-  //     GameContainerElement?.classList.remove("fade-out-right");
-  //   }, 280);
-  // };
+  const boardFadeOut = () => {
+    const GameContainerElement = document.querySelector(".game-container");
+    GameContainerElement?.classList.remove("fade-in-right");
+    GameContainerElement?.classList.add("fade-out-right");
+    setTimeout(() => {
+      setMenuActive(true);
+      setBlitzActive(false);
+      setMarathonActive(false);
+    }, 200);
+    setTimeout(() => {
+      GameContainerElement?.classList.remove("fade-out-right");
+    }, 290);
+  };
 
   return (
     <div className="appbar-container">
@@ -41,10 +31,7 @@ const Appbar = (props: AppbarProps) => {
         <button
           className="appbar-svg-button"
           onClick={() => {
-            // transitionToMenu();
-            setBlitzActive(false);
-            setMarathonActive(false);
-            setMenuActive(true);
+            boardFadeOut();
           }}
         >
           <svg
