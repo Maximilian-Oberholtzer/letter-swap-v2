@@ -47,3 +47,19 @@
     font-size: 2rem;
   }
 }
+
+@media screen and (max-width: 320px) {
+  .appbar-center-container > .title-container {
+    font-size: 1.1rem;
+  }
+  .appbar-center-container > .title-container > .title-left-container > span {
+    height: 0.8rem;
+    width: 0.8rem;
+    font-size: 1.8rem;
+  }
+  .appbar-center-container > .title-container > .title-right-container > span {
+    height: 0.8rem;
+    width: 0.8rem;
+    font-size: 1.8rem;
+  }
+}

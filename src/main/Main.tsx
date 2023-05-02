@@ -21,7 +21,6 @@ export interface GameState {
   swapCount: number;
   foundWords: string[];
   recentFoundWords: string[];
-  timeRemaining: number;
   points: number;
   hasPlayed: boolean;
   playCount: number;
@@ -41,7 +40,6 @@ function getDefaultGameState(gameMode: string): GameState {
         swapCount: SWAPCOUNT,
         foundWords: [],
         recentFoundWords: [],
-        timeRemaining: gameMode === "blitz" ? 300 : undefined,
         points: 0,
         hasPlayed: false,
         playCount: 0,
