@@ -125,11 +125,11 @@ const Menu = (props: MenuProps) => {
       setMenuActive(false);
       setTimeout(() => {
         setGameActive(true);
-      }, 50);
-    }, 280);
+      }, 70);
+    }, 260);
     setTimeout(() => {
       MenuContainerElement?.classList.remove("fade-out-left");
-    }, 350);
+    }, 300);
   };
 
   return (
