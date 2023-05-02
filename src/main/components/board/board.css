@@ -48,7 +48,6 @@
 .progress-bar-container {
   position: relative;
   height: 2rem;
-  margin-bottom: 0.5rem;
 }
 
 .progress-bar {
@@ -69,7 +68,6 @@
 
 .progress {
   height: 1.25rem;
-  transition: background-color 100ms;
 }
 
 /* Core Board Styling */
@@ -281,15 +279,18 @@
   .next-letters-container {
     font-size: 1.1rem;
   }
+  .progress-bar-container {
+    margin-bottom: 0rem;
+  }
   .progress-bar {
     font-size: 1rem;
   }
   .progress-background {
     width: 18rem;
-    height: 1.3rem;
+    height: 1.4rem;
   }
   .progress {
-    height: 1.3rem;
+    height: 1.4rem;
   }
   .found-words-box {
     width: 19rem;
@@ -329,6 +330,9 @@
   }
   .next-letters-container {
     font-size: 1.5rem;
+  }
+  .progress-bar-container {
+    margin-bottom: 0.5rem;
   }
   .progress-bar {
     font-size: 1.25rem;
