@@ -129,10 +129,10 @@ const Board = (props: BoardProps) => {
   // CHECKING FOR GAME OVER
   useEffect(() => {
     if (gameState.swapCount <= 0) {
-      endGameAnimation(200);
+      endGameAnimation(260);
       setTimeout(() => {
         resetGame();
-      }, 1000);
+      }, 1060);
     }
   }, [gameState.swapCount, resetGame]);
 
