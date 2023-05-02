@@ -60,7 +60,6 @@ const Board = (props: BoardProps) => {
   const endGameAnimation = (delay: number) => {
     const row = 5;
     const col = 5;
-    setIsFlipping(true);
     setTimeout(() => {
       for (let i = 0; i < row; i++) {
         for (let j = 0; j < col; j++) {
@@ -69,7 +68,6 @@ const Board = (props: BoardProps) => {
             tile?.classList.add("flip");
             setTimeout(() => {
               tile?.classList.remove("flip");
-              setIsFlipping(false);
             }, 250);
           }, i * 100);
         }
@@ -293,7 +291,11 @@ const Board = (props: BoardProps) => {
                 key={`${rowIndex}-${colIndex}`}
                 style={mergeStyles(letter !== " " ? filledTile : emptyTile)}
                 onClick={() => {
-                  if (!isFlipping && !isFlippingFound) {
+                  if (
+                    !isFlipping &&
+                    !isFlippingFound &&
+                    gameState.swapCount > 0
+                  ) {
                     if (gameMode === "blitz" && !timerStarted) {
                       handleTimerStart();
                     }
