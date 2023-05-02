@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useTheme } from "../theme/Theme";
 import "./main.css";
 import Menu from "./components/menu/Menu";
@@ -85,7 +85,7 @@ const Main = () => {
   });
   //Don't transition if user loads into page
   const [canTransition, setCanTransition] = useState<boolean>(false);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (canTransition) {
       if (!menuActive && (blitzActive || marathonActive)) {
         const GameContainerElement = document.querySelector(".game-container");
