@@ -114,31 +114,18 @@ const Menu = (props: MenuProps) => {
     },
   ];
 
-  // //handle transition from menu to board
-  // const transitionToBoard = (
-  //   setGameActive: Dispatch<SetStateAction<boolean>>
-  // ) => {
-  //   const MenuContainerElement = document.querySelector(".menu-container");
-  //   MenuContainerElement?.classList.add("fade-out-left");
-  //   setTimeout(() => {
-  //     MenuContainerElement?.classList.add("display-none");
-  //     setMenuActive(false);
-  //     setGameActive(true);
-  //     setTimeout(() => {
-  //       const GameContainerElement = document.querySelector(".game-container");
-  //       GameContainerElement?.classList.remove("display-none");
-  //       GameContainerElement?.classList.add("fade-in-right");
-  //       setTimeout(() => {
-  //         GameContainerElement?.classList.remove("fade-in-right");
-  //       }, 300);
-  //     }, 0);
-  //   }, 220);
-
-  //   setTimeout(() => {
-  //     MenuContainerElement?.classList.remove("fade-out-left");
-  //     // MenuContainerElement?.classList.remove("display-none");
-  //   }, 280);
-  // };
+  const menuFadeOut = (setGameActive: Dispatch<SetStateAction<boolean>>) => {
+    const MenuContainerElement = document.querySelector(".menu-container");
+    MenuContainerElement?.classList.remove("fade-in-left");
+    MenuContainerElement?.classList.add("fade-out-left");
+    setTimeout(() => {
+      setMenuActive(false);
+      setGameActive(true);
+    }, 200);
+    setTimeout(() => {
+      MenuContainerElement?.classList.remove("fade-out-left");
+    }, 290);
+  };
 
   return (
     <>
@@ -151,9 +138,7 @@ const Menu = (props: MenuProps) => {
       <button
         className="menu-button"
         onClick={() => {
-          // transitionToBoard(setBlitzActive);
-          setBlitzActive(true);
-          setMenuActive(false);
+          menuFadeOut(setBlitzActive);
         }}
       >
         Daily Blitz ⚡
@@ -161,9 +146,7 @@ const Menu = (props: MenuProps) => {
       <button
         className="menu-button"
         onClick={() => {
-          // transitionToBoard(setMarathonActive);
-          setMarathonActive(true);
-          setMenuActive(false);
+          menuFadeOut(setMarathonActive);
         }}
       >
         Marathon 🏃
