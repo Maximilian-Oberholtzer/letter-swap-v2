@@ -148,7 +148,10 @@ const Board = (props: BoardProps) => {
 
       if (diff <= 0) {
         setTimerStarted(false);
-        resetGame();
+        endGameAnimation(260);
+        setTimeout(() => {
+          resetGame();
+        }, 1060);
         cancelAnimationFrame(animationFrameId);
         return;
       }
@@ -210,7 +213,7 @@ const Board = (props: BoardProps) => {
       swapCounter?.classList.add("flip");
       setTimeout(() => {
         swapCounter?.classList.remove("flip");
-      }, 250);
+      }, 245);
     }
 
     // Update next letter
