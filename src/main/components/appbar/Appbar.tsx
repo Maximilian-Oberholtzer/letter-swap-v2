@@ -25,7 +25,7 @@ const Appbar = (props: AppbarProps) => {
     setTimeout(() => {
       setMenuActive(true);
       GameContainerElement?.classList.remove("fade-out-right");
-    }, 330);
+    }, 350);
   };
 
   return (
