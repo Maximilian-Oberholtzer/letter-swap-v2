@@ -12,8 +12,13 @@ import { GameState } from "../../Main";
 import {
   applyAnimation,
   checkForWords,
+  fillEmptyBoard,
+  fillNewNextLetters,
   getRandomLetter,
 } from "./BoardFunctions";
+
+const SWAPCOUNT = 15;
+const DAY = new Date().getDay();
 
 interface BoardProps {
   gameMode: GameMode;
@@ -40,7 +45,6 @@ const Board = (props: BoardProps) => {
   const setRecentFoundWords = useSetGameState("recentFoundWords");
   const setPoints = useSetGameState("points");
   const setPlayCount = useSetGameState("playCount");
-  const setTimeRemaining = useSetGameState("timeRemaining");
   const setHasPlayed = useSetGameState("hasPlayed");
   const setLastPlayedDate = useSetGameState("lastPlayedDate");
   const setWeeklyScores = useSetGameState("weeklyScores");
@@ -68,7 +72,71 @@ const Board = (props: BoardProps) => {
     }
   }, [foundWordsExpand]);
 
-  // Logic specific to blitz
+  // RESET GAME
+  const resetGame = useCallback(() => {
+    localStorage.removeItem("startTime");
+    setGameState((prevState) => ({ ...prevState, board: fillEmptyBoard() }));
+    setGameState((prevState) => ({ ...prevState, lastPlayedDate: DAY }));
+    setGameState((prevState) => ({ ...prevState, swapCount: SWAPCOUNT }));
+    setGameState((prevState) => ({ ...prevState, points: 0 }));
+    setGameState((prevState) => ({ ...prevState, foundWords: [] }));
+    setGameState((prevState) => ({ ...prevState, recentFoundWords: [] }));
+    setGameState((prevState) => ({
+      ...prevState,
+      nextLetters: fillNewNextLetters(),
+    }));
+  }, [setGameState]);
+
+  // CHECKING FOR GAME OVER
+  useEffect(() => {
+    if (gameState.swapCount <= 0) {
+      resetGame();
+    }
+  }, [gameState.swapCount, resetGame]);
+
+  // BLITZ TIMER LOGIC
+  const duration = 5 * 60 * 1000; // 5 minutes in milliseconds
+  const [timeLeft, setTimeLeft] = useState(duration);
+  const [progress, setProgress] = useState(100);
+  const [timerStarted, setTimerStarted] = useState(() => {
+    const storedState = localStorage.getItem("timerStarted");
+    return storedState ? JSON.parse(storedState) : false;
+  });
+  useEffect(() => {
+    let startTime = localStorage.getItem("startTime");
+    let start = startTime ? parseInt(startTime, 10) : new Date().getTime();
+    let animationFrameId: number;
+    function updateTimer() {
+      const now = new Date().getTime();
+      let diff = duration - (now - start);
+
+      if (diff <= 0) {
+        setTimerStarted(false);
+        localStorage.setItem("timerStarted", JSON.stringify(false));
+        resetGame();
+        cancelAnimationFrame(animationFrameId);
+        return;
+      }
+
+      setTimeLeft(diff);
+      setProgress((diff / duration) * 100);
+      localStorage.setItem("startTime", start.toString());
+      animationFrameId = requestAnimationFrame(updateTimer);
+    }
+    if (timerStarted) {
+      animationFrameId = requestAnimationFrame(updateTimer);
+    }
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [duration, resetGame, timerStarted]);
+  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+  function handleTimerStart() {
+    setTimerStarted(true);
+    localStorage.setItem("timerStarted", JSON.stringify(true));
+    localStorage.setItem("startTime", new Date().getTime().toString());
+  }
 
   // Handle clicked tile
   const handleBoard = (rowIndex: number, colIndex: number, letter: string) => {
@@ -153,6 +221,26 @@ const Board = (props: BoardProps) => {
           ))}
         </div>
       </div>
+      {/* BLITZ ONLY - Progress Bar Timer */}
+      {gameMode === "blitz" && (
+        <div className="progress-bar-container">
+          <div className="progress-bar">
+            <b>
+              {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+            </b>
+          </div>
+          <div className="progress-background">
+            <div
+              className="progress"
+              style={{
+                width: `${progress}%`,
+                backgroundColor: minutes === 0 ? "red" : "var(--green)",
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Board Component */}
       <div className="board">
         {gameState.board.map((row, rowIndex) => (
@@ -165,6 +253,9 @@ const Board = (props: BoardProps) => {
                 style={mergeStyles(letter !== " " ? filledTile : emptyTile)}
                 onClick={() => {
                   if (!isFlipping && !isFlippingFound) {
+                    if (gameMode === "blitz" && !timerStarted) {
+                      handleTimerStart();
+                    }
                     handleBoard(rowIndex, colIndex, gameState.nextLetters[0]);
                   }
                 }}

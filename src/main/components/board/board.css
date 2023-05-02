@@ -44,6 +44,34 @@
   background-color: var(--light-gray) !important;
 }
 
+/* Blitz Progress Bar Styling */
+.progress-bar-container {
+  position: relative;
+  height: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+  width: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-background {
+  width: 20rem;
+  height: 1.25rem;
+  background-color: var(--light-gray);
+  border-radius: 0.3rem;
+  overflow: hidden;
+}
+
+.progress {
+  height: 1.25rem;
+  transition: background-color 100ms;
+}
+
 /* Core Board Styling */
 .board-container {
   display: flex;
@@ -118,22 +146,22 @@
 
 .animated-points {
   position: fixed;
-  bottom: 4rem;
-  font-weight: 700;
+  bottom: 3.4rem;
+  font-weight: 900;
   opacity: 0;
 }
 
 @keyframes animatePoints {
   0% {
     opacity: 0.1;
-    bottom: 4rem;
+    bottom: 3.4rem;
   }
   50% {
     opacity: 1;
   }
   100% {
     opacity: 0.1;
-    bottom: 5.5rem;
+    bottom: 4.2rem;
   }
 }
 
@@ -180,34 +208,88 @@
 
 /* X-Small */
 @media screen and (max-width: 320px) {
+  .tile {
+    height: 2.7rem !important;
+    width: 2.7rem !important;
+    font-size: 2rem !important;
+  }
+  .tile-medium {
+    height: 2.4rem !important;
+    width: 2.4rem !important;
+    font-size: 2rem !important;
+  }
+  .tile-small {
+    height: 1.7rem !important;
+    width: 1.7rem !important;
+    font-size: 1.3rem !important;
+  }
+  .hud-container {
+    gap: 0.5rem !important;
+  }
+  .swaps-container {
+    font-size: 1rem !important;
+    padding: 0.4rem 0.6rem !important;
+  }
+  .next-letters-container {
+    font-size: 1rem !important;
+  }
+  .progress-bar {
+    font-size: 1rem !important;
+  }
+  .progress-background {
+    width: 16rem !important;
+    height: 1.3rem !important;
+  }
+  .progress {
+    height: 1.3rem !important;
+  }
+  .found-words-box {
+    width: 15.5rem !important;
+  }
+  .found-word-text {
+    font-size: 1.1rem !important;
+  }
+  .animated-points {
+    font-size: 1.8rem !important;
+  }
 }
 
 /* Small */
 @media screen and (max-width: 600px) {
   .tile {
-    height: 3.2rem;
-    width: 3.2rem;
+    height: 3.1rem;
+    width: 3.1rem;
     font-size: 2.2rem;
   }
   .tile-medium {
-    height: 2.8rem !important;
-    width: 2.8rem !important;
-    font-size: 2rem !important;
+    height: 2.8rem;
+    width: 2.8rem;
+    font-size: 2rem;
   }
   .tile-small {
-    height: 2rem !important;
-    width: 2rem !important;
-    font-size: 1.4rem !important;
+    height: 2rem;
+    width: 2rem;
+    font-size: 1.4rem;
   }
   .hud-container {
     gap: 0.75rem;
   }
   .swaps-container {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     padding: 0.4rem 0.6rem;
   }
   .next-letters-container {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+  }
+  .progress-bar {
+    font-size: 1rem;
+  }
+  .progress-background {
+    width: 18rem;
+    height: 1.3rem;
+  }
+  .progress {
+    height: 1.3rem;
   }
   .found-words-box {
     width: 19rem;
@@ -229,14 +311,14 @@
     font-size: 2.75rem;
   }
   .tile-medium {
-    height: 3.5rem !important;
-    width: 3.5rem !important;
-    font-size: 2.5rem !important;
+    height: 3.5rem;
+    width: 3.5rem;
+    font-size: 2.5rem;
   }
   .tile-small {
-    height: 2.5rem !important;
-    width: 2.5rem !important;
-    font-size: 1.8rem !important;
+    height: 2.5rem;
+    width: 2.5rem;
+    font-size: 1.8rem;
   }
   .hud-container {
     gap: 1.5rem;
@@ -247,6 +329,16 @@
   }
   .next-letters-container {
     font-size: 1.5rem;
+  }
+  .progress-bar {
+    font-size: 1.25rem;
+  }
+  .progress-background {
+    width: 22rem;
+    height: 1.6rem;
+  }
+  .progress {
+    height: 1.6rem;
   }
   .found-words-box {
     width: 24rem;

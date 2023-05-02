@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { words } from "../../../words/words5letters";
+import randomSeed from "random-seed";
 import { Howl } from "howler";
 
 const BOARDSIZE = 5;
@@ -33,6 +34,12 @@ const pointMap: { [key: string]: number } = {
   Z: 3,
 };
 
+const weights: number[] = [
+  8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772,
+  4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 10.702, 9.056, 2.758, 0.978,
+  2.36, 0.15, 1.974, 0.074,
+];
+
 // const foundSound = new Howl({
 //   src: ["/found.wav"],
 // });
@@ -58,6 +65,59 @@ export const fillNewNextLetters = (): string[] => {
     }
     letters[i] = currentLetter;
   }
+  return letters;
+};
+
+//Generate sequence for blitz mode based on day
+export const fillBlitzNextLetters = (): string[] => {
+  const date = new Date();
+  const seed =
+    date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+  const rand = randomSeed.create(seed);
+  const frequency: { [key: string]: number } = {
+    A: 0.08167,
+    B: 0.01492,
+    C: 0.02782,
+    D: 0.04253,
+    E: 0.12702,
+    F: 0.02228,
+    G: 0.02015,
+    H: 0.06094,
+    I: 0.06966,
+    J: 0.00153,
+    K: 0.00772,
+    L: 0.04025,
+    M: 0.02406,
+    N: 0.06749,
+    O: 0.07507,
+    P: 0.01929,
+    Q: 0.00095,
+    R: 0.05987,
+    S: 0.10702,
+    T: 0.09056,
+    U: 0.02758,
+    V: 0.00978,
+    W: 0.0236,
+    X: 0.0015,
+    Y: 0.01974,
+    Z: 0.00074,
+  };
+  function getRandomLetter(): string {
+    const random = rand.floatBetween(0, 1);
+    let total = 0;
+    for (const letter in frequency) {
+      total += frequency[letter];
+      if (random <= total) {
+        return letter;
+      }
+    }
+    return "";
+  }
+  const letters = [];
+  for (let i = 0; i < 1200; i++) {
+    letters.push(getRandomLetter());
+  }
+
   return letters;
 };
 
@@ -302,11 +362,6 @@ export const applyAnimation = (
 export const getRandomLetter = (): string => {
   type Letter = string;
   const alphabet: Letter[] = "abcdefghijklmnopqrstuvwxyz".split("");
-  const weights: number[] = [
-    8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153,
-    0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 10.702, 9.056,
-    2.758, 0.978, 2.36, 0.15, 1.974, 0.074,
-  ];
 
   function weightedRandomIndex(weights: number[]): number {
     const totalWeight: number = weights.reduce(
