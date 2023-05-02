@@ -72,9 +72,21 @@ const Board = (props: BoardProps) => {
     }
   }, [foundWordsExpand]);
 
+  // BLITZ TIMER VARIABLES
+  const duration = 5 * 60 * 1000; // 5 minutes in milliseconds
+  const [timeLeft, setTimeLeft] = useState(duration);
+  const [progress, setProgress] = useState(100);
+  const [timerStarted, setTimerStarted] = useState(() => {
+    const storedState = localStorage.getItem("timerStarted");
+    return storedState ? JSON.parse(storedState) : false;
+  });
+
   // RESET GAME
   const resetGame = useCallback(() => {
     localStorage.removeItem("startTime");
+    setTimeLeft(duration);
+    setProgress(100);
+    setTimerStarted(false);
     setGameState((prevState) => ({ ...prevState, board: fillEmptyBoard() }));
     setGameState((prevState) => ({ ...prevState, lastPlayedDate: DAY }));
     setGameState((prevState) => ({ ...prevState, swapCount: SWAPCOUNT }));
@@ -85,7 +97,7 @@ const Board = (props: BoardProps) => {
       ...prevState,
       nextLetters: fillNewNextLetters(),
     }));
-  }, [setGameState]);
+  }, [setGameState, duration]);
 
   // CHECKING FOR GAME OVER
   useEffect(() => {
@@ -95,13 +107,6 @@ const Board = (props: BoardProps) => {
   }, [gameState.swapCount, resetGame]);
 
   // BLITZ TIMER LOGIC
-  const duration = 5 * 60 * 1000; // 5 minutes in milliseconds
-  const [timeLeft, setTimeLeft] = useState(duration);
-  const [progress, setProgress] = useState(100);
-  const [timerStarted, setTimerStarted] = useState(() => {
-    const storedState = localStorage.getItem("timerStarted");
-    return storedState ? JSON.parse(storedState) : false;
-  });
   useEffect(() => {
     let startTime = localStorage.getItem("startTime");
     let start = startTime ? parseInt(startTime, 10) : new Date().getTime();
@@ -112,12 +117,10 @@ const Board = (props: BoardProps) => {
 
       if (diff <= 0) {
         setTimerStarted(false);
-        localStorage.setItem("timerStarted", JSON.stringify(false));
         resetGame();
         cancelAnimationFrame(animationFrameId);
         return;
       }
-
       setTimeLeft(diff);
       setProgress((diff / duration) * 100);
       localStorage.setItem("startTime", start.toString());
@@ -129,12 +132,14 @@ const Board = (props: BoardProps) => {
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [duration, resetGame, timerStarted]);
+  }, [duration, resetGame, timerStarted, gameState.swapCount]);
+  useEffect(() => {
+    localStorage.setItem("timerStarted", JSON.stringify(timerStarted));
+  }, [timerStarted]);
   const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
   function handleTimerStart() {
     setTimerStarted(true);
-    localStorage.setItem("timerStarted", JSON.stringify(true));
     localStorage.setItem("startTime", new Date().getTime().toString());
   }
 
