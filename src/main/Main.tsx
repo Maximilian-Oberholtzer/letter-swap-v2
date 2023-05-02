@@ -116,7 +116,7 @@ const Main = () => {
             />
           </div>
         )}
-        {!menuActive && (
+        {!menuActive && (blitzActive || marathonActive) && (
           <div className="game-container">
             <Appbar
               setMenuActive={setMenuActive}
