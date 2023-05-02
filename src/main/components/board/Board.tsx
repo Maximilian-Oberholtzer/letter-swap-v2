@@ -51,6 +51,8 @@ const Board = (props: BoardProps) => {
   //Allow flipping animations to happen before allowing user to place another tile
   const [isFlipping, setIsFlipping] = useState(false);
   const [isFlippingFound, setIsFlippingFound] = useState(false);
+  //Animated current points effect
+  const [animatedPoints, setAnimatedPoints] = useState(0);
 
   //Handle Dynamic Height for Found Words container
   const [foundWordsExpand, setFoundWordsExpand] = useState(false);
@@ -90,7 +92,8 @@ const Board = (props: BoardProps) => {
       setRecentFoundWords,
       setIsFlippingFound,
       gameState.points,
-      setPoints
+      setPoints,
+      setAnimatedPoints
     );
 
     //TODO Animate swap counter if swap was used
@@ -187,6 +190,7 @@ const Board = (props: BoardProps) => {
           }}
         >
           <div className="found-words-title-container">
+            <div className="animated-points">+{animatedPoints}</div>
             <div className="found-word-right-column">
               Words: <b>{gameState.foundWords.length}</b>
             </div>

@@ -7,14 +7,14 @@ const Title = () => {
     const titleTile1 = document.querySelector(".title-tile-l");
     const titleTile2 = document.querySelector(".title-tile-s");
     setTimeout(() => {
-      titleTile1?.classList.add("animate");
+      titleTile1?.classList.add("flip");
     }, 500);
     setTimeout(() => {
-      titleTile2?.classList.add("animate");
+      titleTile2?.classList.add("flip");
     }, 800);
     setTimeout(() => {
-      titleTile1?.classList.remove("animate");
-      titleTile2?.classList.remove("animate");
+      titleTile1?.classList.remove("flip");
+      titleTile2?.classList.remove("flip");
     }, 1200);
   }, []);
 
