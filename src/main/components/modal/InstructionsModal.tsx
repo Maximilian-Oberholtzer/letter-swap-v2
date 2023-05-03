@@ -26,7 +26,7 @@ const instructionsNode: ReactNode = (
         Running out of swaps <b>ENDS</b> the game.
       </p>
       <hr className="modal-line" />
-      <p className="modal-subtitle">Points</p>
+      {/* <p className="modal-subtitle">Points</p> */}
       {pointArr.map((arr, index) => (
         <>
           <div className="modal-point-description-text">
