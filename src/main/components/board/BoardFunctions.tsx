@@ -304,15 +304,24 @@ export const checkForWords = (
     // if (foundSequences.includes("PARTY")) {
     //   setEffect("confetti");
     // }
-    setFoundWords([...foundWords, ...foundSequences]);
-    setRecentFoundWords(foundSequences);
+
+    //Make sure found suquences don't have duplicates
+    let nonDuplicateSequences = [""];
+    for (let word of foundSequences) {
+      if (!nonDuplicateSequences.includes(word)) {
+        nonDuplicateSequences.push(word);
+      }
+    }
+    nonDuplicateSequences.shift();
+    setFoundWords([...foundWords, ...nonDuplicateSequences]);
+    setRecentFoundWords(nonDuplicateSequences);
     //calculate score based on found words
     //bonus points for additional words
-    if (foundSequences.length > 1) {
-      currentPoints += 5 * (foundSequences.length - 1);
+    if (nonDuplicateSequences.length > 1) {
+      currentPoints += 5 * (nonDuplicateSequences.length - 1);
     }
-    for (let i = 0; i < foundSequences.length; i++) {
-      const currentWord = foundSequences[i];
+    for (let i = 0; i < nonDuplicateSequences.length; i++) {
+      const currentWord = nonDuplicateSequences[i];
       for (let j = 0; j < currentWord.length; j++) {
         const currentLetter = currentWord[j];
         // if (currentLetter === bonusLetter) {

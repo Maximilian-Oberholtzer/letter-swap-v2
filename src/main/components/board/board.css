@@ -1,7 +1,8 @@
 :root {
   --font: "Nunito", sans-serif;
   --game-width: 970px;
-  --transition: 300ms background-color, 300ms color, 300ms border;
+  --transition: 300ms background-color, 300ms color, 300ms border,
+    300ms border-bottom;
 
   --light-gray: #dfdfdf;
   --dark-gray: #b6b6b6;
@@ -42,7 +43,6 @@
 .tile-medium,
 .tile-small {
   cursor: unset !important;
-  /* border: 0.15rem solid var(--dark-gray) !important; */
   background-color: var(--light-gray) !important;
 }
 
