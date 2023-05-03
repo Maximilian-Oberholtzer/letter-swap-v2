@@ -55,6 +55,8 @@ const Board = (props: BoardProps) => {
   //Allow flipping animations to happen before allowing user to place another tile
   const [isFlipping, setIsFlipping] = useState(false);
   const [isFlippingFound, setIsFlippingFound] = useState(false);
+  //Blitz last second flip
+  const [isFlippingFinal, setIsFlippingFinal] = useState(false);
 
   //Completed game animation when user loads back in to app
   const endGameAnimation = (delay: number) => {
@@ -93,7 +95,8 @@ const Board = (props: BoardProps) => {
   }, [foundWordsExpand]);
 
   // BLITZ TIMER VARIABLES
-  const duration = 5 * 60 * 1001; // 5 minutes in milliseconds
+  const duration = 3 * 60 * 1001; // 5 minutes in milliseconds
+  // const duration = 15 * 1001;
   const [timeLeft, setTimeLeft] = useState(() => {
     const storedState = localStorage.getItem("timeLeft");
     return storedState ? JSON.parse(storedState) : duration;
@@ -109,11 +112,19 @@ const Board = (props: BoardProps) => {
 
   // RESET GAME
   const resetGame = useCallback(() => {
-    localStorage.removeItem("startTime");
-    setTimeLeft(duration);
-    setProgress(100);
-    setTimerStarted(false);
-    setGameState((prevState) => ({ ...prevState, board: fillEmptyBoard() }));
+    //reset events from timer - blitz only
+    if (gameMode === "blitz") {
+      setIsFlipping(false);
+      setIsFlippingFinal(false);
+      localStorage.removeItem("startTime");
+      setTimeLeft(duration);
+      setProgress(100);
+      setTimerStarted(false);
+    }
+    setGameState((prevState) => ({
+      ...prevState,
+      board: gameMode === "blitz" ? fillEmptyBoard(4) : fillEmptyBoard(5),
+    }));
     setGameState((prevState) => ({ ...prevState, lastPlayedDate: DAY }));
     setGameState((prevState) => ({ ...prevState, swapCount: SWAPCOUNT }));
     setGameState((prevState) => ({ ...prevState, points: 0 }));
@@ -123,7 +134,7 @@ const Board = (props: BoardProps) => {
       ...prevState,
       nextLetters: fillNewNextLetters(),
     }));
-  }, [setGameState, duration]);
+  }, [setGameState, duration, gameMode]);
 
   // CHECKING FOR GAME OVER
   useEffect(() => {
@@ -146,15 +157,24 @@ const Board = (props: BoardProps) => {
       const now = new Date().getTime();
       let diff = duration - (now - start);
 
-      if (diff <= 0) {
-        setTimerStarted(false);
-        endGameAnimation(260);
-        setTimeout(() => {
-          resetGame();
-        }, 1060);
-        cancelAnimationFrame(animationFrameId);
-        return;
+      //Handle end of timer logic -- don't allow user to flip a tile when timer is super low
+      if (diff <= 250) {
+        if (isFlipping) {
+          setIsFlippingFinal(true);
+        }
+        if (diff < 0) {
+          if (gameState.swapCount > 0 && !isFlippingFound) {
+            setTimerStarted(false);
+            endGameAnimation(260);
+            setTimeout(() => {
+              resetGame();
+            }, 1060);
+            cancelAnimationFrame(animationFrameId);
+            return;
+          }
+        }
       }
+
       setTimeLeft(diff);
       setProgress((diff / duration) * 100);
       localStorage.setItem("startTime", start.toString());
@@ -166,7 +186,14 @@ const Board = (props: BoardProps) => {
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [duration, resetGame, timerStarted, gameState.swapCount]);
+  }, [
+    duration,
+    resetGame,
+    timerStarted,
+    gameState.swapCount,
+    isFlippingFound,
+    isFlipping,
+  ]);
   useEffect(() => {
     localStorage.setItem("timerStarted", JSON.stringify(timerStarted));
     localStorage.setItem("timeLeft", JSON.stringify(timeLeft));
@@ -194,7 +221,9 @@ const Board = (props: BoardProps) => {
     setBoard(newBoard);
 
     //TODO Check if word has been created / wipe it from board if so
+    const boardSize = gameMode === "blitz" ? 4 : 5;
     const foundWord = checkForWords(
+      boardSize,
       newBoard,
       setBoard,
       gameState.foundWords,
@@ -268,7 +297,9 @@ const Board = (props: BoardProps) => {
         <div className="progress-bar-container">
           <div className="progress-bar">
             <b>
-              {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+              {minutes < 0
+                ? "0:00"
+                : `${minutes}:${seconds < 10 ? `0${seconds}` : `${seconds}`}`}
             </b>
           </div>
           <div className="progress-background">
@@ -289,7 +320,7 @@ const Board = (props: BoardProps) => {
           <div key={rowIndex}>
             {row.map((letter, colIndex) => (
               <div
-                className="tile"
+                className={gameMode === "blitz" ? "tile-blitz" : "tile"}
                 id={`${rowIndex}-${colIndex}`}
                 key={`${rowIndex}-${colIndex}`}
                 style={mergeStyles(letter !== " " ? filledTile : emptyTile)}
@@ -297,6 +328,7 @@ const Board = (props: BoardProps) => {
                   if (
                     !isFlipping &&
                     !isFlippingFound &&
+                    !isFlippingFinal &&
                     gameState.swapCount > 0
                   ) {
                     if (gameMode === "blitz" && !timerStarted) {
