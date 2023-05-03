@@ -63,8 +63,14 @@
   }
 }
 
+/* Modal Content */
+
 .modal-title {
   text-align: center;
   font-size: 2rem;
   font-weight: 700;
+}
+
+.modal-subtitle {
+  text-align: center;
 }

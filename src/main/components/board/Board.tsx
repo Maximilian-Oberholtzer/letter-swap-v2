@@ -17,17 +17,17 @@ import {
   getRandomLetter,
 } from "./BoardFunctions";
 
-const SWAPCOUNT = 15;
 const DAY = new Date().getDay();
 
 interface BoardProps {
   gameMode: GameMode;
   gameState: GameState;
   setGameState: Dispatch<SetStateAction<GameState>>;
+  setShowStatsModal: Dispatch<SetStateAction<boolean>>;
 }
 
 const Board = (props: BoardProps) => {
-  const { gameMode, gameState, setGameState } = props;
+  const { gameMode, gameState, setGameState, setShowStatsModal } = props;
 
   // Updating game state for selected mode
   const useSetGameState = (key: string) => {
@@ -46,6 +46,7 @@ const Board = (props: BoardProps) => {
   const setPoints = useSetGameState("points");
   const setPlayCount = useSetGameState("playCount");
   const setHasPlayed = useSetGameState("hasPlayed");
+  const setHasPlayedToday = useSetGameState("hasPlayedToday");
   const setLastPlayedDate = useSetGameState("lastPlayedDate");
   const setWeeklyScores = useSetGameState("weeklyScores");
   const setWeeklyPoints = useSetGameState("weeklyPoints");
@@ -126,7 +127,10 @@ const Board = (props: BoardProps) => {
       board: gameMode === "blitz" ? fillEmptyBoard(4) : fillEmptyBoard(5),
     }));
     setGameState((prevState) => ({ ...prevState, lastPlayedDate: DAY }));
-    setGameState((prevState) => ({ ...prevState, swapCount: SWAPCOUNT }));
+    setGameState((prevState) => ({
+      ...prevState,
+      swapCount: gameMode === "blitz" ? 5 : 15,
+    }));
     setGameState((prevState) => ({ ...prevState, points: 0 }));
     setGameState((prevState) => ({ ...prevState, foundWords: [] }));
     setGameState((prevState) => ({ ...prevState, recentFoundWords: [] }));
@@ -136,15 +140,36 @@ const Board = (props: BoardProps) => {
     }));
   }, [setGameState, duration, gameMode]);
 
+  // GAME Finish Logic
+  const handleGameFinish = useCallback(() => {
+    endGameAnimation(260);
+    //update daily scores
+    if (gameState.points > (gameState.weeklyPoints[DAY] ?? 0)) {
+      gameState.weeklyPoints[DAY] = gameState.points;
+    }
+    if (gameState.foundWords.length > (gameState.weeklyScores[DAY] ?? 0)) {
+      gameState.weeklyScores[DAY] = gameState.foundWords.length;
+    }
+    setTimeout(() => {
+      //Temporary until game release
+      setShowStatsModal(true);
+      resetGame();
+    }, 1060);
+  }, [
+    resetGame,
+    setShowStatsModal,
+    gameState.foundWords.length,
+    gameState.points,
+    gameState.weeklyPoints,
+    gameState.weeklyScores,
+  ]);
+
   // CHECKING FOR GAME OVER
   useEffect(() => {
     if (gameState.swapCount <= 0) {
-      endGameAnimation(260);
-      setTimeout(() => {
-        resetGame();
-      }, 1060);
+      handleGameFinish();
     }
-  }, [gameState.swapCount, resetGame]);
+  }, [gameState.swapCount, resetGame, handleGameFinish]);
 
   ///////////////////////
   // BLITZ TIMER LOGIC //
@@ -165,10 +190,7 @@ const Board = (props: BoardProps) => {
         if (diff < 0) {
           if (gameState.swapCount > 0 && !isFlippingFound) {
             setTimerStarted(false);
-            endGameAnimation(260);
-            setTimeout(() => {
-              resetGame();
-            }, 1060);
+            handleGameFinish();
             cancelAnimationFrame(animationFrameId);
             return;
           }
@@ -193,6 +215,7 @@ const Board = (props: BoardProps) => {
     gameState.swapCount,
     isFlippingFound,
     isFlipping,
+    handleGameFinish,
   ]);
   useEffect(() => {
     localStorage.setItem("timerStarted", JSON.stringify(timerStarted));
@@ -307,7 +330,12 @@ const Board = (props: BoardProps) => {
               className="progress"
               style={{
                 width: `${progress}%`,
-                backgroundColor: minutes === 0 ? "var(--red)" : "var(--green)",
+                backgroundColor:
+                  minutes === 0 && seconds <= 30
+                    ? "var(--red)"
+                    : minutes * 60 + seconds > 90
+                    ? "var(--green)"
+                    : "var(--yellow)",
               }}
             />
           </div>

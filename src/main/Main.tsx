@@ -9,8 +9,8 @@ import {
 } from "./components/board/BoardFunctions";
 import Board from "./components/board/Board";
 import Appbar from "./components/appbar/Appbar";
+import StatisticsModal from "./components/modal/StatisticsModal";
 
-const SWAPCOUNT = 15;
 const DAY = new Date().getDay();
 
 export type GameMode = "blitz" | "marathon";
@@ -23,6 +23,7 @@ export interface GameState {
   recentFoundWords: string[];
   points: number;
   hasPlayed: boolean;
+  hasPlayedToday: boolean;
   playCount: number;
   lastPlayedDate: number;
   weeklyScores: (number | null)[];
@@ -37,11 +38,12 @@ function getDefaultGameState(gameMode: string): GameState {
     : {
         board: gameMode === "blitz" ? fillEmptyBoard(4) : fillEmptyBoard(5),
         nextLetters: fillNewNextLetters(),
-        swapCount: SWAPCOUNT,
+        swapCount: gameMode === "blitz" ? 5 : 15,
         foundWords: [],
         recentFoundWords: [],
         points: 0,
         hasPlayed: false,
+        hasPlayedToday: false,
         playCount: 0,
         lastPlayedDate: DAY,
         weeklyScores: Array.from({ length: 7 }, () => null),
@@ -103,12 +105,28 @@ const Main = () => {
     localStorage.setItem("marathonActive", JSON.stringify(marathonActive));
   }, [menuActive, blitzActive, marathonActive]);
 
+  //MODAL handling
+  const [showStatsModal, setShowStatsModal] = useState(false);
+
   return (
     <div className="main-container">
       <div className="app-container">
+        {/* CONDITIONAL MODALS */}
+        {showStatsModal && (
+          <StatisticsModal
+            closeModal={() => {
+              setShowStatsModal(false);
+            }}
+            blitzState={blitzState}
+            marathonState={marathonState}
+          />
+        )}
+        {/* MENU */}
         {menuActive && (
           <div className="menu-container">
             <Menu
+              blitzState={blitzState}
+              marathonState={marathonState}
               setMenuActive={setMenuActive}
               setBlitzActive={setBlitzActive}
               setMarathonActive={setMarathonActive}
@@ -116,6 +134,7 @@ const Main = () => {
             />
           </div>
         )}
+        {/* GAME */}
         {!menuActive && (blitzActive || marathonActive) && (
           <div className="game-container">
             <Appbar
@@ -129,6 +148,7 @@ const Main = () => {
                 gameMode={"blitz"}
                 gameState={blitzState}
                 setGameState={setBlitzState}
+                setShowStatsModal={setShowStatsModal}
               />
             )}
             {marathonActive && (
@@ -136,6 +156,7 @@ const Main = () => {
                 gameMode={"marathon"}
                 gameState={marathonState}
                 setGameState={setMarathonState}
+                setShowStatsModal={setShowStatsModal}
               />
             )}
           </div>

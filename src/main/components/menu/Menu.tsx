@@ -6,8 +6,11 @@ import StatisticsModal from "../modal/StatisticsModal";
 import LeaderboardModal from "../modal/LeaderboardModal";
 import SettingsModal from "../modal/SettingsModal";
 import SupportModal from "../modal/SupportModal";
+import { GameState } from "../../Main";
 
 interface MenuProps {
+  blitzState: GameState;
+  marathonState: GameState;
   setMenuActive: Dispatch<SetStateAction<boolean>>;
   setBlitzActive: Dispatch<SetStateAction<boolean>>;
   setMarathonActive: Dispatch<SetStateAction<boolean>>;
@@ -15,8 +18,14 @@ interface MenuProps {
 }
 
 const Menu = (props: MenuProps) => {
-  const { setBlitzActive, setMarathonActive, setMenuActive, setCanTransition } =
-    props;
+  const {
+    blitzState,
+    marathonState,
+    setBlitzActive,
+    setMarathonActive,
+    setMenuActive,
+    setCanTransition,
+  } = props;
 
   //handle modals
   const [instructionsModal, setInstructionsModal] = useState<boolean>(false);
@@ -34,7 +43,11 @@ const Menu = (props: MenuProps) => {
     {
       isOpen: statisticsModal,
       component: (
-        <StatisticsModal closeModal={() => setStatisticsModal(false)} />
+        <StatisticsModal
+          closeModal={() => setStatisticsModal(false)}
+          blitzState={blitzState}
+          marathonState={marathonState}
+        />
       ),
     },
     {
