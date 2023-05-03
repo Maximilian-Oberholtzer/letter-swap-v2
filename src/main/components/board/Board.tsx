@@ -183,16 +183,21 @@ const Board = (props: BoardProps) => {
         const now = new Date().getTime();
         let diff = duration - (now - start);
 
+        if (gameState.swapCount === 0) {
+          cancelAnimationFrame(animationFrameId);
+          return;
+        }
+
         //Handle end of timer logic -- don't allow user to flip a tile when timer is super low
         if (diff <= 250) {
           if (isFlipping) {
             setIsFlippingFinal(true);
           }
           if (diff < 0) {
+            cancelAnimationFrame(animationFrameId);
             if (gameState.swapCount > 0 && !isFlippingFound) {
               setTimerStarted(false);
               handleGameFinish();
-              cancelAnimationFrame(animationFrameId);
               return;
             }
           }
