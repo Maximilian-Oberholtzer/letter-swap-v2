@@ -1,9 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
-import { words } from "../../../words/words5letters";
+import { wordsFiveLetters } from "../../../words/words5letters";
+import { wordsFourLetters } from "../../../words/words4letters";
 import randomSeed from "random-seed";
 import { Howl } from "howler";
-
-const BOARDSIZE = 5;
 
 const pointMap: { [key: string]: number } = {
   A: 1,
@@ -44,11 +43,11 @@ const weights: number[] = [
 //   src: ["/found.wav"],
 // });
 
-export const fillEmptyBoard = (): string[][] => {
-  const newBoard = Array(BOARDSIZE)
+export const fillEmptyBoard = (boardSize: number): string[][] => {
+  const newBoard = Array(boardSize)
     .fill(null)
     .map(() =>
-      Array(BOARDSIZE)
+      Array(boardSize)
         .fill(null)
         .map(() => " ")
     );
@@ -125,6 +124,7 @@ export const fillBlitzNextLetters = (): string[] => {
 type Direction = "row" | "column" | "diagonalRight" | "diagonalLeft";
 
 export const checkForWords = (
+  boardSize: number,
   board: string[][],
   setBoard: (newBoard: string[][]) => void,
   foundWords: string[],
@@ -139,24 +139,40 @@ export const checkForWords = (
   let foundSequences = [];
   let currentPoints = 0;
 
+  let words = boardSize === 4 ? wordsFourLetters : wordsFiveLetters;
+
   //check columns
-  for (let i = 0; i < BOARDSIZE; i++) {
+  for (let i = 0; i < boardSize; i++) {
     let sequence = "";
-    for (let j = 0; j < BOARDSIZE; j++) {
+    for (let j = 0; j < boardSize; j++) {
       sequence += board[i][j];
-      if (j === BOARDSIZE - 1) {
+      if (j === boardSize - 1) {
         let reverseSequence = sequence.split("").reverse().join("");
         if (words.includes(sequence.toLowerCase())) {
           if (!foundWords.includes(sequence)) {
             foundWord = true;
             foundSequences.push(sequence);
-            replaceRow(board, "column", i, setIsFlippingFound, setBoard);
+            replaceRow(
+              boardSize,
+              board,
+              "column",
+              i,
+              setIsFlippingFound,
+              setBoard
+            );
           }
         } else if (words.includes(reverseSequence.toLowerCase())) {
           if (!foundWords.includes(reverseSequence)) {
             foundWord = true;
             foundSequences.push(reverseSequence);
-            replaceRow(board, "column", i, setIsFlippingFound, setBoard);
+            replaceRow(
+              boardSize,
+              board,
+              "column",
+              i,
+              setIsFlippingFound,
+              setBoard
+            );
           }
         }
       }
@@ -164,23 +180,37 @@ export const checkForWords = (
   }
 
   //check rows
-  for (let i = 0; i < BOARDSIZE; i++) {
+  for (let i = 0; i < boardSize; i++) {
     let sequence = "";
-    for (let j = 0; j < BOARDSIZE; j++) {
+    for (let j = 0; j < boardSize; j++) {
       sequence += board[j][i];
-      if (j === BOARDSIZE - 1) {
+      if (j === boardSize - 1) {
         let reverseSequence = sequence.split("").reverse().join("");
         if (words.includes(sequence.toLowerCase())) {
           if (!foundWords.includes(sequence)) {
             foundWord = true;
             foundSequences.push(sequence);
-            replaceRow(board, "row", i, setIsFlippingFound, setBoard);
+            replaceRow(
+              boardSize,
+              board,
+              "row",
+              i,
+              setIsFlippingFound,
+              setBoard
+            );
           }
         } else if (words.includes(reverseSequence.toLowerCase())) {
           if (!foundWords.includes(reverseSequence)) {
             foundWord = true;
             foundSequences.push(reverseSequence);
-            replaceRow(board, "row", i, setIsFlippingFound, setBoard);
+            replaceRow(
+              boardSize,
+              board,
+              "row",
+              i,
+              setIsFlippingFound,
+              setBoard
+            );
           }
         }
       }
@@ -189,9 +219,9 @@ export const checkForWords = (
 
   //check diagonal right (bottom left to top right)
   let i = 0;
-  let j = BOARDSIZE - 1;
+  let j = boardSize - 1;
   let sequence = "";
-  while (i < BOARDSIZE && j >= 0) {
+  while (i < boardSize && j >= 0) {
     sequence += board[j][i];
     i++;
     j--;
@@ -202,21 +232,35 @@ export const checkForWords = (
       currentPoints += 3;
       foundWord = true;
       foundSequences.push(sequence);
-      replaceRow(board, "diagonalRight", i, setIsFlippingFound, setBoard);
+      replaceRow(
+        boardSize,
+        board,
+        "diagonalRight",
+        i,
+        setIsFlippingFound,
+        setBoard
+      );
     }
   } else if (words.includes(reverseSequence.toLowerCase())) {
     if (!foundWords.includes(reverseSequence)) {
       currentPoints += 3;
       foundWord = true;
       foundSequences.push(reverseSequence);
-      replaceRow(board, "diagonalRight", i, setIsFlippingFound, setBoard);
+      replaceRow(
+        boardSize,
+        board,
+        "diagonalRight",
+        i,
+        setIsFlippingFound,
+        setBoard
+      );
     }
   }
 
   //check diagonal left (top left to bottom right)
   i = 0;
   sequence = "";
-  while (i < BOARDSIZE) {
+  while (i < boardSize) {
     sequence += board[i][i];
     i++;
   }
@@ -226,14 +270,28 @@ export const checkForWords = (
       currentPoints += 3;
       foundWord = true;
       foundSequences.push(sequence);
-      replaceRow(board, "diagonalLeft", i, setIsFlippingFound, setBoard);
+      replaceRow(
+        boardSize,
+        board,
+        "diagonalLeft",
+        i,
+        setIsFlippingFound,
+        setBoard
+      );
     }
   } else if (words.includes(reverseSequence.toLowerCase())) {
     if (!foundWords.includes(reverseSequence)) {
       currentPoints += 3;
       foundWord = true;
       foundSequences.push(reverseSequence);
-      replaceRow(board, "diagonalLeft", i, setIsFlippingFound, setBoard);
+      replaceRow(
+        boardSize,
+        board,
+        "diagonalLeft",
+        i,
+        setIsFlippingFound,
+        setBoard
+      );
     }
   }
 
@@ -274,14 +332,15 @@ export const checkForWords = (
 
 // If a word is found apply animation then wipe it from the board
 const replaceRow = (
+  boardSize: number,
   board: string[][],
   direction: Direction,
   row: number,
   setIsFlippingFound: Dispatch<SetStateAction<boolean>>,
   setBoard: (newBoard: string[][]) => void
 ) => {
-  let j = BOARDSIZE - 1; //for diagonal right
-  for (let i = 0; i < BOARDSIZE; i++) {
+  let j = boardSize - 1; //for diagonal right
+  for (let i = 0; i < boardSize; i++) {
     let tile;
     switch (direction) {
       case "column":

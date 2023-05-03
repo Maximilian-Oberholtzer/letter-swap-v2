@@ -35,7 +35,7 @@ function getDefaultGameState(gameMode: string): GameState {
   return storedState
     ? JSON.parse(storedState)
     : {
-        board: fillEmptyBoard(),
+        board: gameMode === "blitz" ? fillEmptyBoard(4) : fillEmptyBoard(5),
         nextLetters: fillNewNextLetters(),
         swapCount: SWAPCOUNT,
         foundWords: [],

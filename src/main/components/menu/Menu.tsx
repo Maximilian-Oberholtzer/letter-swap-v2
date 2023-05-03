@@ -135,9 +135,7 @@ const Menu = (props: MenuProps) => {
       {/* Modals */}
       {modals.map(({ isOpen, component }) => isOpen && component)}
       <Title />
-      <div className="title-subtext">
-        Create as many 5-letter words as possible.
-      </div>
+      <div className="title-subtext">Create as many words as possible.</div>
       <button
         className="menu-button"
         onClick={() => {
