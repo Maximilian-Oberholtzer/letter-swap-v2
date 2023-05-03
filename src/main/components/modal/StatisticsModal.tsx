@@ -9,7 +9,6 @@ const StatisticsNode = (
   marathonState: GameState
 ): ReactNode => (
   <>
-    <p className="modal-title">Statistics</p>
     <p className="modal-text">Blitz Points: {blitzState.weeklyPoints[DAY]}</p>
     <p className="modal-text">Blitz Words: {blitzState.weeklyScores[DAY]}</p>
     <p className="modal-text">
@@ -33,6 +32,7 @@ const StatisticsModal = (props: StatisticsModalProps) => {
     <Modal
       closeModal={closeModal}
       modalContent={StatisticsNode(blitzState, marathonState)}
+      modalTitle="Statistics"
     />
   );
 };
