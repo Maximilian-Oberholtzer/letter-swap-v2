@@ -24,9 +24,12 @@
   font-family: var(--font);
   background-color: #fff;
   width: 100%;
+  max-height: 96%;
   max-width: var(--game-width);
   padding: 1rem 0rem;
   border-radius: 0.3rem;
+  overflow-y: auto;
+  overflow-x: hidden;
   animation: fade-in-bottom 0.2s ease-out;
 }
 
@@ -37,13 +40,13 @@
 .modal-close-button {
   all: unset;
   cursor: pointer;
-  position: absolute;
-  right: 1rem;
+  float: right;
+  margin: 0rem 1rem;
 }
 
 @keyframes fade-in-bottom {
   0% {
-    transform: translateY(100%);
+    transform: translateY(50%);
     opacity: 0;
   }
   100% {
@@ -58,7 +61,7 @@
     opacity: 1;
   }
   100% {
-    transform: translateY(100%);
+    transform: translateY(50%);
     opacity: 0;
   }
 }
@@ -67,10 +70,82 @@
 
 .modal-title {
   text-align: center;
-  font-size: 2rem;
   font-weight: 700;
+  clear: both;
 }
 
 .modal-subtitle {
   text-align: center;
+  font-weight: 700;
+}
+
+.modal-line {
+  border-width: 1px 0 0;
+}
+
+/* Instructions */
+.modal-point-description-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0rem 2rem;
+}
+
+.modal-point-description-text {
+  text-align: center;
+  margin: 1rem 0rem 0.5rem 0rem;
+}
+
+/* Media Queries for responsiveness */
+
+/* X-Small */
+@media screen and (max-width: 320px) {
+  .modal-title {
+    font-size: 1.8rem !important;
+  }
+  .modal-subtitle {
+    font-size: 1.25rem !important;
+  }
+  .modal-text {
+    font-size: 0.9rem !important;
+    margin: 0.6rem 1.1rem !important;
+  }
+  .modal-line {
+    margin: 1.5rem 1.1rem !important;
+  }
+}
+
+/* Small */
+@media screen and (max-width: 600px) {
+  .modal-title {
+    font-size: 2rem;
+  }
+  .modal-subtitle {
+    font-size: 1.5rem;
+  }
+  .modal-text {
+    font-size: 0.95rem;
+    margin: 0.75rem 1.25rem;
+  }
+  .modal-line {
+    margin: 2rem 1.25rem;
+  }
+}
+
+/* Large */
+
+@media screen and (min-width: 600px) {
+  .modal-title {
+    font-size: 2.5rem;
+  }
+  .modal-subtitle {
+    font-size: 2rem;
+  }
+  .modal-text {
+    font-size: 1.25rem;
+    margin: 1rem 2.5rem;
+  }
+  .modal-line {
+    margin: 2.5rem 2.5rem;
+  }
 }

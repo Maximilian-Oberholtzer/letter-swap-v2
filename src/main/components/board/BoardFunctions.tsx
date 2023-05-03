@@ -318,7 +318,11 @@ export const checkForWords = (
     //calculate score based on found words
     //bonus points for additional words
     if (nonDuplicateSequences.length > 1) {
-      currentPoints += 5 * (nonDuplicateSequences.length - 1);
+      if (boardSize === 4) {
+        currentPoints += 4 * (nonDuplicateSequences.length - 1);
+      } else {
+        currentPoints += 5 * (nonDuplicateSequences.length - 1);
+      }
     }
     for (let i = 0; i < nonDuplicateSequences.length; i++) {
       const currentWord = nonDuplicateSequences[i];

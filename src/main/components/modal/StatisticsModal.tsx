@@ -10,18 +10,14 @@ const StatisticsNode = (
 ): ReactNode => (
   <>
     <p className="modal-title">Statistics</p>
-    <h3 className="modal-subtitle">
-      Blitz Points: {blitzState.weeklyPoints[DAY]}
-    </h3>
-    <h3 className="modal-subtitle">
-      Blitz Words: {blitzState.weeklyScores[DAY]}
-    </h3>
-    <h3 className="modal-subtitle">
+    <p className="modal-text">Blitz Points: {blitzState.weeklyPoints[DAY]}</p>
+    <p className="modal-text">Blitz Words: {blitzState.weeklyScores[DAY]}</p>
+    <p className="modal-text">
       Marathon Points: {marathonState.weeklyPoints[DAY]}
-    </h3>
-    <h3 className="modal-subtitle">
+    </p>
+    <p className="modal-text">
       Marathon Words: {marathonState.weeklyScores[DAY]}
-    </h3>
+    </p>
   </>
 );
 
