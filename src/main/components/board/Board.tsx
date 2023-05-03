@@ -96,7 +96,7 @@ const Board = (props: BoardProps) => {
   }, [foundWordsExpand]);
 
   // BLITZ TIMER VARIABLES
-  const duration = 3 * 60 * 1001; // 5 minutes in milliseconds
+  const duration = 2 * 60 * 1001; // 2 minutes in milliseconds
   // const duration = 15 * 1001;
   const [timeLeft, setTimeLeft] = useState(() => {
     const storedState = localStorage.getItem("timeLeft");
@@ -175,40 +175,43 @@ const Board = (props: BoardProps) => {
   // BLITZ TIMER LOGIC //
   ///////////////////////
   useEffect(() => {
-    let startTime = localStorage.getItem("startTime");
-    let start = startTime ? parseInt(startTime, 10) : new Date().getTime();
-    let animationFrameId: number;
-    function updateTimer() {
-      const now = new Date().getTime();
-      let diff = duration - (now - start);
+    if (gameMode === "blitz") {
+      let startTime = localStorage.getItem("startTime");
+      let start = startTime ? parseInt(startTime, 10) : new Date().getTime();
+      let animationFrameId: number;
+      const updateTimer = () => {
+        const now = new Date().getTime();
+        let diff = duration - (now - start);
 
-      //Handle end of timer logic -- don't allow user to flip a tile when timer is super low
-      if (diff <= 250) {
-        if (isFlipping) {
-          setIsFlippingFinal(true);
-        }
-        if (diff < 0) {
-          if (gameState.swapCount > 0 && !isFlippingFound) {
-            setTimerStarted(false);
-            handleGameFinish();
-            cancelAnimationFrame(animationFrameId);
-            return;
+        //Handle end of timer logic -- don't allow user to flip a tile when timer is super low
+        if (diff <= 250) {
+          if (isFlipping) {
+            setIsFlippingFinal(true);
+          }
+          if (diff < 0) {
+            if (gameState.swapCount > 0 && !isFlippingFound) {
+              setTimerStarted(false);
+              handleGameFinish();
+              cancelAnimationFrame(animationFrameId);
+              return;
+            }
           }
         }
-      }
 
-      setTimeLeft(diff);
-      setProgress((diff / duration) * 100);
-      localStorage.setItem("startTime", start.toString());
-      animationFrameId = requestAnimationFrame(updateTimer);
+        setTimeLeft(diff);
+        setProgress((diff / duration) * 100);
+        localStorage.setItem("startTime", start.toString());
+        animationFrameId = requestAnimationFrame(updateTimer);
+      };
+      if (timerStarted) {
+        animationFrameId = requestAnimationFrame(updateTimer);
+      }
+      return () => {
+        cancelAnimationFrame(animationFrameId);
+      };
     }
-    if (timerStarted) {
-      animationFrameId = requestAnimationFrame(updateTimer);
-    }
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-    };
   }, [
+    gameMode,
     duration,
     resetGame,
     timerStarted,
@@ -333,7 +336,7 @@ const Board = (props: BoardProps) => {
                 backgroundColor:
                   minutes === 0 && seconds <= 30
                     ? "var(--red)"
-                    : minutes * 60 + seconds > 90
+                    : minutes >= 1
                     ? "var(--green)"
                     : "var(--yellow)",
               }}
