@@ -15,6 +15,7 @@ const InstructionsModal = (props: instructionsModalProps) => {
   const { closeModal } = props;
 
   const [tutorialTile1, setTutorialTile1] = useState<string>("");
+  const tutorialWord = ["H", "O", "R", "S", "E"];
 
   const handleTutorialTileClick1 = () => {
     if (tutorialTile1 === "") {
@@ -53,8 +54,16 @@ const InstructionsModal = (props: instructionsModalProps) => {
       <div className="instructions-tutorial-container"></div>
       <p className="modal-text">
         Creating a word <b>CLEARS</b> the row. Words can be created in{" "}
-        <b>ANY DIRECTION</b>. Duplicated words are <b>NOT</b> counted.
+        <b>ANY DIRECTION</b>. Words must span the <b>ENTIRE</b> row. Duplicated
+        words are <b>NOT</b> counted.
       </p>
+      <div className="instructions-tutorial-container">
+        {tutorialWord.map((letter, index) => (
+          <div key={index} className="tile-tutorial-filled">
+            {letter}
+          </div>
+        ))}
+      </div>
       <div className="instructions-tutorial-container"></div>
       <p className="modal-text">
         Tap on the <b>BOTTOM BOX</b> to view your previous found words.

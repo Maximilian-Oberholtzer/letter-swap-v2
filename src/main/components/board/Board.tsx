@@ -96,7 +96,7 @@ const Board = (props: BoardProps) => {
   }, [foundWordsExpand]);
 
   // BLITZ TIMER VARIABLES
-  const duration = 2 * 60 * 1001; // 2 minutes in milliseconds
+  const duration = 3 * 60 * 1001; // 2 minutes in milliseconds
   // const duration = 15 * 1001;
   const [timeLeft, setTimeLeft] = useState(() => {
     const storedState = localStorage.getItem("timeLeft");
@@ -341,7 +341,7 @@ const Board = (props: BoardProps) => {
                 backgroundColor:
                   minutes === 0 && seconds <= 30
                     ? "var(--red)"
-                    : minutes >= 1
+                    : minutes * 60 + seconds > 90
                     ? "var(--green)"
                     : "var(--yellow)",
               }}
