@@ -16,6 +16,7 @@ const InstructionsModal = (props: instructionsModalProps) => {
 
   const [tutorialTile1, setTutorialTile1] = useState<string>("");
   const tutorialWord = ["H", "O", "R", "S", "E"];
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
   const handleTutorialTileClick1 = () => {
     if (tutorialTile1 === "") {
@@ -23,7 +24,7 @@ const InstructionsModal = (props: instructionsModalProps) => {
       tile?.classList.add("flip");
       tile?.classList.add("background-fill");
       tile?.classList.add("cursor-unset");
-      setTutorialTile1("M");
+      setTutorialTile1(alphabet[Math.floor(Math.random() * 26)]);
     }
   };
 
@@ -57,7 +58,7 @@ const InstructionsModal = (props: instructionsModalProps) => {
         <b>ANY DIRECTION</b>. Words must span the <b>ENTIRE</b> row. Duplicated
         words are <b>NOT</b> counted.
       </p>
-      <div className="instructions-tutorial-container">
+      <div className="instructions-tutorial-container small-gap">
         {tutorialWord.map((letter, index) => (
           <div key={index} className="tile-tutorial-filled">
             {letter}
@@ -74,7 +75,7 @@ const InstructionsModal = (props: instructionsModalProps) => {
       <hr className="modal-line" />
       {pointArr.map((arr, index) => (
         <>
-          <div className="modal-text text-align-center">
+          <div key={index + 1} className="modal-text text-align-center">
             <b>
               {index + 1} {`${index === 0 ? "point" : "points"}`}
             </b>

@@ -4,22 +4,6 @@ import { GameState } from "../../Main";
 
 const DAY = new Date().getDay();
 
-const StatisticsNode = (
-  blitzState: GameState,
-  marathonState: GameState
-): ReactNode => (
-  <>
-    <p className="modal-text">Blitz Points: {blitzState.weeklyPoints[DAY]}</p>
-    <p className="modal-text">Blitz Words: {blitzState.weeklyScores[DAY]}</p>
-    <p className="modal-text">
-      Marathon Points: {marathonState.weeklyPoints[DAY]}
-    </p>
-    <p className="modal-text">
-      Marathon Words: {marathonState.weeklyScores[DAY]}
-    </p>
-  </>
-);
-
 interface StatisticsModalProps {
   closeModal: () => void;
   blitzState: GameState;
@@ -28,6 +12,37 @@ interface StatisticsModalProps {
 
 const StatisticsModal = (props: StatisticsModalProps) => {
   const { closeModal, blitzState, marathonState } = props;
+
+  const StatisticsNode = (
+    blitzState: GameState,
+    marathonState: GameState
+  ): ReactNode => (
+    <div className="modal-content-container">
+      <p className="modal-text text-align-center">Your results today</p>
+      <table className="statistics-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Blitz</th>
+            <th>Marathon</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Points</td>
+            <td>{blitzState.weeklyPoints[DAY] ?? "-"}</td>
+            <td>{marathonState.weeklyPoints[DAY] ?? "-"}</td>
+          </tr>
+          <tr>
+            <td>Words</td>
+            <td>{blitzState.weeklyScores[DAY] ?? "-"}</td>
+            <td>{marathonState.weeklyScores[DAY] ?? "-"}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+
   return (
     <Modal
       closeModal={closeModal}
