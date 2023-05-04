@@ -1,8 +1,7 @@
 :root {
   --font: "Nunito", sans-serif;
   --game-width: 970px;
-  --transition: 300ms background-color, 300ms color, 300ms border,
-    300ms border-bottom;
+  --transition: 300ms background-color, 300ms color, 300ms border;
 
   --light-gray: #dfdfdf;
   --dark-gray: #b6b6b6;
