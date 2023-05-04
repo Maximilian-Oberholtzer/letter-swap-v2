@@ -146,7 +146,14 @@ const Menu = (props: MenuProps) => {
   return (
     <>
       {/* Modals */}
-      {modals.map(({ isOpen, component }) => isOpen && component)}
+      {modals.map(
+        ({ isOpen, component }, index) =>
+          isOpen && (
+            <div style={{ position: "fixed" }} key={index}>
+              {component}
+            </div>
+          )
+      )}
       <Title />
       <div className="title-subtext">Create as many words as possible.</div>
       <button
