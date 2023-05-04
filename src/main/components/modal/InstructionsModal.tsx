@@ -35,11 +35,11 @@ const InstructionsModal = (props: instructionsModalProps) => {
       </p>
       <div className="instructions-tutorial-container">
         <div className="modal-text margin-unset">
-          Tap <b>Here:</b>
+          <b>Tap Here:</b>
         </div>
         <div
           id="tutorial-tile-1"
-          className="tile tile-tutorial"
+          className="tile-tutorial"
           onClick={() => {
             handleTutorialTileClick1();
           }}
@@ -74,8 +74,8 @@ const InstructionsModal = (props: instructionsModalProps) => {
       </p>
       <hr className="modal-line" />
       {pointArr.map((arr, index) => (
-        <>
-          <div key={index + 1} className="modal-text text-align-center">
+        <div key={arr[index]}>
+          <div className="modal-text text-align-center">
             <b>
               {index + 1} {`${index === 0 ? "point" : "points"}`}
             </b>
@@ -88,7 +88,7 @@ const InstructionsModal = (props: instructionsModalProps) => {
               </div>
             ))}
           </div>
-        </>
+        </div>
       ))}
       <p className="modal-text">
         3 <b>BONUS</b> points for finding a word in a diagonal direction.

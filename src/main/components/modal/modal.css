@@ -129,7 +129,6 @@
 }
 .tile-tutorial-filled {
   display: flex;
-  cursor: pointer;
   align-items: center;
   justify-content: center;
   border-radius: 0.3rem;
@@ -137,6 +136,17 @@
   color: #ffffff;
   transition: var(--transition);
   background-color: var(--green);
+}
+
+.tile-tutorial {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.3rem;
+  font-weight: 700;
+  border: 0.15rem solid var(--light-gray);
+  transition: var(--transition);
 }
 
 /* Statistics */
@@ -163,14 +173,14 @@
     margin: 1.5rem 1.1rem !important;
   }
   .tile-tutorial {
-    height: 2.4rem !important;
-    width: 2.4rem !important;
-    font-size: 2rem !important;
+    height: 2rem !important;
+    width: 2rem !important;
+    font-size: 1.5rem !important;
   }
   .tile-tutorial-filled {
     height: 1.7rem !important;
     width: 1.7rem !important;
-    font-size: 1.3rem !important;
+    font-size: 1.1rem !important;
   }
 }
 
@@ -190,14 +200,14 @@
     margin: 2rem 1.25rem;
   }
   .tile-tutorial {
-    height: 2.8rem;
-    width: 2.8rem;
-    font-size: 2rem;
+    height: 2.3rem;
+    width: 2.3rem;
+    font-size: 1.8rem;
   }
   .tile-tutorial-filled {
     height: 2rem;
     width: 2rem;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
   }
 }
 
@@ -218,9 +228,9 @@
     margin: 2.5rem 2.5rem;
   }
   .tile-tutorial {
-    height: 3.5rem;
-    width: 3.5rem;
-    font-size: 2.5rem;
+    height: 3rem;
+    width: 3rem;
+    font-size: 2.2rem;
   }
   .tile-tutorial-filled {
     height: 2.5rem;
