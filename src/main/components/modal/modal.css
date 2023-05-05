@@ -16,7 +16,7 @@
   --dark-backdrop: #242424;
   --dark-text: #ffffff;
   --dark-tile-color: #3a3a3c;
-  --dark-modal-backdrop: rgb(64 64 64 / 20%);
+  --dark-modal-backdrop: rgba(133, 133, 133, 0.2);
 
   --dark-button-background-hover: #2e2e30;
   --light-button-background-hover: #cccccc;
