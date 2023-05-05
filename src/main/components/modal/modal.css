@@ -17,6 +17,9 @@
   --dark-text: #ffffff;
   --dark-tile-color: #3a3a3c;
   --dark-modal-backdrop: rgb(64 64 64 / 20%);
+
+  --dark-button-background-hover: #2e2e30;
+  --light-button-background-hover: #cccccc;
 }
 
 /* Generic modal css */
@@ -229,6 +232,27 @@ input:focus + .slider {
   border-radius: 50%;
 }
 
+/* Support */
+.support-link-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0rem;
+}
+
+.support-link {
+  all: unset;
+  cursor: pointer;
+  font-weight: 700;
+  border-radius: 0.5rem;
+}
+
+.support-link-dark:hover {
+  background-color: var(--dark-button-background-hover) !important;
+}
+.support-link-light:hover {
+  background-color: var(--light-button-background-hover) !important;
+}
+
 /* Media Queries for responsiveness */
 
 /* X-Small */
@@ -275,6 +299,10 @@ input:focus + .slider {
     -webkit-transform: translateX(1rem) !important;
     -ms-transform: translateX(1rem) !important;
     transform: translateX(1rem) !important;
+  }
+  .support-link {
+    font-size: 0.95rem !important;
+    padding: 0.7rem !important;
   }
 }
 
@@ -323,6 +351,10 @@ input:focus + .slider {
     -ms-transform: translateX(1.05rem);
     transform: translateX(1.05rem);
   }
+  .support-link {
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
 }
 
 /* Large */
@@ -370,5 +402,9 @@ input:focus + .slider {
     -webkit-transform: translateX(1.6rem);
     -ms-transform: translateX(1.6rem);
     transform: translateX(1.6rem);
+  }
+  .support-link {
+    font-size: 1.5rem;
+    padding: 1rem;
   }
 }

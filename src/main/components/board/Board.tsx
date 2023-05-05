@@ -16,6 +16,7 @@ import {
   fillNewNextLetters,
   getRandomLetter,
 } from "./BoardFunctions";
+import Confetti from "react-confetti";
 import { useTheme } from "../../../theme/Theme";
 
 const DAY = new Date().getDay();
@@ -86,6 +87,14 @@ const Board = (props: BoardProps) => {
 
   //Animated current points effect
   const [animatedPoints, setAnimatedPoints] = useState(0);
+  //Easter egg effects
+  const [effect, setEffect] = useState<string>("");
+  //Remove easter egg effects after 6 seconds
+  useEffect(() => {
+    setTimeout(() => {
+      setEffect("");
+    }, 6000);
+  }, [effect]);
 
   //Handle Dynamic Height for Found Words container
   const [foundWordsExpand, setFoundWordsExpand] = useState(false);
@@ -257,7 +266,7 @@ const Board = (props: BoardProps) => {
     newBoard[rowIndex][colIndex] = letter;
     setBoard(newBoard);
 
-    //TODO Check if word has been created / wipe it from board if so
+    //Check if word has been created / wipe it from board if so
     const boardSize = gameMode === "blitz" ? 4 : 5;
     const foundWord = checkForWords(
       boardSize,
@@ -270,10 +279,11 @@ const Board = (props: BoardProps) => {
       gameState.points,
       setPoints,
       setAnimatedPoints,
+      setEffect,
       soundEnabled
     );
 
-    //TODO Animate swap counter if swap was used
+    //Animate swap counter if swap was used
     const swapCounter = document.querySelector(".swaps-container");
     if (prevLetter !== " " && !foundWord) {
       setSwapCount(gameState.swapCount - 1);
@@ -322,6 +332,20 @@ const Board = (props: BoardProps) => {
 
   return (
     <div className="board-container" ref={boardHeight}>
+      {/* Easter Egg Effects */}
+      {effect === "confetti" && (
+        <Confetti
+          style={{ zIndex: "2000" }}
+          width={window.innerWidth}
+          height={window.innerHeight}
+          numberOfPieces={400}
+          tweenDuration={12000}
+          recycle={false}
+          onConfettiComplete={() => {
+            setEffect("");
+          }}
+        />
+      )}
       {/* HUD */}
       <div className="hud-container">
         <div className="swaps-container">

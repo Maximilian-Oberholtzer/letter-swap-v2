@@ -240,7 +240,7 @@
   .tile-medium {
     height: 2.4rem !important;
     width: 2.4rem !important;
-    font-size: 2rem !important;
+    font-size: 1.8rem !important;
   }
   .tile-small {
     height: 1.7rem !important;
@@ -350,7 +350,7 @@
   .tile-medium {
     height: 3.5rem;
     width: 3.5rem;
-    font-size: 2.5rem;
+    font-size: 2.4rem;
   }
   .tile-small {
     height: 2.5rem;
