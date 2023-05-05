@@ -1,5 +1,6 @@
 import React, { ReactNode, useState } from "react";
 import Modal from "./Modal";
+import { useTheme } from "../../../theme/Theme";
 
 //point values
 const onePoint = ["A", "D", "E", "H", "I", "L", "N", "O", "R", "S", "T"];
@@ -14,6 +15,9 @@ interface instructionsModalProps {
 const InstructionsModal = (props: instructionsModalProps) => {
   const { closeModal } = props;
 
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
   const [tutorialTile1, setTutorialTile1] = useState<string>("");
   const tutorialWord = ["H", "O", "R", "S", "E"];
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -22,7 +26,9 @@ const InstructionsModal = (props: instructionsModalProps) => {
     if (tutorialTile1 === "") {
       const tile = document.getElementById("tutorial-tile-1");
       tile?.classList.add("flip");
-      tile?.classList.add("background-fill");
+      tile?.classList.add(
+        isDark ? "background-fill-dark" : "background-fill-light"
+      );
       tile?.classList.add("cursor-unset");
       setTutorialTile1(alphabet[Math.floor(Math.random() * 26)]);
     }
@@ -39,7 +45,9 @@ const InstructionsModal = (props: instructionsModalProps) => {
         </div>
         <div
           id="tutorial-tile-1"
-          className="tile-tutorial"
+          className={`tile-tutorial ${
+            isDark ? "tile-border-dark" : "tile-border-light"
+          }`}
           onClick={() => {
             handleTutorialTileClick1();
           }}
@@ -82,7 +90,14 @@ const InstructionsModal = (props: instructionsModalProps) => {
           </div>
           <div key={index} className="modal-point-description-container">
             {arr.map((letter, index) => (
-              <div key={index} className="tile tile-small">
+              <div
+                key={index}
+                className={`tile-tutorial-filled ${
+                  isDark
+                    ? "background-fill-dark color-dark"
+                    : "background-fill-light color-light"
+                }`}
+              >
                 {" "}
                 {letter}{" "}
               </div>

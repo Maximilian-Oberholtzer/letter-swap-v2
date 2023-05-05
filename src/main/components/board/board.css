@@ -8,6 +8,14 @@
   --green: #6fb05c;
   --yellow: #d1d06c;
   --red: red;
+
+  --light-background: #ffffff;
+  --light-text: #000000;
+  --light-tile-color: #dfdfdf;
+  --dark-backdrop: #242424;
+  --dark-background: #121213;
+  --dark-text: #ffffff;
+  --dark-tile-color: #3a3a3c;
 }
 
 /* Handling the transition from menu */
@@ -42,7 +50,21 @@
 .tile-medium,
 .tile-small {
   cursor: unset !important;
-  background-color: var(--light-gray) !important;
+  border: none !important;
+}
+
+.background-tile-dark {
+  background-color: var(--dark-tile-color) !important;
+}
+.background-tile-light {
+  background-color: var(--light-tile-color) !important;
+}
+
+.background-dark {
+  background-color: var(--dark-background);
+}
+.background-light {
+  background-color: var(--light-background);
 }
 
 /* Blitz Progress Bar Styling */
@@ -63,7 +85,6 @@
   width: 20rem;
   height: 1.25rem;
   border: 0.1rem solid var(--dark-gray);
-  background-color: var(--light-gray);
   border-radius: 0.3rem;
   overflow: hidden;
 }
@@ -94,8 +115,6 @@
   justify-content: center;
   margin: 0.2rem;
   border-radius: 0.3rem;
-  border: 0.15rem solid var(--light-gray);
-  background-color: #ffffff;
   font-weight: 700;
   transition: var(--transition);
 }
@@ -181,7 +200,6 @@
   border-radius: 0.3rem;
   height: 1.25rem;
   overflow: auto;
-  background-color: #ffffff;
 }
 
 .recent-found-word-text {

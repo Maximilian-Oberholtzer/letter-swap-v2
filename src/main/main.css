@@ -1,12 +1,18 @@
 :root {
   --font: "Nunito", sans-serif;
   --game-width: 970px;
+
+  --light-background: #ffffff;
+  --light-backdrop: #e4e4e4;
+  --light-text: #000000;
+  --dark-backdrop: #242424;
+  --dark-background: #121213;
+  --dark-text: #ffffff;
 }
 
 .main-container {
   display: flex;
   justify-content: center;
-  background-color: #e4e4e4;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -18,7 +24,6 @@
   display: flex;
   flex-direction: column;
   width: var(--game-width);
-  background-color: #ffffff;
   overflow: hidden;
 }
 

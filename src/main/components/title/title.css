@@ -1,9 +1,7 @@
-/* .appbar-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin: 0.5rem 0rem;
-} */
+:root {
+  --light-border-color: #000000;
+  --dark-border-color: #ffffff;
+}
 
 .title-container {
   display: flex;
@@ -19,7 +17,6 @@
   margin: 0.2rem;
   height: 1.5rem;
   width: 1.5rem;
-  border: 0.2rem solid #000000;
   border-radius: 0.3rem;
   font-size: 2.5rem;
   font-weight: 700;

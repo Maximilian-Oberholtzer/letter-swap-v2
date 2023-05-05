@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
 import "./appbar.css";
 import Title from "../title/Title";
+import { useTheme } from "../../../theme/Theme";
 
 interface AppbarProps {
   setMenuActive: Dispatch<SetStateAction<boolean>>;
@@ -12,6 +13,9 @@ interface AppbarProps {
 const Appbar = (props: AppbarProps) => {
   const { setMenuActive, setBlitzActive, setMarathonActive, setCanTransition } =
     props;
+
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   const boardFadeOut = () => {
     const GameContainerElement = document.querySelector(".game-container");
@@ -29,7 +33,15 @@ const Appbar = (props: AppbarProps) => {
   };
 
   return (
-    <div className="appbar-container">
+    <div
+      className="appbar-container"
+      style={{
+        backgroundColor: isDark
+          ? "var(--dark-background)"
+          : "var(--light-background)",
+        color: isDark ? "var(--dark-text)" : "var(--light-text)",
+      }}
+    >
       <div className="appbar-left-container">
         <button
           className="appbar-svg-button"
