@@ -39,9 +39,9 @@ const weights: number[] = [
   2.36, 0.15, 1.974, 0.074,
 ];
 
-// const foundSound = new Howl({
-//   src: ["/found.wav"],
-// });
+const foundSound = new Howl({
+  src: ["/found.wav"],
+});
 
 export const fillEmptyBoard = (boardSize: number): string[][] => {
   const newBoard = Array(boardSize)
@@ -133,7 +133,8 @@ export const checkForWords = (
   setIsFlippingFound: Dispatch<SetStateAction<boolean>>,
   points: number,
   setPoints: (points: number) => void,
-  setAnimatedPoints: Dispatch<SetStateAction<number>>
+  setAnimatedPoints: Dispatch<SetStateAction<number>>,
+  soundEnabled: boolean
 ): boolean => {
   let foundWord = false;
   let foundSequences = [];
@@ -297,9 +298,9 @@ export const checkForWords = (
 
   if (foundWord) {
     //play sound effect
-    // if (soundEnabled) {
-    //   foundSound.play();
-    // }
+    if (soundEnabled) {
+      foundSound.play();
+    }
     //effect for easter egg
     // if (foundSequences.includes("PARTY")) {
     //   setEffect("confetti");

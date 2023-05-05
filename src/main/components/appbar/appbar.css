@@ -1,3 +1,22 @@
+:root {
+  --font: "Nunito", sans-serif;
+  --game-width: 970px;
+  --transition: 300ms background-color, 300ms color, 300ms border;
+
+  --light-gray: #dfdfdf;
+  --dark-gray: #b6b6b6;
+  --green: #6fb05c;
+  --yellow: #d1d06c;
+  --red: red;
+
+  --light-background: #ffffff;
+  --light-text: #000000;
+  --light-tile-color: #dfdfdf;
+  --dark-backdrop: #242424;
+  --dark-text: #ffffff;
+  --dark-tile-color: #3a3a3c;
+}
+
 .appbar-container {
   display: flex;
   justify-content: space-between;

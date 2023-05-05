@@ -1,5 +1,6 @@
 import React from "react";
 import "./modal.css";
+import { useTheme } from "../../../theme/Theme";
 
 interface ModalProps {
   closeModal: () => void;
@@ -9,6 +10,9 @@ interface ModalProps {
 
 const Modal = (props: ModalProps) => {
   const { closeModal, modalContent, modalTitle } = props;
+
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   //handle close - fade out
   const handleClose = () => {
@@ -23,6 +27,12 @@ const Modal = (props: ModalProps) => {
     <div className="modal" onClick={handleClose}>
       <div
         className="modal-content"
+        style={{
+          backgroundColor: isDark
+            ? "var(--dark-background)"
+            : "var(--light-background)",
+          color: isDark ? "var(--dark-text)" : "var(--light-text)",
+        }}
         onClick={(event) => event.stopPropagation()}
       >
         <div className="modal-title-container">

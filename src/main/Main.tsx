@@ -58,6 +58,12 @@ const Main = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
+  //sound controller
+  const [soundEnabled, setSoundEnabled] = useState(() => {
+    const soundEnabled = localStorage.getItem("soundEnabled");
+    return soundEnabled ? JSON.parse(soundEnabled) : false;
+  });
+
   //game user state - local storage
   const [blitzState, setBlitzState] = useState<GameState>(() =>
     getDefaultGameState("blitz")
@@ -109,8 +115,22 @@ const Main = () => {
   const [showStatsModal, setShowStatsModal] = useState(false);
 
   return (
-    <div className="main-container">
-      <div className="app-container">
+    <div
+      className="main-container"
+      style={{
+        backgroundColor: isDark
+          ? "var(--dark-backdrop)"
+          : "var(--light-backdrop)",
+      }}
+    >
+      <div
+        className="app-container"
+        style={{
+          backgroundColor: isDark
+            ? "var(--dark-background)"
+            : "var(--light-background)",
+        }}
+      >
         {/* CONDITIONAL MODALS */}
         {showStatsModal && (
           <StatisticsModal
@@ -123,7 +143,12 @@ const Main = () => {
         )}
         {/* MENU */}
         {menuActive && (
-          <div className="menu-container">
+          <div
+            className="menu-container"
+            style={{
+              color: isDark ? "var(--dark-text)" : "var(--light-text)",
+            }}
+          >
             <Menu
               blitzState={blitzState}
               marathonState={marathonState}
@@ -131,12 +156,19 @@ const Main = () => {
               setBlitzActive={setBlitzActive}
               setMarathonActive={setMarathonActive}
               setCanTransition={setCanTransition}
+              setSoundEnabled={setSoundEnabled}
+              soundEnabled={soundEnabled}
             />
           </div>
         )}
         {/* GAME */}
         {!menuActive && (blitzActive || marathonActive) && (
-          <div className="game-container">
+          <div
+            className="game-container"
+            style={{
+              color: isDark ? "var(--dark-text)" : "var(--light-text)",
+            }}
+          >
             <Appbar
               setMenuActive={setMenuActive}
               setBlitzActive={setBlitzActive}
@@ -149,6 +181,7 @@ const Main = () => {
                 gameState={blitzState}
                 setGameState={setBlitzState}
                 setShowStatsModal={setShowStatsModal}
+                soundEnabled={soundEnabled}
               />
             )}
             {marathonActive && (
@@ -157,6 +190,7 @@ const Main = () => {
                 gameState={marathonState}
                 setGameState={setMarathonState}
                 setShowStatsModal={setShowStatsModal}
+                soundEnabled={soundEnabled}
               />
             )}
           </div>

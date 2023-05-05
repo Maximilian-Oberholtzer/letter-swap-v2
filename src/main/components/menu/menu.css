@@ -4,6 +4,11 @@
 
   --light-gray-1: #dfdfdf;
   --light-gray-2: #cccccc;
+
+  --light-button-background: #dfdfdf;
+  --light-button-background-hover: #cccccc;
+  --dark-button-background: #000000;
+  --dark-button-background-hover: #050505;
 }
 
 .menu-container {
@@ -27,8 +32,6 @@
 .menu-button {
   all: unset;
   cursor: pointer;
-  transition: var(--transition);
-  background-color: var(--light-gray-1);
   border-radius: 0.5rem;
   padding: 1rem;
   margin: 0.5rem;
@@ -41,15 +44,27 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  transition: var(--transition);
-  background-color: var(--light-gray-1);
   border-radius: 0.5rem;
   padding: 0.5rem;
 }
+.menu-button-dark,
+.menu-svg-button-dark {
+  background-color: var(--dark-button-background);
+}
 
-.menu-button:hover,
-.menu-svg-button:hover {
-  background-color: var(--light-gray-2);
+.menu-button-light,
+.menu-svg-button-light {
+  background-color: var(--light-button-background);
+}
+
+.menu-button-dark:hover,
+.menu-svg-button-dark:hover {
+  background-color: var(--dark-button-background-hover);
+}
+
+.menu-button-light:hover,
+.menu-svg-button-light:hover {
+  background-color: var(--light-button-background-hover);
 }
 
 .menu-bottom-container {

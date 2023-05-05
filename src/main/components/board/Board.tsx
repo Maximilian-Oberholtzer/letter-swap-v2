@@ -16,6 +16,7 @@ import {
   fillNewNextLetters,
   getRandomLetter,
 } from "./BoardFunctions";
+import { useTheme } from "../../../theme/Theme";
 
 const DAY = new Date().getDay();
 
@@ -24,10 +25,15 @@ interface BoardProps {
   gameState: GameState;
   setGameState: Dispatch<SetStateAction<GameState>>;
   setShowStatsModal: Dispatch<SetStateAction<boolean>>;
+  soundEnabled: boolean;
 }
 
 const Board = (props: BoardProps) => {
-  const { gameMode, gameState, setGameState, setShowStatsModal } = props;
+  const { gameMode, gameState, setGameState, setShowStatsModal, soundEnabled } =
+    props;
+
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   // Updating game state for selected mode
   const useSetGameState = (key: string) => {
@@ -263,7 +269,8 @@ const Board = (props: BoardProps) => {
       setIsFlippingFound,
       gameState.points,
       setPoints,
-      setAnimatedPoints
+      setAnimatedPoints,
+      soundEnabled
     );
 
     //TODO Animate swap counter if swap was used
@@ -297,10 +304,20 @@ const Board = (props: BoardProps) => {
     );
   };
   const filledTile = {
-    backgroundColor: "var(--light-gray)",
+    backgroundColor: isDark
+      ? "var(--dark-tile-color)"
+      : "var(--light-tile-color)",
+    border: isDark
+      ? "0.15rem solid var(--dark-tile-color)"
+      : "0.15rem solid var(--light-tile-color)",
   };
   const emptyTile = {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: isDark
+      ? "var(--dark-background)"
+      : "var(--light-background)",
+    border: isDark
+      ? "0.15rem solid var(--dark-tile-color)"
+      : "0.15rem solid var(--light-tile-color)",
   };
 
   return (
@@ -316,7 +333,15 @@ const Board = (props: BoardProps) => {
           {gameState.nextLetters.map((letter, index) => (
             <div
               key={index}
-              className={index === 0 ? "tile tile-medium" : "tile tile-small"}
+              className={
+                index === 0
+                  ? `tile tile-medium ${
+                      isDark ? "background-tile-dark" : "background-tile-light"
+                    }`
+                  : `tile tile-small ${
+                      isDark ? "background-tile-dark" : "background-tile-light"
+                    }`
+              }
             >
               {letter}
             </div>
@@ -333,7 +358,11 @@ const Board = (props: BoardProps) => {
                 : `${minutes}:${seconds < 10 ? `0${seconds}` : `${seconds}`}`}
             </b>
           </div>
-          <div className="progress-background">
+          <div
+            className={`progress-background ${
+              isDark ? "background-tile-dark" : "background-tile-light"
+            }`}
+          >
             <div
               className="progress"
               style={{
@@ -383,7 +412,9 @@ const Board = (props: BoardProps) => {
       {/* Found Words Container */}
       <div className="found-words-container">
         <div
-          className="found-words-box"
+          className={`found-words-box ${
+            isDark ? "background-dark" : "background-light"
+          }`}
           onClick={() => {
             toggleFoundWordsBox();
           }}

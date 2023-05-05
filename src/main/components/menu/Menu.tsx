@@ -7,6 +7,7 @@ import LeaderboardModal from "../modal/LeaderboardModal";
 import SettingsModal from "../modal/SettingsModal";
 import SupportModal from "../modal/SupportModal";
 import { GameState } from "../../Main";
+import { useTheme } from "../../../theme/Theme";
 
 interface MenuProps {
   blitzState: GameState;
@@ -15,6 +16,8 @@ interface MenuProps {
   setBlitzActive: Dispatch<SetStateAction<boolean>>;
   setMarathonActive: Dispatch<SetStateAction<boolean>>;
   setCanTransition: Dispatch<SetStateAction<boolean>>;
+  soundEnabled: boolean;
+  setSoundEnabled: Dispatch<SetStateAction<boolean>>;
 }
 
 const Menu = (props: MenuProps) => {
@@ -25,7 +28,12 @@ const Menu = (props: MenuProps) => {
     setMarathonActive,
     setMenuActive,
     setCanTransition,
+    soundEnabled,
+    setSoundEnabled,
   } = props;
+
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   //handle modals
   const [instructionsModal, setInstructionsModal] = useState<boolean>(false);
@@ -58,7 +66,13 @@ const Menu = (props: MenuProps) => {
     },
     {
       isOpen: settingsModal,
-      component: <SettingsModal closeModal={() => setSettingsModal(false)} />,
+      component: (
+        <SettingsModal
+          closeModal={() => setSettingsModal(false)}
+          soundEnabled={soundEnabled}
+          setSoundEnabled={setSoundEnabled}
+        />
+      ),
     },
     {
       isOpen: supportModal,
@@ -157,7 +171,9 @@ const Menu = (props: MenuProps) => {
       <Title />
       <div className="title-subtext">Create as many words as possible.</div>
       <button
-        className="menu-button"
+        className={`menu-button ${
+          isDark ? "menu-button-dark" : "menu-button-light"
+        }`}
         onClick={() => {
           menuFadeOut(setBlitzActive);
         }}
@@ -165,7 +181,9 @@ const Menu = (props: MenuProps) => {
         Daily Blitz ⚡
       </button>
       <button
-        className="menu-button"
+        className={`menu-button ${
+          isDark ? "menu-button-dark" : "menu-button-light"
+        }`}
         onClick={() => {
           menuFadeOut(setMarathonActive);
         }}
@@ -174,7 +192,13 @@ const Menu = (props: MenuProps) => {
       </button>
       <div className="menu-bottom-container">
         {buttons.map(({ name, openModal, svgContent }) => (
-          <button className="menu-svg-button" key={name} onClick={openModal}>
+          <button
+            className={`menu-svg-button ${
+              isDark ? "menu-svg-button-dark" : "menu-svg-button-light"
+            }`}
+            key={name}
+            onClick={openModal}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
