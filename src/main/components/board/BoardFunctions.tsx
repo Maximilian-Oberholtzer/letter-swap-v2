@@ -134,6 +134,7 @@ export const checkForWords = (
   points: number,
   setPoints: (points: number) => void,
   setAnimatedPoints: Dispatch<SetStateAction<number>>,
+  setEffect: Dispatch<SetStateAction<string>>,
   soundEnabled: boolean
 ): boolean => {
   let foundWord = false;
@@ -302,9 +303,9 @@ export const checkForWords = (
       foundSound.play();
     }
     //effect for easter egg
-    // if (foundSequences.includes("PARTY")) {
-    //   setEffect("confetti");
-    // }
+    if (foundSequences.includes("PARTY")) {
+      setEffect("confetti");
+    }
 
     //Make sure found suquences don't have duplicates
     let nonDuplicateSequences = [""];
