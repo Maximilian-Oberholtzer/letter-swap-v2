@@ -29,7 +29,7 @@
 
 .game-container {
   height: 100%;
-  overflow-y: hidden;
+  overflow: hidden;
   transition: var(--theme-transition);
   max-width: var(--game-width);
   width: 100%;

@@ -18,7 +18,7 @@ const StatisticsModal = (props: StatisticsModalProps) => {
     marathonState: GameState
   ): ReactNode => (
     <div className="modal-content-container">
-      <p className="modal-text text-align-center">Your results today</p>
+      <p className="modal-text">Your results today:</p>
       <table className="statistics-table">
         <thead>
           <tr>
