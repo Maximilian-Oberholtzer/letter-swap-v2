@@ -443,7 +443,7 @@ const Board = (props: BoardProps) => {
             toggleFoundWordsBox();
           }}
           style={{
-            height: foundWordsExpand ? `${foundWordsExpandHeight + 20}px` : "",
+            height: foundWordsExpand ? `${foundWordsExpandHeight + 25}px` : "",
             overflow: foundWordsExpand ? "auto" : "hidden",
             transition:
               "height 0.5s ease-out, width 0.5s, 300ms background-color, 300ms color, 300ms border",

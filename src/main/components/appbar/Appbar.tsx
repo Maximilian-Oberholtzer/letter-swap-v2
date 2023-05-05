@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import "./appbar.css";
 import Title from "../title/Title";
 import { useTheme } from "../../../theme/Theme";
@@ -16,6 +16,63 @@ const Appbar = (props: AppbarProps) => {
 
   const { theme } = useTheme();
   const isDark = theme === "dark";
+
+  const [showDrawer, setShowDrawer] = useState<boolean>(false);
+
+  const handleDrawerClose = () => {
+    const drawerElement = document.querySelector(".drawer-content");
+    drawerElement?.classList.add("drawer-out");
+    setTimeout(() => {
+      drawerElement?.classList.add("display-none");
+      setShowDrawer(false);
+    }, 280);
+  };
+
+  const drawer = (
+    <div
+      className="drawer"
+      style={{
+        backgroundColor: isDark
+          ? "var(--dark-modal-backdrop)"
+          : "var(--light-modal-backdrop)",
+      }}
+      onClick={handleDrawerClose}
+    >
+      <div
+        className="drawer-content"
+        style={{
+          backgroundColor: isDark
+            ? "var(--dark-background)"
+            : "var(--light-background)",
+          color: isDark ? "var(--dark-text)" : "var(--light-text)",
+        }}
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="drawer-title-container">
+          <div className="drawer-title">Menu</div>
+          <button
+            className="modal-close-button margin-unset"
+            onClick={handleDrawerClose}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 
   const boardFadeOut = () => {
     const GameContainerElement = document.querySelector(".game-container");
@@ -42,6 +99,9 @@ const Appbar = (props: AppbarProps) => {
         color: isDark ? "var(--dark-text)" : "var(--light-text)",
       }}
     >
+      {/* Drawer */}
+      {showDrawer && drawer}
+      {/* Modals */}
       <div className="appbar-left-container">
         <button
           className="appbar-svg-button"
@@ -70,7 +130,12 @@ const Appbar = (props: AppbarProps) => {
       </div>
 
       <div className="appbar-right-container">
-        <button className="appbar-svg-button">
+        <button
+          className="appbar-svg-button"
+          onClick={() => {
+            setShowDrawer(true);
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
