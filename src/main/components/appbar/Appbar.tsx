@@ -29,21 +29,13 @@ const Appbar = (props: AppbarProps) => {
   };
 
   const drawer = (
-    <div
-      className="drawer"
-      style={{
-        backgroundColor: isDark
-          ? "var(--dark-modal-backdrop)"
-          : "var(--light-modal-backdrop)",
-      }}
-      onClick={handleDrawerClose}
-    >
+    <div className="drawer" onClick={handleDrawerClose}>
       <div
         className="drawer-content"
         style={{
           backgroundColor: isDark
-            ? "var(--dark-background)"
-            : "var(--light-background)",
+            ? "var(--dark-drawer-background)"
+            : "var(--light-drawer-background)",
           color: isDark ? "var(--dark-text)" : "var(--light-text)",
         }}
         onClick={(event) => event.stopPropagation()}
