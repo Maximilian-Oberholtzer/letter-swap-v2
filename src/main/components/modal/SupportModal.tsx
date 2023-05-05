@@ -17,7 +17,7 @@ const SupportModal = (props: SupportModalProps) => {
   const SupportNode: ReactNode = (
     <div className="modal-content-container">
       <p className="modal-text text-align-center">
-        Thank you for playing my game! Just tyring it out is all the support I
+        Thank you for playing my game! Just trying it out is all the support I
         could ask for. However, I do like beer. So if you would like to further
         support me <b>YOU CAN:</b>
       </p>
