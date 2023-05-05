@@ -40,6 +40,17 @@ const SettingsModal = (props: SettingsModalProps) => {
           <span className="slider round"></span>
         </label>
       </div>
+      <div className="settings-container border-bottom-none">
+        <div className="settings-text">
+          <b>Feedback</b>
+        </div>
+        <a
+          href="mailto:max.oberholtzer@yahoo.com?subject=LetterSwap%20Feedback"
+          className="feedback-link"
+        >
+          Email
+        </a>
+      </div>
     </div>
   );
 
