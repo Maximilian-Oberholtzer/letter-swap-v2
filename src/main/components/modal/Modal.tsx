@@ -24,7 +24,15 @@ const Modal = (props: ModalProps) => {
   };
 
   return (
-    <div className="modal" onClick={handleClose}>
+    <div
+      className="modal"
+      style={{
+        backgroundColor: isDark
+          ? "var(--dark-modal-backdrop)"
+          : "var(--light-modal-backdrop)",
+      }}
+      onClick={handleClose}
+    >
       <div
         className="modal-content"
         style={{

@@ -12,9 +12,11 @@
   --light-background: #ffffff;
   --light-text: #000000;
   --light-tile-color: #dfdfdf;
+  --light-modal-backdrop: rgba(0, 0, 0, 0.2);
   --dark-backdrop: #242424;
   --dark-text: #ffffff;
   --dark-tile-color: #3a3a3c;
+  --dark-modal-backdrop: rgb(64 64 64 / 20%);
 }
 
 /* Generic modal css */
@@ -26,11 +28,9 @@
   width: 100%;
   max-width: var(--game-width);
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
-  /* overflow: auto; */
   z-index: 9999;
 }
 
