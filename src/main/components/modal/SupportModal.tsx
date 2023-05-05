@@ -19,7 +19,7 @@ const SupportModal = (props: SupportModalProps) => {
       <p className="modal-text text-align-center">
         Thank you for playing my game! Just trying it out is all the support I
         could ask for. However, I do like beer. So if you would like to further
-        support me <b>YOU CAN:</b>
+        support me, <b>YOU CAN:</b>
       </p>
       <div className="support-link-container">
         <a
