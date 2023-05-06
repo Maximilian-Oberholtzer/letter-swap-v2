@@ -37,7 +37,7 @@ const InstructionsModal = (props: instructionsModalProps) => {
   const instructionsNode: ReactNode = (
     <div className="modal-content-container">
       <p className="modal-text">
-        Tap on a tile to replace it with the <b>NEXT</b> letter.
+        Tap on any tile to place the <b>NEXT</b> letter.
       </p>
       <div className="instructions-tutorial-container">
         <div className="modal-text margin-unset">
