@@ -49,7 +49,7 @@
 }
 
 .modal-fade-out {
-  animation: fade-out-bottom 0.2s ease-out;
+  animation: fade-out-bottom 0.2s ease-in;
 }
 
 .modal-title-container {

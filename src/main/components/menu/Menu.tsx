@@ -146,7 +146,7 @@ const Menu = (props: MenuProps) => {
           menuFadeOut(setBlitzActive);
         }}
       >
-        Daily Blitz ⚡
+        4x4 Blitz ⚡
       </button>
       <button
         className={`menu-button ${

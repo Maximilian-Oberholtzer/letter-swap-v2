@@ -81,6 +81,10 @@ const InstructionsModal = (props: instructionsModalProps) => {
         Running out of swaps <b>ENDS</b> the game.
       </p>
       <hr className="modal-line" />
+      <p className="modal-text">
+        When a word is created, you will be awarded <b>POINTS</b> for each
+        letter used.
+      </p>
       {pointArr.map((arr, index) => (
         <div key={arr[index]}>
           <div className="modal-text text-align-center">
