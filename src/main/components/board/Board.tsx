@@ -13,8 +13,7 @@ import {
   applyAnimation,
   checkForWords,
   fillEmptyBoard,
-  fillNewNextLetters,
-  getRandomLetter,
+  generateFixedNextLetters,
 } from "./BoardFunctions";
 import Confetti from "react-confetti";
 import { useTheme } from "../../../theme/Theme";
@@ -51,7 +50,7 @@ const Board = (props: BoardProps) => {
     );
   };
   const setBoard = useSetGameState("board");
-  const setNextLetters = useSetGameState("nextLetters");
+  const setMoveCount = useSetGameState("moveCount");
   const setSwapCount = useSetGameState("swapCount");
   const setFoundWords = useSetGameState("foundWords");
   const setRecentFoundWords = useSetGameState("recentFoundWords");
@@ -151,13 +150,10 @@ const Board = (props: BoardProps) => {
       ...prevState,
       swapCount: gameMode === "blitz" ? 5 : 15,
     }));
+    setGameState((prevState) => ({ ...prevState, moveCount: 0 }));
     setGameState((prevState) => ({ ...prevState, points: 0 }));
     setGameState((prevState) => ({ ...prevState, foundWords: [] }));
     setGameState((prevState) => ({ ...prevState, recentFoundWords: [] }));
-    setGameState((prevState) => ({
-      ...prevState,
-      nextLetters: fillNewNextLetters(),
-    }));
   }, [setGameState, duration, gameMode]);
 
   // GAME Finish Logic
@@ -298,16 +294,22 @@ const Board = (props: BoardProps) => {
       }, 245);
     }
 
-    // Update next letter
-    let currentLetter = getRandomLetter();
-    //no duplicates inside next letters boxes
-    while (gameState.nextLetters.includes(currentLetter)) {
-      currentLetter = getRandomLetter();
-    }
-    const shiftedArr = gameState.nextLetters.slice(1);
-    const newArr = shiftedArr.concat(currentLetter);
-    setNextLetters(newArr);
+    //Update move count
+    setMoveCount(gameState.moveCount + 1);
   };
+
+  // Next letters controller
+  let nextLetterArr: string[] = [];
+  if (gameMode === "blitz") {
+    nextLetterArr = generateFixedNextLetters(1200, 1);
+  } else if (gameMode === "marathon") {
+    nextLetterArr = generateFixedNextLetters(1200, 2);
+  }
+  let nextLetters = [
+    nextLetterArr[gameState.moveCount],
+    nextLetterArr[gameState.moveCount + 1],
+    nextLetterArr[gameState.moveCount + 2],
+  ];
 
   // Conditional Styles
   const mergeStyles = (
@@ -359,7 +361,7 @@ const Board = (props: BoardProps) => {
         </div>
         <div className="next-letters-container">
           <b className="next-letters-title">Next:</b>
-          {gameState.nextLetters.map((letter, index) => (
+          {nextLetters.map((letter, index) => (
             <div
               key={index}
               className={
@@ -428,7 +430,7 @@ const Board = (props: BoardProps) => {
                     if (gameMode === "blitz" && !timerStarted) {
                       handleTimerStart();
                     }
-                    handleBoard(rowIndex, colIndex, gameState.nextLetters[0]);
+                    handleBoard(rowIndex, colIndex, nextLetters[0]);
                   }
                 }}
               >

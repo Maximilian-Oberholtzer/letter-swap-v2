@@ -4,7 +4,8 @@ import "./main.css";
 import Menu from "./components/menu/Menu";
 import {
   fillEmptyBoard,
-  fillNewNextLetters,
+  // fillNewNextLetters,
+  generateFixedNextLetters,
   generateGameId,
 } from "./components/board/BoardFunctions";
 import Board from "./components/board/Board";
@@ -21,7 +22,7 @@ export type GameMode = "blitz" | "marathon";
 
 export interface GameState {
   board: string[][];
-  nextLetters: string[];
+  moveCount: number;
   swapCount: number;
   foundWords: string[];
   recentFoundWords: string[];
@@ -41,7 +42,7 @@ function getDefaultGameState(gameMode: string): GameState {
     ? JSON.parse(storedState)
     : {
         board: gameMode === "blitz" ? fillEmptyBoard(4) : fillEmptyBoard(5),
-        nextLetters: fillNewNextLetters(),
+        moveCount: 0,
         swapCount: gameMode === "blitz" ? 5 : 15,
         foundWords: [],
         recentFoundWords: [],
