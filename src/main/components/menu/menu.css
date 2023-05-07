@@ -87,7 +87,7 @@
 .game-menu-button-container {
   display: flex;
   cursor: pointer;
-  padding: 1.5rem;
+  padding: 1rem 1.5rem;
   align-items: center;
   gap: 1rem;
 }
