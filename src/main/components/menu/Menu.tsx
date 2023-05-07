@@ -1,89 +1,44 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import Title from "../title/Title";
 import "./menu.css";
-import InstructionsModal from "../modal/InstructionsModal";
-import StatisticsModal from "../modal/StatisticsModal";
-import LeaderboardModal from "../modal/LeaderboardModal";
-import SettingsModal from "../modal/SettingsModal";
-import SupportModal from "../modal/SupportModal";
-import { GameState } from "../../Main";
 import { useTheme } from "../../../theme/Theme";
 
 interface MenuProps {
-  blitzState: GameState;
-  marathonState: GameState;
+  menuType: string;
+  setInstructionsModal: Dispatch<SetStateAction<boolean>>;
+  setStatisticsModal: Dispatch<SetStateAction<boolean>>;
+  setLeaderboardModal: Dispatch<SetStateAction<boolean>>;
+  setSettingsModal: Dispatch<SetStateAction<boolean>>;
+  setSupportModal: Dispatch<SetStateAction<boolean>>;
   setMenuActive: Dispatch<SetStateAction<boolean>>;
   setBlitzActive: Dispatch<SetStateAction<boolean>>;
   setMarathonActive: Dispatch<SetStateAction<boolean>>;
   setCanTransition: Dispatch<SetStateAction<boolean>>;
-  soundEnabled: boolean;
-  setSoundEnabled: Dispatch<SetStateAction<boolean>>;
+  closeDrawer?: () => void;
 }
 
 const Menu = (props: MenuProps) => {
   const {
-    blitzState,
-    marathonState,
+    menuType,
+    setInstructionsModal,
+    setStatisticsModal,
+    setLeaderboardModal,
+    setSettingsModal,
+    setSupportModal,
     setBlitzActive,
     setMarathonActive,
     setMenuActive,
     setCanTransition,
-    soundEnabled,
-    setSoundEnabled,
+    closeDrawer,
   } = props;
 
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  //handle modals
-  const [instructionsModal, setInstructionsModal] = useState<boolean>(false);
-  const [statisticsModal, setStatisticsModal] = useState<boolean>(false);
-  const [leaderboardModal, setLeaderboardModal] = useState<boolean>(false);
-  const [settingsModal, setSettingsModal] = useState<boolean>(false);
-  const [supportModal, setSupportModal] = useState<boolean>(false);
-  const modals = [
-    {
-      isOpen: instructionsModal,
-      component: (
-        <InstructionsModal closeModal={() => setInstructionsModal(false)} />
-      ),
-    },
-    {
-      isOpen: statisticsModal,
-      component: (
-        <StatisticsModal
-          closeModal={() => setStatisticsModal(false)}
-          blitzState={blitzState}
-          marathonState={marathonState}
-        />
-      ),
-    },
-    {
-      isOpen: leaderboardModal,
-      component: (
-        <LeaderboardModal closeModal={() => setLeaderboardModal(false)} />
-      ),
-    },
-    {
-      isOpen: settingsModal,
-      component: (
-        <SettingsModal
-          closeModal={() => setSettingsModal(false)}
-          soundEnabled={soundEnabled}
-          setSoundEnabled={setSoundEnabled}
-        />
-      ),
-    },
-    {
-      isOpen: supportModal,
-      component: <SupportModal closeModal={() => setSupportModal(false)} />,
-    },
-  ];
-
   //Svg icon buttons
   const buttons = [
     {
-      name: "Instructions",
+      name: "HELP",
       openModal: () => {
         setInstructionsModal(true);
       },
@@ -96,7 +51,7 @@ const Menu = (props: MenuProps) => {
       ),
     },
     {
-      name: "Statistics",
+      name: "STATISTICS",
       openModal: () => {
         setStatisticsModal(true);
       },
@@ -109,7 +64,7 @@ const Menu = (props: MenuProps) => {
       ),
     },
     {
-      name: "Leaderboard",
+      name: "LEADERBOARD",
       openModal: () => {
         setLeaderboardModal(true);
       },
@@ -121,7 +76,7 @@ const Menu = (props: MenuProps) => {
       ),
     },
     {
-      name: "Settings",
+      name: "SETTINGS",
       openModal: () => {
         setSettingsModal(true);
       },
@@ -133,7 +88,7 @@ const Menu = (props: MenuProps) => {
       ),
     },
     {
-      name: "Support",
+      name: "SUPPORT",
       openModal: () => {
         setSupportModal(true);
       },
@@ -157,17 +112,9 @@ const Menu = (props: MenuProps) => {
     }, 320);
   };
 
-  return (
+  //MAIN MENU
+  const mainMenu = (
     <>
-      {/* Modals */}
-      {modals.map(
-        ({ isOpen, component }, index) =>
-          isOpen && (
-            <div style={{ position: "fixed" }} key={index}>
-              {component}
-            </div>
-          )
-      )}
       <Title />
       <div className="title-subtext">Create as many words as possible.</div>
       <button
@@ -215,6 +162,51 @@ const Menu = (props: MenuProps) => {
           </button>
         ))}
       </div>
+    </>
+  );
+
+  //GAME MENU CONTENT
+  const gameMenu = (
+    <>
+      <div className="game-menu-container">
+        {buttons.map(({ name, openModal, svgContent }) => (
+          <div
+            className={`game-menu-button-container ${
+              isDark
+                ? "game-menu-background-dark"
+                : "game-menu-background-light"
+            }`}
+            onClick={() => {
+              if (closeDrawer) {
+                closeDrawer();
+                openModal();
+              }
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="36"
+              height="36"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              {svgContent}
+            </svg>
+            <div className="game-menu-text">{name}</div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+
+  return (
+    <>
+      {menuType === "main" && mainMenu}
+      {menuType === "game" && gameMenu}
     </>
   );
 };

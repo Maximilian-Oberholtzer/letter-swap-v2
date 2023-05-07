@@ -25,13 +25,18 @@ interface BoardProps {
   gameMode: GameMode;
   gameState: GameState;
   setGameState: Dispatch<SetStateAction<GameState>>;
-  setShowStatsModal: Dispatch<SetStateAction<boolean>>;
+  setStatisticsModal: Dispatch<SetStateAction<boolean>>;
   soundEnabled: boolean;
 }
 
 const Board = (props: BoardProps) => {
-  const { gameMode, gameState, setGameState, setShowStatsModal, soundEnabled } =
-    props;
+  const {
+    gameMode,
+    gameState,
+    setGameState,
+    setStatisticsModal,
+    soundEnabled,
+  } = props;
 
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -167,12 +172,12 @@ const Board = (props: BoardProps) => {
     }
     setTimeout(() => {
       //Temporary until game release
-      setShowStatsModal(true);
+      setStatisticsModal(true);
       resetGame();
     }, 1060);
   }, [
     resetGame,
-    setShowStatsModal,
+    setStatisticsModal,
     gameState.foundWords.length,
     gameState.points,
     gameState.weeklyPoints,

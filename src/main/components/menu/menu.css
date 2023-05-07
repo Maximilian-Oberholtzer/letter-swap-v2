@@ -9,6 +9,7 @@
   --light-button-background-hover: #cccccc;
   --dark-button-background: #3a3a3c;
   --dark-button-background-hover: #2e2e30;
+  --light-game-menu-button-background-hover: #e7e7e7;
 }
 
 .menu-container {
@@ -26,7 +27,7 @@
   font-size: 1.5rem;
   text-align: center;
   max-width: 20rem;
-  padding: 1rem 0rem;
+  padding: 1rem;
 }
 
 .menu-button {
@@ -74,4 +75,31 @@
   align-items: center;
   gap: 0.75rem;
   margin: 1.5rem 0rem;
+}
+
+.game-menu-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: flex-start;
+}
+
+.game-menu-button-container {
+  display: flex;
+  cursor: pointer;
+  padding: 1.5rem;
+  align-items: center;
+  gap: 1rem;
+}
+
+.game-menu-background-light:hover {
+  background-color: var(--light-game-menu-button-background-hover);
+}
+.game-menu-background-dark:hover {
+  background-color: var(--dark-button-background-hover);
+}
+
+.game-menu-text {
+  font-size: 1.25rem;
+  font-weight: 700;
 }
