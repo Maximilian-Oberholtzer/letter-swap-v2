@@ -80,7 +80,6 @@
 .game-menu-container {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
   justify-content: flex-start;
 }
 
@@ -102,4 +101,21 @@
 .game-menu-text {
   font-size: 1.25rem;
   font-weight: 700;
+}
+
+.game-menu-line {
+  width: 85%;
+  margin: 0rem 1.5rem;
+}
+
+.game-menu-socials-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+}
+
+.game-menu-socials-link {
+  all: unset;
+  cursor: pointer;
 }
