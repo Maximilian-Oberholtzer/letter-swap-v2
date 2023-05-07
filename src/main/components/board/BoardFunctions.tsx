@@ -67,11 +67,20 @@ export const fillNewNextLetters = (): string[] => {
   return letters;
 };
 
-//Generate sequence for blitz mode based on day
-export const fillBlitzNextLetters = (): string[] => {
+//Generate sequence based on day
+export const generateFixedNextLetters = (
+  arrayLength: number,
+  sequenceNumber: number
+): string[] => {
   const date = new Date();
   const seed =
-    date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    date.getFullYear() +
+    "-" +
+    (date.getMonth() + 1) +
+    "-" +
+    date.getDate() +
+    "-" +
+    sequenceNumber;
   const rand = randomSeed.create(seed);
   const frequency: { [key: string]: number } = {
     A: 0.08167,
@@ -101,20 +110,32 @@ export const fillBlitzNextLetters = (): string[] => {
     Y: 0.01974,
     Z: 0.00074,
   };
-  function getRandomLetter(): string {
-    const random = rand.floatBetween(0, 1);
-    let total = 0;
-    for (const letter in frequency) {
-      total += frequency[letter];
-      if (random <= total) {
-        return letter;
+
+  function getRandomLetter(previousLetters: string[]): string {
+    while (true) {
+      let random = rand.floatBetween(0, 1);
+      let total = 0;
+      let generatedLetter = "";
+
+      for (const letter in frequency) {
+        total += frequency[letter];
+
+        if (random <= total) {
+          generatedLetter = letter;
+          break;
+        }
+      }
+
+      const lastThreeLetters = previousLetters.slice(-3);
+      if (!lastThreeLetters.includes(generatedLetter)) {
+        return generatedLetter;
       }
     }
-    return "";
   }
-  const letters = [];
-  for (let i = 0; i < 1200; i++) {
-    letters.push(getRandomLetter());
+
+  const letters: string[] = [];
+  for (let i = 0; i < arrayLength; i++) {
+    letters.push(getRandomLetter(letters));
   }
 
   return letters;
