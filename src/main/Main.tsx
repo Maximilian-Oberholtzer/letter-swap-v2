@@ -10,6 +10,10 @@ import {
 import Board from "./components/board/Board";
 import Appbar from "./components/appbar/Appbar";
 import StatisticsModal from "./components/modal/StatisticsModal";
+import InstructionsModal from "./components/modal/InstructionsModal";
+import LeaderboardModal from "./components/modal/LeaderboardModal";
+import SettingsModal from "./components/modal/SettingsModal";
+import SupportModal from "./components/modal/SupportModal";
 
 const DAY = new Date().getDay();
 
@@ -112,7 +116,49 @@ const Main = () => {
   }, [menuActive, blitzActive, marathonActive]);
 
   //MODAL handling
-  const [showStatsModal, setShowStatsModal] = useState(false);
+  const [instructionsModal, setInstructionsModal] = useState<boolean>(false);
+  const [statisticsModal, setStatisticsModal] = useState<boolean>(false);
+  const [leaderboardModal, setLeaderboardModal] = useState<boolean>(false);
+  const [settingsModal, setSettingsModal] = useState<boolean>(false);
+  const [supportModal, setSupportModal] = useState<boolean>(false);
+  const modals = [
+    {
+      isOpen: instructionsModal,
+      component: (
+        <InstructionsModal closeModal={() => setInstructionsModal(false)} />
+      ),
+    },
+    {
+      isOpen: statisticsModal,
+      component: (
+        <StatisticsModal
+          closeModal={() => setStatisticsModal(false)}
+          blitzState={blitzState}
+          marathonState={marathonState}
+        />
+      ),
+    },
+    {
+      isOpen: leaderboardModal,
+      component: (
+        <LeaderboardModal closeModal={() => setLeaderboardModal(false)} />
+      ),
+    },
+    {
+      isOpen: settingsModal,
+      component: (
+        <SettingsModal
+          closeModal={() => setSettingsModal(false)}
+          soundEnabled={soundEnabled}
+          setSoundEnabled={setSoundEnabled}
+        />
+      ),
+    },
+    {
+      isOpen: supportModal,
+      component: <SupportModal closeModal={() => setSupportModal(false)} />,
+    },
+  ];
 
   return (
     <div
@@ -132,14 +178,13 @@ const Main = () => {
         }}
       >
         {/* CONDITIONAL MODALS */}
-        {showStatsModal && (
-          <StatisticsModal
-            closeModal={() => {
-              setShowStatsModal(false);
-            }}
-            blitzState={blitzState}
-            marathonState={marathonState}
-          />
+        {modals.map(
+          ({ isOpen, component }, index) =>
+            isOpen && (
+              <div style={{ position: "absolute" }} key={index}>
+                {component}
+              </div>
+            )
         )}
         {/* MENU */}
         {menuActive && (
@@ -150,14 +195,16 @@ const Main = () => {
             }}
           >
             <Menu
-              blitzState={blitzState}
-              marathonState={marathonState}
+              menuType="main"
+              setInstructionsModal={setInstructionsModal}
+              setStatisticsModal={setStatisticsModal}
+              setLeaderboardModal={setLeaderboardModal}
+              setSettingsModal={setSettingsModal}
+              setSupportModal={setSupportModal}
               setMenuActive={setMenuActive}
               setBlitzActive={setBlitzActive}
               setMarathonActive={setMarathonActive}
               setCanTransition={setCanTransition}
-              setSoundEnabled={setSoundEnabled}
-              soundEnabled={soundEnabled}
             />
           </div>
         )}
@@ -173,6 +220,11 @@ const Main = () => {
               setMenuActive={setMenuActive}
               setBlitzActive={setBlitzActive}
               setMarathonActive={setMarathonActive}
+              setInstructionsModal={setInstructionsModal}
+              setStatisticsModal={setStatisticsModal}
+              setLeaderboardModal={setLeaderboardModal}
+              setSettingsModal={setSettingsModal}
+              setSupportModal={setSupportModal}
               setCanTransition={setCanTransition}
             />
             {blitzActive && (
@@ -180,7 +232,7 @@ const Main = () => {
                 gameMode={"blitz"}
                 gameState={blitzState}
                 setGameState={setBlitzState}
-                setShowStatsModal={setShowStatsModal}
+                setStatisticsModal={setStatisticsModal}
                 soundEnabled={soundEnabled}
               />
             )}
@@ -189,7 +241,7 @@ const Main = () => {
                 gameMode={"marathon"}
                 gameState={marathonState}
                 setGameState={setMarathonState}
-                setShowStatsModal={setShowStatsModal}
+                setStatisticsModal={setStatisticsModal}
                 soundEnabled={soundEnabled}
               />
             )}

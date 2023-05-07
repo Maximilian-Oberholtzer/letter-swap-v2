@@ -2,17 +2,32 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import "./appbar.css";
 import Title from "../title/Title";
 import { useTheme } from "../../../theme/Theme";
+import Menu from "../menu/Menu";
 
 interface AppbarProps {
   setMenuActive: Dispatch<SetStateAction<boolean>>;
   setBlitzActive: Dispatch<SetStateAction<boolean>>;
   setMarathonActive: Dispatch<SetStateAction<boolean>>;
   setCanTransition: Dispatch<SetStateAction<boolean>>;
+  setInstructionsModal: Dispatch<SetStateAction<boolean>>;
+  setStatisticsModal: Dispatch<SetStateAction<boolean>>;
+  setLeaderboardModal: Dispatch<SetStateAction<boolean>>;
+  setSettingsModal: Dispatch<SetStateAction<boolean>>;
+  setSupportModal: Dispatch<SetStateAction<boolean>>;
 }
 
 const Appbar = (props: AppbarProps) => {
-  const { setMenuActive, setBlitzActive, setMarathonActive, setCanTransition } =
-    props;
+  const {
+    setMenuActive,
+    setBlitzActive,
+    setMarathonActive,
+    setCanTransition,
+    setInstructionsModal,
+    setStatisticsModal,
+    setLeaderboardModal,
+    setSettingsModal,
+    setSupportModal,
+  } = props;
 
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -62,6 +77,20 @@ const Appbar = (props: AppbarProps) => {
             </svg>
           </button>
         </div>
+        {/* Game menu */}
+        <Menu
+          menuType="game"
+          setInstructionsModal={setInstructionsModal}
+          setStatisticsModal={setStatisticsModal}
+          setLeaderboardModal={setLeaderboardModal}
+          setSettingsModal={setSettingsModal}
+          setSupportModal={setSupportModal}
+          setMenuActive={setMenuActive}
+          setBlitzActive={setBlitzActive}
+          setMarathonActive={setMarathonActive}
+          setCanTransition={setCanTransition}
+          closeDrawer={handleDrawerClose}
+        />
       </div>
     </div>
   );

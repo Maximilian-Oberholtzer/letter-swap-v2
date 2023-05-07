@@ -9,7 +9,7 @@
   --yellow: #d1d06c;
   --red: red;
 
-  --light-drawer-background: #ebebeb;
+  --light-drawer-background: #efefef;
   --dark-drawer-background: #272727;
 
   --light-background: #ffffff;
@@ -68,6 +68,7 @@
 .drawer-content {
   position: relative;
   display: flex;
+  gap: 1rem;
   flex-direction: column;
   font-family: var(--font);
   border-radius: 0.3rem;
