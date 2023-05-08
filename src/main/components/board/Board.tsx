@@ -129,9 +129,8 @@ const Board = (props: BoardProps) => {
   useEffect(() => {
     if (!gameState.gameStarted) {
       setShowInroModal(true);
-      setGameStarted(true);
     }
-  }, [gameState.gameStarted, setGameStarted, showIntroModal]);
+  }, [gameState.gameStarted]);
 
   // BLITZ TIMER VARIABLES
   const duration = gameMode === "blitz4x4" ? 3 * 60 * 1001 : 5 * 60 * 1001;
@@ -312,6 +311,11 @@ const Board = (props: BoardProps) => {
   const handleBoard = (rowIndex: number, colIndex: number, letter: string) => {
     let prevLetter = gameState.board[rowIndex][colIndex];
     const newBoard = [...gameState.board];
+
+    //set game started
+    if (!gameState.gameStarted) {
+      setGameStarted(true);
+    }
 
     //Animate clicked tile
     const tile = document.getElementById(`${rowIndex}-${colIndex}`);
