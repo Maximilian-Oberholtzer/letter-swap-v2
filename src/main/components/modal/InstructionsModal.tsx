@@ -15,6 +15,22 @@ interface instructionsModalProps {
 const InstructionsModal = (props: instructionsModalProps) => {
   const { closeModal } = props;
 
+  const ranks = [
+    {
+      title: [
+        "1 Star",
+        "2 Stars",
+        "3 Stars",
+        "4 Stars",
+        "5 Stars",
+        "Grandmaster",
+      ],
+      blitz4x4Points: [0, 20, 40, 75, 120, 180],
+      blitz5x5Points: [0, 20, 40, 75, 120, 180],
+      marathonPoints: [0, 50, 100, 200, 300, 500],
+    },
+  ];
+
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
@@ -63,7 +79,7 @@ const InstructionsModal = (props: instructionsModalProps) => {
       <div className="instructions-tutorial-container"></div>
       <p className="modal-text">
         Creating a word <b>CLEARS</b> the row. Words can be created in{" "}
-        <b>ANY DIRECTION</b>. Words must span the <b>ENTIRE</b> row. Duplicated
+        <b>ANY DIRECTION</b>. Words must span the <b>ENTIRE</b> row. Duplicate
         words are <b>NOT</b> counted.
       </p>
       <div className="instructions-tutorial-container small-gap">
@@ -121,6 +137,37 @@ const InstructionsModal = (props: instructionsModalProps) => {
           </div>
         </div>
       ))}
+      <hr className="modal-line" />
+      <p className="modal-subtitle text-align-center">
+        <b>Rank System</b>
+      </p>
+      <p className="modal-text">
+        Upon completion of a game, you will be assigned a <b>RANK</b> ⭐ based
+        on your performance. Below are the required amount of points needed to
+        achieve a rank.
+      </p>
+      <div className="instructions-table-container">
+        <table className="instructions-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>4x4 Blitz</th>
+              <th>5x5 Blitz</th>
+              <th>Marathon</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ranks[0].title.map((title, index) => (
+              <tr key={index}>
+                <td>{title}</td>
+                <td>{ranks[0].blitz4x4Points[index]}</td>
+                <td>{ranks[0].blitz5x5Points[index]}</td>
+                <td>{ranks[0].marathonPoints[index]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 

@@ -173,6 +173,13 @@
 .tile-border-dark {
   border: 0.15rem solid var(--dark-tile-color);
 }
+.instructions-table {
+  text-align: center;
+}
+.instructions-table-container {
+  display: flex;
+  justify-content: center;
+}
 
 /* Statistics */
 .statistics-table {
@@ -338,6 +345,10 @@ input:focus + .slider {
   .statistics-table-cell {
     padding: 0.25rem 1rem !important;
   }
+  .instructions-table {
+    font-size: 0.9rem !important;
+    width: 95% !important;
+  }
 }
 
 /* Small */
@@ -397,6 +408,10 @@ input:focus + .slider {
   }
   .statistics-table-cell {
     padding: 0.25rem 1.5rem;
+  }
+  .instructions-table {
+    font-size: 0.95rem;
+    width: 90%;
   }
 }
 
@@ -458,5 +473,9 @@ input:focus + .slider {
   }
   .statistics-table-cell {
     padding: 0.25rem 2rem;
+  }
+  .instructions-table {
+    font-size: 1.25rem;
+    width: 75%;
   }
 }
