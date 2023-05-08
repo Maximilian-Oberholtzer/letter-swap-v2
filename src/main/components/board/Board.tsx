@@ -394,10 +394,9 @@ const Board = (props: BoardProps) => {
       : "0.15rem solid var(--light-tile-color)",
   };
   const bonusTile = {
-    backgroundColor: isDark
-      ? "var(--dark-tile-color)"
-      : "var(--light-tile-color)",
-    border: "0.15rem solid var(--gold)",
+    backgroundColor: "var(--yellow)",
+    color: "#ffffff",
+    border: "0.15rem solid var(--yellow)",
   };
 
   return (
