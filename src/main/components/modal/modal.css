@@ -176,8 +176,17 @@
 
 /* Statistics */
 .statistics-table {
-  width: 100%;
   text-align: center;
+}
+
+.statistics-todays-results-container {
+  display: flex;
+  justify-content: center;
+}
+
+.statistics-hr {
+  width: 90%;
+  border-width: 1px 0 0;
 }
 
 /* Settings */
@@ -314,6 +323,12 @@ input:focus + .slider {
   .feedback-link {
     font-size: 0.95rem !important;
   }
+  .statistics-table {
+    font-size: 1rem !important;
+  }
+  .statistics-table-cell {
+    padding: 0.25rem 1rem !important;
+  }
 }
 
 /* Small */
@@ -367,6 +382,12 @@ input:focus + .slider {
   }
   .feedback-link {
     font-size: 1rem;
+  }
+  .statistics-table {
+    font-size: 1.1rem;
+  }
+  .statistics-table-cell {
+    padding: 0.25rem 1.5rem;
   }
 }
 
@@ -422,5 +443,11 @@ input:focus + .slider {
   }
   .feedback-link {
     font-size: 1.25rem;
+  }
+  .statistics-table {
+    font-size: 1.25rem;
+  }
+  .statistics-table-cell {
+    padding: 0.25rem 2rem;
   }
 }

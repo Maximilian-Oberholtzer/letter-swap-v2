@@ -29,9 +29,7 @@ export interface GameState {
   foundWords: string[];
   recentFoundWords: string[];
   points: number;
-  hasPlayed: boolean;
   hasPlayedToday: boolean;
-  playCount: number;
   lastPlayedDate: number;
   weeklyScores: (number | null)[];
   weeklyPoints: (number | null)[];

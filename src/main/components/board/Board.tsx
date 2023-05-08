@@ -14,6 +14,7 @@ import {
   checkForWords,
   fillEmptyBoard,
   generateFixedNextLetters,
+  generateGameId,
 } from "./BoardFunctions";
 import Confetti from "react-confetti";
 import { useTheme } from "../../../theme/Theme";
@@ -59,13 +60,10 @@ const Board = (props: BoardProps) => {
   const setFoundWords = useSetGameState("foundWords");
   const setRecentFoundWords = useSetGameState("recentFoundWords");
   const setPoints = useSetGameState("points");
-  const setPlayCount = useSetGameState("playCount");
-  const setHasPlayed = useSetGameState("hasPlayed");
   const setHasPlayedToday = useSetGameState("hasPlayedToday");
   const setLastPlayedDate = useSetGameState("lastPlayedDate");
   const setWeeklyScores = useSetGameState("weeklyScores");
   const setWeeklyPoints = useSetGameState("weeklyPoints");
-  const setUserName = useSetGameState("userName");
   const setGameId = useSetGameState("gameId");
 
   //Allow flipping animations to happen before allowing user to place another tile
@@ -73,6 +71,9 @@ const Board = (props: BoardProps) => {
   const [isFlippingFound, setIsFlippingFound] = useState(false);
   //Blitz last second flip
   const [isFlippingFinal, setIsFlippingFinal] = useState(false);
+  //Animation when loading back in - wait to click tile
+  const [isFlippingLoadingAnimation, setIsFlippingLoadingAnimation] =
+    useState(false);
 
   //Completed game animation when user loads back in to app
   const endGameAnimation = (delay: number) => {
@@ -123,6 +124,8 @@ const Board = (props: BoardProps) => {
 
   // RESET GAME
   const resetGame = useCallback(() => {
+    setHasPlayedToday(false);
+    setGameId(generateGameId());
     //reset events from timer - blitz only
     if (gameMode === "blitz4x4" || gameMode === "blitz5x5") {
       setIsFlipping(false);
@@ -148,6 +151,8 @@ const Board = (props: BoardProps) => {
     setGameState((prevState) => ({ ...prevState, recentFoundWords: [] }));
   }, [
     setGameState,
+    setGameId,
+    setHasPlayedToday,
     duration,
     gameMode,
     gameState.timerStartTime,
@@ -156,23 +161,55 @@ const Board = (props: BoardProps) => {
     setTimerTimeLeft,
   ]);
 
-  // GAME Finish Logic
-  const handleGameFinish = useCallback(() => {
-    endGameAnimation(260);
-    //update daily scores
-    if (gameState.points > (gameState.weeklyPoints[DAY] ?? 0)) {
-      gameState.weeklyPoints[DAY] = gameState.points;
-    }
-    if (gameState.foundWords.length > (gameState.weeklyScores[DAY] ?? 0)) {
-      gameState.weeklyScores[DAY] = gameState.foundWords.length;
-    }
-    setTimeout(() => {
-      //Temporary until game release
-      setStatisticsModal(true);
+  //NEW DAY - GAME RESET
+  useEffect(() => {
+    if (gameState.lastPlayedDate !== DAY) {
+      setLastPlayedDate(DAY);
       resetGame();
-    }, 1060);
+    } else {
+      if (gameState.hasPlayedToday) {
+        //Animate when user loads into finished game
+        setIsFlippingLoadingAnimation(true);
+        setTimeout(() => {
+          endGameAnimation(260);
+        }, 100);
+        setTimeout(() => {
+          setStatisticsModal(true);
+          setIsFlippingLoadingAnimation(false);
+        }, 1100);
+      }
+    }
   }, [
     resetGame,
+    gameState.lastPlayedDate,
+    setLastPlayedDate,
+    gameState.hasPlayedToday,
+    setStatisticsModal,
+  ]);
+
+  // GAME Finish Logic
+  const handleGameFinish = useCallback(() => {
+    setSwapCount(-1);
+    setHasPlayedToday(true);
+    setLastPlayedDate(DAY);
+    endGameAnimation(260);
+    //update weekly scores
+    const weeklyScoreArr = [...gameState.weeklyScores];
+    const weeklyPointsArr = [...gameState.weeklyPoints];
+    weeklyScoreArr[DAY] = gameState.foundWords.length;
+    weeklyPointsArr[DAY] = gameState.points;
+    setWeeklyScores(weeklyScoreArr);
+    setWeeklyPoints(weeklyPointsArr);
+    setTimeout(() => {
+      //Switch with special end game modal to show rank / share / write score to leaderboard
+      setStatisticsModal(true);
+    }, 1060);
+  }, [
+    setSwapCount,
+    setHasPlayedToday,
+    setWeeklyPoints,
+    setWeeklyScores,
+    setLastPlayedDate,
     setStatisticsModal,
     gameState.foundWords.length,
     gameState.points,
@@ -182,7 +219,7 @@ const Board = (props: BoardProps) => {
 
   // CHECKING FOR GAME OVER
   useEffect(() => {
-    if (gameState.swapCount <= 0) {
+    if (gameState.swapCount === 0) {
       handleGameFinish();
     }
   }, [gameState.swapCount, resetGame, handleGameFinish]);
@@ -198,7 +235,7 @@ const Board = (props: BoardProps) => {
         const now = new Date().getTime();
         let diff = duration - (now - start);
 
-        if (gameState.swapCount === 0) {
+        if (gameState.swapCount <= 0) {
           cancelAnimationFrame(animationFrameId);
           return;
         }
@@ -360,7 +397,7 @@ const Board = (props: BoardProps) => {
       <div className="hud-container">
         <div className="swaps-container">
           <b>Swaps</b>
-          <span>{gameState.swapCount}</span>
+          <span>{gameState.swapCount > 0 ? gameState.swapCount : "0"}</span>
         </div>
         <div className="next-letters-container">
           <b className="next-letters-title">Next:</b>
@@ -443,6 +480,11 @@ const Board = (props: BoardProps) => {
                       handleTimerStart();
                     }
                     handleBoard(rowIndex, colIndex, nextLetters[0]);
+                  } else if (
+                    gameState.hasPlayedToday &&
+                    !isFlippingLoadingAnimation
+                  ) {
+                    setStatisticsModal(true);
                   }
                 }}
               >
