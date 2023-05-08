@@ -11,7 +11,8 @@ interface MenuProps {
   setSettingsModal: Dispatch<SetStateAction<boolean>>;
   setSupportModal: Dispatch<SetStateAction<boolean>>;
   setMenuActive: Dispatch<SetStateAction<boolean>>;
-  setBlitzActive: Dispatch<SetStateAction<boolean>>;
+  setBlitz4x4Active: Dispatch<SetStateAction<boolean>>;
+  setBlitz5x5Active: Dispatch<SetStateAction<boolean>>;
   setMarathonActive: Dispatch<SetStateAction<boolean>>;
   setCanTransition: Dispatch<SetStateAction<boolean>>;
   closeDrawer?: () => void;
@@ -25,7 +26,8 @@ const Menu = (props: MenuProps) => {
     setLeaderboardModal,
     setSettingsModal,
     setSupportModal,
-    setBlitzActive,
+    setBlitz4x4Active,
+    setBlitz5x5Active,
     setMarathonActive,
     setMenuActive,
     setCanTransition,
@@ -143,10 +145,20 @@ const Menu = (props: MenuProps) => {
           isDark ? "menu-button-dark" : "menu-button-light"
         }`}
         onClick={() => {
-          menuFadeOut(setBlitzActive);
+          menuFadeOut(setBlitz4x4Active);
         }}
       >
         4x4 Blitz ⚡
+      </button>
+      <button
+        className={`menu-button ${
+          isDark ? "menu-button-dark" : "menu-button-light"
+        }`}
+        onClick={() => {
+          menuFadeOut(setBlitz5x5Active);
+        }}
+      >
+        5x5 Blitz ⏰
       </button>
       <button
         className={`menu-button ${
