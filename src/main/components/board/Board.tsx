@@ -51,6 +51,10 @@ const Board = (props: BoardProps) => {
   };
   const setBoard = useSetGameState("board");
   const setMoveCount = useSetGameState("moveCount");
+  const setTimerTimeLeft = useSetGameState("timerTimeLeft");
+  const setTimerProgress = useSetGameState("timerProgress");
+  const setTimerStarted = useSetGameState("timerStarted");
+  const setTimerStartTime = useSetGameState("timerStartTime");
   const setSwapCount = useSetGameState("swapCount");
   const setFoundWords = useSetGameState("foundWords");
   const setRecentFoundWords = useSetGameState("recentFoundWords");
@@ -115,46 +119,42 @@ const Board = (props: BoardProps) => {
   }, [foundWordsExpand]);
 
   // BLITZ TIMER VARIABLES
-  const duration = 3 * 60 * 1001; // 2 minutes in milliseconds
-  // const duration = 15 * 1001;
-  const [timeLeft, setTimeLeft] = useState(() => {
-    const storedState = localStorage.getItem("timeLeft");
-    return storedState ? JSON.parse(storedState) : duration;
-  });
-  const [progress, setProgress] = useState(() => {
-    const storedState = localStorage.getItem("progress");
-    return storedState ? JSON.parse(storedState) : 100;
-  });
-  const [timerStarted, setTimerStarted] = useState(() => {
-    const storedState = localStorage.getItem("timerStarted");
-    return storedState ? JSON.parse(storedState) : false;
-  });
+  const duration = gameMode === "blitz4x4" ? 3 * 60 * 1001 : 5 * 60 * 1001;
 
   // RESET GAME
   const resetGame = useCallback(() => {
     //reset events from timer - blitz only
-    if (gameMode === "blitz") {
+    if (gameMode === "blitz4x4" || gameMode === "blitz5x5") {
       setIsFlipping(false);
       setIsFlippingFinal(false);
-      localStorage.removeItem("startTime");
-      setTimeLeft(duration);
-      setProgress(100);
+      localStorage.removeItem(gameState.timerStartTime.toString());
+      setTimerTimeLeft(duration);
+      setTimerProgress(100);
       setTimerStarted(false);
     }
     setGameState((prevState) => ({
       ...prevState,
-      board: gameMode === "blitz" ? fillEmptyBoard(4) : fillEmptyBoard(5),
+      board: gameMode === "blitz4x4" ? fillEmptyBoard(4) : fillEmptyBoard(5),
     }));
     setGameState((prevState) => ({ ...prevState, lastPlayedDate: DAY }));
     setGameState((prevState) => ({
       ...prevState,
-      swapCount: gameMode === "blitz" ? 5 : 15,
+      swapCount:
+        gameMode === "blitz4x4" ? 5 : gameMode === "blitz5x5" ? 10 : 15,
     }));
     setGameState((prevState) => ({ ...prevState, moveCount: 0 }));
     setGameState((prevState) => ({ ...prevState, points: 0 }));
     setGameState((prevState) => ({ ...prevState, foundWords: [] }));
     setGameState((prevState) => ({ ...prevState, recentFoundWords: [] }));
-  }, [setGameState, duration, gameMode]);
+  }, [
+    setGameState,
+    duration,
+    gameMode,
+    gameState.timerStartTime,
+    setTimerProgress,
+    setTimerStarted,
+    setTimerTimeLeft,
+  ]);
 
   // GAME Finish Logic
   const handleGameFinish = useCallback(() => {
@@ -191,9 +191,8 @@ const Board = (props: BoardProps) => {
   // BLITZ TIMER LOGIC //
   ///////////////////////
   useEffect(() => {
-    if (gameMode === "blitz") {
-      let startTime = localStorage.getItem("startTime");
-      let start = startTime ? parseInt(startTime, 10) : new Date().getTime();
+    if (gameMode === "blitz4x4" || gameMode === "blitz5x5") {
+      let start = parseInt(gameState.timerStartTime, 10);
       let animationFrameId: number;
       const updateTimer = () => {
         const now = new Date().getTime();
@@ -219,12 +218,12 @@ const Board = (props: BoardProps) => {
           }
         }
 
-        setTimeLeft(diff);
-        setProgress((diff / duration) * 100);
-        localStorage.setItem("startTime", start.toString());
+        setTimerTimeLeft(diff);
+        setTimerProgress((diff / duration) * 100);
+        setTimerStartTime(start);
         animationFrameId = requestAnimationFrame(updateTimer);
       };
-      if (timerStarted) {
+      if (gameState.timerStarted) {
         animationFrameId = requestAnimationFrame(updateTimer);
       }
       return () => {
@@ -235,22 +234,24 @@ const Board = (props: BoardProps) => {
     gameMode,
     duration,
     resetGame,
-    timerStarted,
+    gameState.timerStartTime,
+    setTimerProgress,
+    setTimerStartTime,
+    setTimerStarted,
+    setTimerTimeLeft,
+    gameState.timerStarted,
     gameState.swapCount,
     isFlippingFound,
     isFlipping,
     handleGameFinish,
   ]);
-  useEffect(() => {
-    localStorage.setItem("timerStarted", JSON.stringify(timerStarted));
-    localStorage.setItem("timeLeft", JSON.stringify(timeLeft));
-    localStorage.setItem("progress", JSON.stringify(progress));
-  }, [timerStarted, timeLeft, progress]);
-  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+  const minutes = Math.floor(
+    (gameState.timerTimeLeft % (1000 * 60 * 60)) / (1000 * 60)
+  );
+  const seconds = Math.floor((gameState.timerTimeLeft % (1000 * 60)) / 1000);
   function handleTimerStart() {
     setTimerStarted(true);
-    localStorage.setItem("startTime", new Date().getTime().toString());
+    setTimerStartTime(new Date().getTime().toString());
   }
   //////////////////////////////////////////////////////////////////////
 
@@ -268,7 +269,7 @@ const Board = (props: BoardProps) => {
     setBoard(newBoard);
 
     //Check if word has been created / wipe it from board if so
-    const boardSize = gameMode === "blitz" ? 4 : 5;
+    const boardSize = gameMode === "blitz4x4" ? 4 : 5;
     const foundWord = checkForWords(
       boardSize,
       newBoard,
@@ -300,10 +301,12 @@ const Board = (props: BoardProps) => {
 
   // Next letters controller
   let nextLetterArr: string[] = [];
-  if (gameMode === "blitz") {
+  if (gameMode === "blitz4x4") {
     nextLetterArr = generateFixedNextLetters(1200, 1);
+  } else if (gameMode === "blitz5x5") {
+    nextLetterArr = generateFixedNextLetters(2000, 2);
   } else if (gameMode === "marathon") {
-    nextLetterArr = generateFixedNextLetters(1200, 2);
+    nextLetterArr = generateFixedNextLetters(5000, 3);
   }
   let nextLetters = [
     nextLetterArr[gameState.moveCount],
@@ -380,7 +383,7 @@ const Board = (props: BoardProps) => {
         </div>
       </div>
       {/* BLITZ ONLY - Progress Bar Timer */}
-      {gameMode === "blitz" && (
+      {(gameMode === "blitz4x4" || gameMode === "blitz5x5") && (
         <div className="progress-bar-container">
           <div className="progress-bar">
             <b>
@@ -397,11 +400,17 @@ const Board = (props: BoardProps) => {
             <div
               className="progress"
               style={{
-                width: `${progress}%`,
+                width: `${gameState.timerProgress}%`,
                 backgroundColor:
-                  minutes === 0 && seconds <= 30
+                  gameMode === "blitz4x4"
+                    ? minutes === 0 && seconds <= 30
+                      ? "var(--red)"
+                      : minutes * 60 + seconds > 90
+                      ? "var(--green)"
+                      : "var(--yellow)"
+                    : minutes === 0
                     ? "var(--red)"
-                    : minutes * 60 + seconds > 90
+                    : minutes * 60 + seconds > 150
                     ? "var(--green)"
                     : "var(--yellow)",
               }}
@@ -416,7 +425,7 @@ const Board = (props: BoardProps) => {
           <div key={rowIndex}>
             {row.map((letter, colIndex) => (
               <div
-                className={gameMode === "blitz" ? "tile-blitz" : "tile"}
+                className={gameMode === "blitz4x4" ? "tile-blitz" : "tile"}
                 id={`${rowIndex}-${colIndex}`}
                 key={`${rowIndex}-${colIndex}`}
                 style={mergeStyles(letter !== " " ? filledTile : emptyTile)}
@@ -427,7 +436,10 @@ const Board = (props: BoardProps) => {
                     !isFlippingFinal &&
                     gameState.swapCount > 0
                   ) {
-                    if (gameMode === "blitz" && !timerStarted) {
+                    if (
+                      (gameMode === "blitz4x4" || gameMode === "blitz5x5") &&
+                      !gameState.timerStarted
+                    ) {
                       handleTimerStart();
                     }
                     handleBoard(rowIndex, colIndex, nextLetters[0]);

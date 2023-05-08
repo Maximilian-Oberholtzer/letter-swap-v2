@@ -6,7 +6,8 @@ import Menu from "../menu/Menu";
 
 interface AppbarProps {
   setMenuActive: Dispatch<SetStateAction<boolean>>;
-  setBlitzActive: Dispatch<SetStateAction<boolean>>;
+  setBlitz4x4Active: Dispatch<SetStateAction<boolean>>;
+  setBlitz5x5Active: Dispatch<SetStateAction<boolean>>;
   setMarathonActive: Dispatch<SetStateAction<boolean>>;
   setCanTransition: Dispatch<SetStateAction<boolean>>;
   setInstructionsModal: Dispatch<SetStateAction<boolean>>;
@@ -19,7 +20,8 @@ interface AppbarProps {
 const Appbar = (props: AppbarProps) => {
   const {
     setMenuActive,
-    setBlitzActive,
+    setBlitz4x4Active,
+    setBlitz5x5Active,
     setMarathonActive,
     setCanTransition,
     setInstructionsModal,
@@ -86,7 +88,8 @@ const Appbar = (props: AppbarProps) => {
           setSettingsModal={setSettingsModal}
           setSupportModal={setSupportModal}
           setMenuActive={setMenuActive}
-          setBlitzActive={setBlitzActive}
+          setBlitz4x4Active={setBlitz4x4Active}
+          setBlitz5x5Active={setBlitz5x5Active}
           setMarathonActive={setMarathonActive}
           setCanTransition={setCanTransition}
           closeDrawer={handleDrawerClose}
@@ -101,7 +104,8 @@ const Appbar = (props: AppbarProps) => {
     GameContainerElement?.classList.add("fade-out-right");
     setTimeout(() => {
       setCanTransition(true);
-      setBlitzActive(false);
+      setBlitz4x4Active(false);
+      setBlitz5x5Active(false);
       setMarathonActive(false);
     }, 270);
     setTimeout(() => {
