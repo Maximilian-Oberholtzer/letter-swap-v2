@@ -29,6 +29,7 @@ export interface GameState {
   foundWords: string[];
   recentFoundWords: string[];
   points: number;
+  gameStarted: boolean;
   hasPlayedToday: boolean;
   lastPlayedDate: number;
   weeklyScores: (number | null)[];
@@ -52,6 +53,7 @@ function getDefaultGameState(gameMode: string): GameState {
         foundWords: [],
         recentFoundWords: [],
         points: 0,
+        gameStarted: false,
         hasPlayed: false,
         hasPlayedToday: false,
         playCount: 0,

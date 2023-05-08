@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import { wordsFiveLetters } from "../../../words/words5letters";
 import { wordsFourLetters } from "../../../words/words4letters";
 import randomSeed from "random-seed";
+import moment from "moment-timezone";
 import { Howl } from "howler";
 
 const pointMap: { [key: string]: number } = {
@@ -33,12 +34,6 @@ const pointMap: { [key: string]: number } = {
   Z: 3,
 };
 
-const weights: number[] = [
-  8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772,
-  4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 10.702, 9.056, 2.758, 0.978,
-  2.36, 0.15, 1.974, 0.074,
-];
-
 const foundSound = new Howl({
   src: ["/found.wav"],
 });
@@ -54,25 +49,12 @@ export const fillEmptyBoard = (boardSize: number): string[][] => {
   return newBoard;
 };
 
-export const fillNewNextLetters = (): string[] => {
-  let letters = [""];
-  for (let i = 0; i < 3; i++) {
-    let currentLetter = getRandomLetter();
-    //no duplicates inside next letters boxes
-    while (letters.includes(currentLetter)) {
-      currentLetter = getRandomLetter();
-    }
-    letters[i] = currentLetter;
-  }
-  return letters;
-};
-
 //Generate sequence based on day
 export const generateFixedNextLetters = (
   arrayLength: number,
   sequenceNumber: number
 ): string[] => {
-  const date = new Date();
+  const date = moment().tz("America/New_York").toDate();
   const seed =
     date.getFullYear() +
     "-" +
@@ -154,6 +136,7 @@ export const checkForWords = (
   setIsFlippingFound: Dispatch<SetStateAction<boolean>>,
   points: number,
   setPoints: (points: number) => void,
+  bonusLetter: string,
   setAnimatedPoints: Dispatch<SetStateAction<number>>,
   setEffect: Dispatch<SetStateAction<string>>,
   soundEnabled: boolean
@@ -347,12 +330,11 @@ export const checkForWords = (
       const currentWord = nonDuplicateSequences[i];
       for (let j = 0; j < currentWord.length; j++) {
         const currentLetter = currentWord[j];
-        // if (currentLetter === bonusLetter) {
-        //   currentPoints += pointMap[currentLetter] * 2;
-        // } else {
-        //   currentPoints += pointMap[currentLetter];
-        // }
-        currentPoints += pointMap[currentLetter];
+        if (currentLetter === bonusLetter) {
+          currentPoints += pointMap[currentLetter] * 2;
+        } else {
+          currentPoints += pointMap[currentLetter];
+        }
       }
     }
     setAnimatedPoints(currentPoints);
@@ -405,9 +387,6 @@ const applyFoundAnimation = (
   setBoard: (newBoard: string[][]) => void
 ) => {
   setIsFlippingFound(true);
-  // isDark
-  //   ? tile?.classList.add("found-word-dark")
-  //   : tile?.classList.add("found-word-light");
   tile?.classList.add("found-word");
   //Animate title for a fun effect when a word is found
   const titleTile = document.querySelector(".title-tile-l");
@@ -417,8 +396,6 @@ const applyFoundAnimation = (
   const animatedPoints = document.querySelector(".animated-points");
   animatedPoints?.classList.add("show-animated-points");
   setTimeout(() => {
-    // tile?.classList.remove("found-word-light");
-    // tile?.classList.remove("found-word-dark");
     tile?.classList.remove("found-word");
     titleTile?.classList.remove("flip-delay-short");
     titleTile2?.classList.remove("flip-delay-long");
@@ -450,33 +427,9 @@ export const applyAnimation = (
   }, 250);
 };
 
-export const getRandomLetter = (): string => {
-  type Letter = string;
-  const alphabet: Letter[] = "abcdefghijklmnopqrstuvwxyz".split("");
-
-  function weightedRandomIndex(weights: number[]): number {
-    const totalWeight: number = weights.reduce(
-      (acc: number, val: number) => acc + val,
-      0
-    );
-    let random: number = Math.random() * totalWeight;
-    for (let i = 0; i < weights.length; i++) {
-      random -= weights[i];
-      if (random < 0) {
-        return i;
-      }
-    }
-    return weights.length - 1;
-  }
-
-  const randomIndex: number = weightedRandomIndex(weights);
-  const randomLetter: Letter = alphabet[randomIndex];
-  return randomLetter.toUpperCase();
-};
-
 //Persists through each game to keep leaderboard entries unique
 export function generateGameId(): number {
-  const min = 10000000;
-  const max = 99999999;
+  const min = 10000001;
+  const max = 99999991;
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }

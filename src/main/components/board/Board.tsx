@@ -18,6 +18,7 @@ import {
 } from "./BoardFunctions";
 import Confetti from "react-confetti";
 import { useTheme } from "../../../theme/Theme";
+import GameIntroModal from "../modal/GameIntroModal";
 
 const DAY = new Date().getDay();
 
@@ -60,6 +61,7 @@ const Board = (props: BoardProps) => {
   const setFoundWords = useSetGameState("foundWords");
   const setRecentFoundWords = useSetGameState("recentFoundWords");
   const setPoints = useSetGameState("points");
+  const setGameStarted = useSetGameState("gameStarted");
   const setHasPlayedToday = useSetGameState("hasPlayedToday");
   const setLastPlayedDate = useSetGameState("lastPlayedDate");
   const setWeeklyScores = useSetGameState("weeklyScores");
@@ -74,6 +76,9 @@ const Board = (props: BoardProps) => {
   //Animation when loading back in - wait to click tile
   const [isFlippingLoadingAnimation, setIsFlippingLoadingAnimation] =
     useState(false);
+
+  // Set Bonus Letter
+  const bonusLetter = generateFixedNextLetters(1, 4);
 
   //Completed game animation when user loads back in to app
   const endGameAnimation = (delay: number) => {
@@ -119,11 +124,21 @@ const Board = (props: BoardProps) => {
     }
   }, [foundWordsExpand]);
 
+  //Show intro modal if game has not started
+  const [showIntroModal, setShowInroModal] = useState(false);
+  useEffect(() => {
+    if (!gameState.gameStarted) {
+      setShowInroModal(true);
+      setGameStarted(true);
+    }
+  }, [gameState.gameStarted, setGameStarted, showIntroModal]);
+
   // BLITZ TIMER VARIABLES
   const duration = gameMode === "blitz4x4" ? 3 * 60 * 1001 : 5 * 60 * 1001;
 
   // RESET GAME
   const resetGame = useCallback(() => {
+    setGameStarted(false);
     setHasPlayedToday(false);
     setGameId(generateGameId());
     //reset events from timer - blitz only
@@ -152,6 +167,7 @@ const Board = (props: BoardProps) => {
   }, [
     setGameState,
     setGameId,
+    setGameStarted,
     setHasPlayedToday,
     duration,
     gameMode,
@@ -317,6 +333,7 @@ const Board = (props: BoardProps) => {
       setIsFlippingFound,
       gameState.points,
       setPoints,
+      bonusLetter[0],
       setAnimatedPoints,
       setEffect,
       soundEnabled
@@ -376,6 +393,12 @@ const Board = (props: BoardProps) => {
       ? "0.15rem solid var(--dark-tile-color)"
       : "0.15rem solid var(--light-tile-color)",
   };
+  const bonusTile = {
+    backgroundColor: isDark
+      ? "var(--dark-tile-color)"
+      : "var(--light-tile-color)",
+    border: "0.15rem solid var(--gold)",
+  };
 
   return (
     <div className="board-container" ref={boardHeight}>
@@ -393,6 +416,16 @@ const Board = (props: BoardProps) => {
           }}
         />
       )}
+      {/* Intro and Game end Modals */}
+      {showIntroModal && (
+        <GameIntroModal
+          closeModal={() => {
+            setShowInroModal(false);
+          }}
+          gameMode={gameMode}
+          bonusLetter={bonusLetter[0]}
+        />
+      )}
       {/* HUD */}
       <div className="hud-container">
         <div className="swaps-container">
@@ -404,15 +437,10 @@ const Board = (props: BoardProps) => {
           {nextLetters.map((letter, index) => (
             <div
               key={index}
-              className={
-                index === 0
-                  ? `tile tile-medium ${
-                      isDark ? "background-tile-dark" : "background-tile-light"
-                    }`
-                  : `tile tile-small ${
-                      isDark ? "background-tile-dark" : "background-tile-light"
-                    }`
-              }
+              style={mergeStyles(
+                letter === bonusLetter[0] ? bonusTile : filledTile
+              )}
+              className={index === 0 ? "tile tile-medium" : "tile tile-small"}
             >
               {letter}
             </div>
@@ -465,7 +493,13 @@ const Board = (props: BoardProps) => {
                 className={gameMode === "blitz4x4" ? "tile-blitz" : "tile"}
                 id={`${rowIndex}-${colIndex}`}
                 key={`${rowIndex}-${colIndex}`}
-                style={mergeStyles(letter !== " " ? filledTile : emptyTile)}
+                style={mergeStyles(
+                  letter === " "
+                    ? emptyTile
+                    : letter === bonusLetter[0]
+                    ? bonusTile
+                    : filledTile
+                )}
                 onClick={() => {
                   if (
                     !isFlipping &&

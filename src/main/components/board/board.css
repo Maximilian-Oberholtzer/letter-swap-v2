@@ -8,6 +8,7 @@
   --green: #6fb05c;
   --yellow: #d1d06c;
   --red: red;
+  --gold: #c1a823;
 
   --light-background: #ffffff;
   --light-text: #000000;
@@ -50,7 +51,7 @@
 .tile-medium,
 .tile-small {
   cursor: unset !important;
-  border: none !important;
+  transition: none !important;
 }
 
 .background-tile-dark {
@@ -58,6 +59,10 @@
 }
 .background-tile-light {
   background-color: var(--light-tile-color) !important;
+}
+
+.bonus-tile-border {
+  border: 0.15rem solid var(--gold);
 }
 
 .background-dark {
