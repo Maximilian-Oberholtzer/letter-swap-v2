@@ -1,14 +1,18 @@
 import React, { ReactNode } from "react";
 import Modal from "./Modal";
 
-const LeaderboardNode: ReactNode = <p></p>;
-
 interface LeaderboardModalProps {
   closeModal: () => void;
 }
 
 const LeaderboardModal = (props: LeaderboardModalProps) => {
   const { closeModal } = props;
+
+  const LeaderboardNode: ReactNode = (
+    <p className="modal-text text-align-center">
+      Leaderboard is under constuction 🚧
+    </p>
+  );
   return (
     <Modal
       closeModal={closeModal}
