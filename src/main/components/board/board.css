@@ -6,9 +6,8 @@
   --light-gray: #dfdfdf;
   --dark-gray: #b6b6b6;
   --green: #6fb05c;
-  --yellow: #d1d06c;
+  --yellow: #bd9a00;
   --red: red;
-  --gold: #c1a823;
 
   --light-background: #ffffff;
   --light-text: #000000;
@@ -62,7 +61,8 @@
 }
 
 .bonus-tile-border {
-  border: 0.15rem solid var(--gold);
+  background-color: var(--yellow) !important;
+  color: #ffffff !important;
 }
 
 .background-dark {
