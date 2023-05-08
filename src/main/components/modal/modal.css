@@ -41,7 +41,7 @@
   font-family: var(--font);
   background-color: #fff;
   width: 100%;
-  max-height: 92%;
+  max-height: 95%;
   max-width: var(--game-width);
   padding: 1rem 0rem 2rem 0rem;
   overflow-y: auto;
@@ -267,6 +267,15 @@ input:focus + .slider {
 }
 .support-link-light:hover {
   background-color: var(--light-button-background-hover) !important;
+}
+
+/* Intro Modal */
+.bonus-letter-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem;
 }
 
 /* Media Queries for responsiveness */

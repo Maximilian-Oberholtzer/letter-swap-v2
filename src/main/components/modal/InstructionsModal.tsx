@@ -85,6 +85,15 @@ const InstructionsModal = (props: instructionsModalProps) => {
         When a word is created, you will be awarded <b>POINTS</b> for each
         letter used.
       </p>
+      <p className="modal-text">
+        The <b>BONUS</b> letter is worth 2x points.
+      </p>
+      <p className="modal-text">
+        3 <b>BONUS</b> points for finding a word in a diagonal direction.
+      </p>
+      <p className="modal-text">
+        5 <b>BONUS</b> points for each additional word found in one turn.
+      </p>
       {pointArr.map((arr, index) => (
         <div key={arr[index]}>
           <div className="modal-text text-align-center">
@@ -109,12 +118,6 @@ const InstructionsModal = (props: instructionsModalProps) => {
           </div>
         </div>
       ))}
-      <p className="modal-text">
-        3 <b>BONUS</b> points for finding a word in a diagonal direction.
-      </p>
-      <p className="modal-text">
-        5 <b>BONUS</b> points for each additional word found in one turn.
-      </p>
     </div>
   );
 
