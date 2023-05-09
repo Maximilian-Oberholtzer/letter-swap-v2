@@ -184,7 +184,6 @@ const StatisticsModal = (props: StatisticsModalProps) => {
           </tbody>
         </table>
       </div>
-      <hr className="modal-line" />
       <p className="modal-text text-align-center">
         <b>Weekly Star ⭐ Distribution:</b>
       </p>
