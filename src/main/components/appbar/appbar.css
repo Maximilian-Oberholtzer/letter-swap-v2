@@ -78,7 +78,7 @@
   animation: drawer-in 0.3s ease-out;
 }
 .drawer-out {
-  animation: drawer-out 0.3s ease-out;
+  animation: drawer-out 0.3s ease-in;
 }
 .display-none {
   display: none !important;
