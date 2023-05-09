@@ -20,6 +20,7 @@ import Confetti from "react-confetti";
 import { useTheme } from "../../../theme/Theme";
 import GameIntroModal from "../modal/GameIntroModal";
 import GameOverModal from "../modal/GameOverModal";
+import { getDaysElapsedSince } from "../../../DayCounter";
 
 const DAY = new Date().getDay();
 
@@ -57,7 +58,7 @@ const Board = (props: BoardProps) => {
   const setPoints = useSetGameState("points");
   const setGameStarted = useSetGameState("gameStarted");
   const setHasPlayedToday = useSetGameState("hasPlayedToday");
-  const setLastPlayedDate = useSetGameState("lastPlayedDate");
+  const setLastPlayedPuzzle = useSetGameState("lastPlayedPuzzle");
   const setWeeklyScores = useSetGameState("weeklyScores");
   const setWeeklyPoints = useSetGameState("weeklyPoints");
   const setGameId = useSetGameState("gameId");
@@ -148,7 +149,10 @@ const Board = (props: BoardProps) => {
       ...prevState,
       board: gameMode === "blitz4x4" ? fillEmptyBoard(4) : fillEmptyBoard(5),
     }));
-    setGameState((prevState) => ({ ...prevState, lastPlayedDate: DAY }));
+    setGameState((prevState) => ({
+      ...prevState,
+      lastPlayedPuzzle: getDaysElapsedSince(),
+    }));
     setGameState((prevState) => ({
       ...prevState,
       swapCount:
@@ -173,8 +177,8 @@ const Board = (props: BoardProps) => {
 
   //NEW DAY - GAME RESET
   useEffect(() => {
-    if (gameState.lastPlayedDate !== DAY) {
-      setLastPlayedDate(DAY);
+    if (gameState.lastPlayedPuzzle !== getDaysElapsedSince()) {
+      setLastPlayedPuzzle(getDaysElapsedSince());
       resetGame();
     } else {
       if (gameState.hasPlayedToday) {
@@ -191,8 +195,8 @@ const Board = (props: BoardProps) => {
     }
   }, [
     resetGame,
-    gameState.lastPlayedDate,
-    setLastPlayedDate,
+    gameState.lastPlayedPuzzle,
+    setLastPlayedPuzzle,
     gameState.hasPlayedToday,
     setShowGameOverModal,
   ]);
@@ -201,7 +205,7 @@ const Board = (props: BoardProps) => {
   const handleGameFinish = useCallback(() => {
     setSwapCount(-1);
     setHasPlayedToday(true);
-    setLastPlayedDate(DAY);
+    setLastPlayedPuzzle(getDaysElapsedSince());
     endGameAnimation(260);
     //update weekly scores
     const weeklyScoreArr = [...gameState.weeklyScores];
@@ -218,7 +222,7 @@ const Board = (props: BoardProps) => {
     setHasPlayedToday,
     setWeeklyPoints,
     setWeeklyScores,
-    setLastPlayedDate,
+    setLastPlayedPuzzle,
     setShowGameOverModal,
     gameState.foundWords.length,
     gameState.points,
