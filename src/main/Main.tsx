@@ -13,8 +13,7 @@ import InstructionsModal from "./components/modal/InstructionsModal";
 import LeaderboardModal from "./components/modal/LeaderboardModal";
 import SettingsModal from "./components/modal/SettingsModal";
 import SupportModal from "./components/modal/SupportModal";
-
-const DAY = new Date().getDay();
+import { getDaysElapsedSince } from "../DayCounter";
 
 export type GameMode = "blitz4x4" | "blitz5x5" | "marathon";
 
@@ -31,7 +30,7 @@ export interface GameState {
   points: number;
   gameStarted: boolean;
   hasPlayedToday: boolean;
-  lastPlayedDate: number;
+  lastPlayedPuzzle: number;
   weeklyScores: (number | null)[];
   weeklyPoints: (number | null)[];
   gameId: number;
@@ -57,7 +56,7 @@ function getDefaultGameState(gameMode: string): GameState {
         hasPlayed: false,
         hasPlayedToday: false,
         playCount: 0,
-        lastPlayedDate: DAY,
+        lastPlayedPuzzle: getDaysElapsedSince(),
         weeklyScores: Array.from({ length: 7 }, () => null),
         weeklyPoints: Array.from({ length: 7 }, () => null),
         gameId: generateGameId(),
