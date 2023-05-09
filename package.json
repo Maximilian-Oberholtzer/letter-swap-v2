@@ -8,16 +8,19 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.25",
+    "@types/plotly.js": "^2.12.18",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.1",
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",
     "howler": "^2.2.3",
     "moment-timezone": "^0.5.43",
+    "plotly.js": "^2.22.0",
     "random-seed": "^0.3.0",
     "react": "^18.2.0",
     "react-confetti": "^6.1.0",
     "react-dom": "^18.2.0",
+    "react-plotly.js": "^2.6.0",
     "react-router-dom": "^6.11.0",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
@@ -49,6 +52,7 @@
   },
   "devDependencies": {
     "@types/howler": "^2.2.7",
-    "@types/random-seed": "^0.3.3"
+    "@types/random-seed": "^0.3.3",
+    "@types/react-plotly.js": "^2.6.0"
   }
 }

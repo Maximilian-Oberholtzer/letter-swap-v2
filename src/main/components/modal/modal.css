@@ -12,6 +12,7 @@
   --light-background: #ffffff;
   --light-text: #000000;
   --light-tile-color: #dfdfdf;
+  --dark-background: #121213;
   --dark-backdrop: #242424;
   --dark-text: #ffffff;
   --dark-tile-color: #3a3a3c;
@@ -196,6 +197,35 @@
   border-width: 1px 0 0;
 }
 
+.statistics-bar-chart-container {
+  display: flex;
+  justify-content: center;
+}
+.responsive-bar-chart-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.responsive-container > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.statistics-plot {
+  width: 100%;
+  height: 100%;
+}
+
+.statistics-plot-dark > div > div > svg:first-of-type {
+  background: var(--dark-background) !important;
+}
+
+.statistics-plot-light > div > div > svg:first-of-type {
+  background: var(--light-background) !important;
+}
 /* Settings */
 
 .settings-container {
@@ -380,6 +410,10 @@ input:focus + .slider {
     font-size: 0.9rem !important;
     width: 95% !important;
   }
+  .responsive-bar-chart-container {
+    width: 100% !important;
+    height: 16rem !important;
+  }
 }
 
 /* Small */
@@ -443,6 +477,10 @@ input:focus + .slider {
   .instructions-table {
     font-size: 0.95rem;
     width: 90%;
+  }
+  .responsive-bar-chart-container {
+    width: 95%;
+    height: 20rem;
   }
 }
 
@@ -508,5 +546,9 @@ input:focus + .slider {
   .instructions-table {
     font-size: 1.25rem;
     width: 75%;
+  }
+  .responsive-bar-chart-container {
+    width: 75%;
+    height: 30rem;
   }
 }

@@ -22,7 +22,7 @@ const GameIntroModal = (props: GameIntroModalProps) => {
     gameMode === "blitz4x4"
       ? "4x4 Blitz ⚡"
       : gameMode === "blitz5x5"
-      ? "5x5 Blitz  ⏰"
+      ? "5x5 Blitz ⏰"
       : "Marathon 🏃";
 
   const GameIntroNode: ReactNode = (

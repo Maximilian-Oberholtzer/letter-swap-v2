@@ -23,11 +23,12 @@ const InstructionsModal = (props: instructionsModalProps) => {
         "3 Stars",
         "4 Stars",
         "5 Stars",
+        "Master",
         "Grandmaster",
       ],
-      blitz4x4Points: [0, 20, 40, 75, 120, 180],
-      blitz5x5Points: [0, 20, 40, 75, 120, 180],
-      marathonPoints: [0, 50, 100, 200, 300, 500],
+      blitz4x4Points: [0, 20, 40, 75, 100, 140, 180],
+      blitz5x5Points: [0, 20, 40, 75, 100, 120, 150],
+      marathonPoints: [0, 50, 100, 200, 300, 400, 500],
     },
   ];
 
