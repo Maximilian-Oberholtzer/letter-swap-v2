@@ -1,9 +1,9 @@
 import React, { ReactNode } from "react";
 import Modal from "./Modal";
 import { GameState } from "../../Main";
-import Plot from "react-plotly.js";
-import { Layout } from "plotly.js";
-import { Data } from "plotly.js";
+import Plotly from "plotly.js-dist-min";
+import createPlotlyComponent from "react-plotly.js/factory";
+import { Data, Layout } from "plotly.js";
 import { useTheme } from "../../../theme/Theme";
 
 const DAY = new Date().getDay();
@@ -20,6 +20,9 @@ const StatisticsModal = (props: StatisticsModalProps) => {
 
   const { theme } = useTheme();
   const isDark = theme === "dark";
+
+  // Create the custom Plot component
+  const Plot = createPlotlyComponent(Plotly);
 
   //Define y values for chart
   const weeklyPoints = [
