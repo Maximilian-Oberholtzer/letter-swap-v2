@@ -6,7 +6,7 @@
   --light-gray: #dfdfdf;
   --dark-gray: #b6b6b6;
   --green: #6fb05c;
-  --yellow: #bd9a00;
+  --yellow: #cfaa09;
   --red: red;
 
   --light-background: #ffffff;
@@ -283,6 +283,37 @@ input:focus + .slider {
   align-items: center;
   gap: 1rem;
   margin: 1rem;
+}
+
+/* Game Over Modal */
+.game-over-modal-bottom-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 1rem;
+}
+.game-over-countdown-container {
+  text-align: center;
+  font-size: 1.1rem;
+}
+.share-button {
+  all: unset;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+  font-size: 1.25rem;
+  border-radius: 0.5rem;
+}
+.share-svg {
+  position: relative;
+  top: 2px;
+}
+.share-button-dark:hover {
+  background-color: var(--dark-button-background-hover) !important;
+}
+.share-button-light:hover {
+  background-color: var(--light-button-background-hover) !important;
 }
 
 /* Media Queries for responsiveness */

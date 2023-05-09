@@ -10,6 +10,8 @@
     "@types/node": "^16.18.25",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.1",
+    "date-fns": "^2.30.0",
+    "date-fns-tz": "^2.0.0",
     "howler": "^2.2.3",
     "moment-timezone": "^0.5.43",
     "random-seed": "^0.3.0",

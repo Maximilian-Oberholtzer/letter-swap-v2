@@ -19,6 +19,7 @@ import {
 import Confetti from "react-confetti";
 import { useTheme } from "../../../theme/Theme";
 import GameIntroModal from "../modal/GameIntroModal";
+import GameOverModal from "../modal/GameOverModal";
 
 const DAY = new Date().getDay();
 
@@ -26,18 +27,11 @@ interface BoardProps {
   gameMode: GameMode;
   gameState: GameState;
   setGameState: Dispatch<SetStateAction<GameState>>;
-  setStatisticsModal: Dispatch<SetStateAction<boolean>>;
   soundEnabled: boolean;
 }
 
 const Board = (props: BoardProps) => {
-  const {
-    gameMode,
-    gameState,
-    setGameState,
-    setStatisticsModal,
-    soundEnabled,
-  } = props;
+  const { gameMode, gameState, setGameState, soundEnabled } = props;
 
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -126,6 +120,7 @@ const Board = (props: BoardProps) => {
 
   //Show intro modal if game has not started
   const [showIntroModal, setShowInroModal] = useState(false);
+  const [showGameOverModal, setShowGameOverModal] = useState(false);
   useEffect(() => {
     if (!gameState.gameStarted) {
       setShowInroModal(true);
@@ -189,7 +184,7 @@ const Board = (props: BoardProps) => {
           endGameAnimation(260);
         }, 100);
         setTimeout(() => {
-          setStatisticsModal(true);
+          setShowGameOverModal(true);
           setIsFlippingLoadingAnimation(false);
         }, 1100);
       }
@@ -199,7 +194,7 @@ const Board = (props: BoardProps) => {
     gameState.lastPlayedDate,
     setLastPlayedDate,
     gameState.hasPlayedToday,
-    setStatisticsModal,
+    setShowGameOverModal,
   ]);
 
   // GAME Finish Logic
@@ -216,8 +211,7 @@ const Board = (props: BoardProps) => {
     setWeeklyScores(weeklyScoreArr);
     setWeeklyPoints(weeklyPointsArr);
     setTimeout(() => {
-      //Switch with special end game modal to show rank / share / write score to leaderboard
-      setStatisticsModal(true);
+      setShowGameOverModal(true);
     }, 1060);
   }, [
     setSwapCount,
@@ -225,7 +219,7 @@ const Board = (props: BoardProps) => {
     setWeeklyPoints,
     setWeeklyScores,
     setLastPlayedDate,
-    setStatisticsModal,
+    setShowGameOverModal,
     gameState.foundWords.length,
     gameState.points,
     gameState.weeklyPoints,
@@ -429,6 +423,15 @@ const Board = (props: BoardProps) => {
           bonusLetter={bonusLetter[0]}
         />
       )}
+      {showGameOverModal && (
+        <GameOverModal
+          closeModal={() => {
+            setShowGameOverModal(false);
+          }}
+          gameMode={gameMode}
+          gameState={gameState}
+        />
+      )}
       {/* HUD */}
       <div className="hud-container">
         <div className="swaps-container">
@@ -521,7 +524,7 @@ const Board = (props: BoardProps) => {
                     gameState.hasPlayedToday &&
                     !isFlippingLoadingAnimation
                   ) {
-                    setStatisticsModal(true);
+                    setShowGameOverModal(true);
                   }
                 }}
               >
