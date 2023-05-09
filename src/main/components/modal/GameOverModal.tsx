@@ -88,14 +88,22 @@ const GameOverModal = (props: GameOverModalProps) => {
     gameMode === "blitz4x4"
       ? "4x4 Blitz ⚡"
       : gameMode === "blitz5x5"
-      ? "5x5 Blitz  ⏰"
+      ? "5x5 Blitz ⏰"
       : "Marathon 🏃";
 
   const rankInfo = {
-    title: ["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐", "Grandmaster 🌠"],
-    blitz4x4Points: [0, 20, 40, 75, 120, 180],
-    blitz5x5Points: [0, 20, 40, 75, 120, 180],
-    marathonPoints: [0, 50, 100, 200, 300, 500],
+    title: [
+      "⭐",
+      "⭐⭐",
+      "⭐⭐⭐",
+      "⭐⭐⭐⭐",
+      "⭐⭐⭐⭐⭐",
+      "Master ✨",
+      "Grandmaster 🌠",
+    ],
+    blitz4x4Points: [0, 20, 40, 75, 100, 140, 180],
+    blitz5x5Points: [0, 20, 40, 75, 100, 120, 150],
+    marathonPoints: [0, 50, 100, 200, 300, 400, 500],
   };
 
   const rankArr =
@@ -157,9 +165,9 @@ const GameOverModal = (props: GameOverModalProps) => {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
             <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
             <polyline points="16 6 12 2 8 6"></polyline>
