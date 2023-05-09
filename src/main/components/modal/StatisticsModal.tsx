@@ -135,6 +135,7 @@ const StatisticsModal = (props: StatisticsModalProps) => {
 
   const config = {
     displayModeBar: false, // Disable the modebar
+    showTips: false,
   };
 
   const todaysResults = [
