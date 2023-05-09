@@ -5,6 +5,7 @@ import { GameMode, GameState } from "../../Main";
 import { getDaysElapsedSince } from "../../../DayCounter";
 import { intervalToDuration } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
+import { writeToLeaderboard } from "../leaderboard/leaderboardFunctions";
 
 interface GameOverModalProps {
   closeModal: () => void;
@@ -42,8 +43,35 @@ const GameOverModal = (props: GameOverModalProps) => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  const [timeRemaining, setTimeRemaining] = useState("");
+  //Try to write score to leaderboard
+  useEffect(() => {
+    let entry = {
+      id: gameState.gameId,
+      name: "Test",
+      score: gameState.foundWords.length,
+      points: gameState.points,
+      gameMode: gameMode,
+      foundWords: gameState.foundWords,
+      recentFoundWords: gameState.recentFoundWords,
+    };
+    //Check if entry should be added
+    if (entry.points > 0) {
+      writeToLeaderboard(entry);
+      setTimeout(() => {
+        // setAddedToLeaderboard(true);
+      }, 1000);
+      console.log("Entry added to db");
+    }
+  }, [
+    gameMode,
+    gameState.foundWords,
+    gameState.gameId,
+    gameState.points,
+    gameState.recentFoundWords,
+  ]);
 
+  //COUNTDOWN TIMER TO NEXT PUZZLE
+  const [timeRemaining, setTimeRemaining] = useState("");
   useEffect(() => {
     const onTimerComplete = () => {
       // Refresh the page when the timer hits 0
@@ -51,7 +79,6 @@ const GameOverModal = (props: GameOverModalProps) => {
         window.location.reload();
       }, 900);
     };
-
     const updateTimeRemaining = () => {
       const currentTime = utcToZonedTime(new Date(), "America/New_York");
       const midnight = new Date(
