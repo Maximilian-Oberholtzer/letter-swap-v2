@@ -262,7 +262,6 @@ const Main = () => {
                   gameMode={"blitz4x4"}
                   gameState={blitz4x4State}
                   setGameState={setBlitz4x4State}
-                  setStatisticsModal={setStatisticsModal}
                   soundEnabled={soundEnabled}
                 />
               )}
@@ -271,7 +270,6 @@ const Main = () => {
                   gameMode={"blitz5x5"}
                   gameState={blitz5x5State}
                   setGameState={setBlitz5x5State}
-                  setStatisticsModal={setStatisticsModal}
                   soundEnabled={soundEnabled}
                 />
               )}
@@ -280,7 +278,6 @@ const Main = () => {
                   gameMode={"marathon"}
                   gameState={marathonState}
                   setGameState={setMarathonState}
-                  setStatisticsModal={setStatisticsModal}
                   soundEnabled={soundEnabled}
                 />
               )}
