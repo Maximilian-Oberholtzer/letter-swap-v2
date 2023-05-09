@@ -120,7 +120,7 @@ const StatisticsModal = (props: StatisticsModalProps) => {
       },
       range: [0.5, 7.5],
       tickvals: [1, 2, 3, 4, 5, 6, 7],
-      ticktext: ["1", "2", "3", "4", "5", "✨", "🌠"],
+      ticktext: ["1", "2", "3", "4", "5", "M", "GM"],
       fixedrange: true, // Disable zoom along y-axis
     },
     legend: {
@@ -163,12 +163,6 @@ const StatisticsModal = (props: StatisticsModalProps) => {
       </p>
       <div className="statistics-todays-results-container">
         <table className="statistics-table">
-          <thead>
-            <tr>
-              <th>Mode</th>
-              <th>Result</th>
-            </tr>
-          </thead>
           <tbody>
             {todaysResults.map(({ mode, score, points }, index) => (
               <tr key={index}>

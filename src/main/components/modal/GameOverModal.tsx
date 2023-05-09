@@ -47,7 +47,9 @@ const GameOverModal = (props: GameOverModalProps) => {
   useEffect(() => {
     const onTimerComplete = () => {
       // Refresh the page when the timer hits 0
-      window.location.reload();
+      setTimeout(() => {
+        window.location.reload();
+      }, 900);
     };
 
     const updateTimeRemaining = () => {
