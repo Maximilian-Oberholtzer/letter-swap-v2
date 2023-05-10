@@ -3,7 +3,7 @@
   --game-width: 970px;
   --transition: 300ms background-color, 300ms color, 300ms border;
 
-  --light-gray: #dfdfdf;
+  --light-gray: #e1e2e3;
   --dark-gray: #b6b6b6;
   --green: #6fb05c;
   --yellow: #cfaa09;
@@ -14,7 +14,7 @@
 
   --light-background: #ffffff;
   --light-text: #000000;
-  --light-tile-color: #dfdfdf;
+  --light-tile-color: #e1e2e3;
   --dark-backdrop: #242424;
   --dark-text: #ffffff;
   --dark-tile-color: #3a3a3c;
