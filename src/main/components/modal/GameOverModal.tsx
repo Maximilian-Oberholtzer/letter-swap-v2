@@ -1,4 +1,10 @@
-import React, { ReactNode, useState, useEffect } from "react";
+import React, {
+  ReactNode,
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import Modal from "./Modal";
 import { useTheme } from "../../../theme/Theme";
 import { GameMode, GameState } from "../../Main";
@@ -6,11 +12,14 @@ import { getDaysElapsedSince } from "../../../DayCounter";
 import { intervalToDuration } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 import { writeToLeaderboard } from "../leaderboard/leaderboardFunctions";
+import { bannedWords } from "../../../words/bannedWords";
 
 interface GameOverModalProps {
   closeModal: () => void;
   gameMode: GameMode;
   gameState: GameState;
+  setSubmittedScore: Dispatch<SetStateAction<boolean>>;
+  username: string;
 }
 
 //Function to share score at end of the game
@@ -38,16 +47,25 @@ const handleShare = async (
 };
 
 const GameOverModal = (props: GameOverModalProps) => {
-  const { closeModal, gameMode, gameState } = props;
+  const { closeModal, gameMode, gameState, setSubmittedScore, username } =
+    props;
 
   const { theme } = useTheme();
   const isDark = theme === "dark";
+
+  //Set valid username for table entry
+  let name = "";
+  if (username === "" || bannedWords.includes(username.toLowerCase())) {
+    name = "User";
+  } else {
+    name = username;
+  }
 
   //Try to write score to leaderboard
   useEffect(() => {
     let entry = {
       id: gameState.gameId,
-      name: "Test",
+      name: name,
       score: gameState.foundWords.length,
       points: gameState.points,
       gameMode: gameMode,
@@ -55,11 +73,8 @@ const GameOverModal = (props: GameOverModalProps) => {
       recentFoundWords: gameState.recentFoundWords,
     };
     //Check if entry should be added
-    if (entry.points > 0) {
-      writeToLeaderboard(entry);
-      setTimeout(() => {
-        // setAddedToLeaderboard(true);
-      }, 1000);
+    if (entry.points > 0 && !gameState.submittedScore) {
+      writeToLeaderboard(entry, setSubmittedScore);
       console.log("Entry added to db");
     }
   }, [
@@ -68,6 +83,8 @@ const GameOverModal = (props: GameOverModalProps) => {
     gameState.gameId,
     gameState.points,
     gameState.recentFoundWords,
+    gameState.submittedScore,
+    setSubmittedScore,
   ]);
 
   //COUNTDOWN TIMER TO NEXT PUZZLE
