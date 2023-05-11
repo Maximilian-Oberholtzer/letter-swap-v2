@@ -29,10 +29,11 @@ interface BoardProps {
   gameState: GameState;
   setGameState: Dispatch<SetStateAction<GameState>>;
   soundEnabled: boolean;
+  username: string;
 }
 
 const Board = (props: BoardProps) => {
-  const { gameMode, gameState, setGameState, soundEnabled } = props;
+  const { gameMode, gameState, setGameState, soundEnabled, username } = props;
 
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -62,6 +63,7 @@ const Board = (props: BoardProps) => {
   const setWeeklyScores = useSetGameState("weeklyScores");
   const setWeeklyPoints = useSetGameState("weeklyPoints");
   const setGameId = useSetGameState("gameId");
+  const setSubmittedScore = useSetGameState("submittedScore");
 
   //Allow flipping animations to happen before allowing user to place another tile
   const [isFlipping, setIsFlipping] = useState(false);
@@ -434,6 +436,8 @@ const Board = (props: BoardProps) => {
           }}
           gameMode={gameMode}
           gameState={gameState}
+          setSubmittedScore={setSubmittedScore}
+          username={username}
         />
       )}
       {/* HUD */}

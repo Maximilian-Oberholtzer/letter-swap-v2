@@ -37,6 +37,9 @@ const GameIntroModal = (props: GameIntroModalProps) => {
           : "."}{" "}
         Each puzzle has a <b>FIXED</b> letter sequence per day.
       </div>
+      <div className="modal-text text-align-center">
+        Your leaderboard <b>USERNAME</b> can be changed in the settings.
+      </div>
       <div className="bonus-letter-container">
         <div className="settings-text text-align-center">
           Today's <b>BONUS</b> Letter:{" "}
@@ -49,6 +52,7 @@ const GameIntroModal = (props: GameIntroModalProps) => {
           {bonusLetter}
         </div>
       </div>
+
       <div
         className="modal-text text-align-center"
         style={{ color: "#818181" }}

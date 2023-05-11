@@ -9,15 +9,37 @@ export type LeaderboardEntry = {
   gameMode: string;
 };
 
-export async function writeToLeaderboard(entry: {
-  id: number;
-  name: string;
-  score: number;
-  points: number;
-  gameMode: string;
-  foundWords: string[];
-  recentFoundWords: string[];
-}) {
+export async function readAllLeaderboards(gameMode: string) {
+  const response = await fetch("/.netlify/functions/leaderboardActions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ action: "readAllLeaderboards", payload: gameMode }),
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    // console.log("Leaderboard data:", data);
+    // setLeaderboardData(data);
+    return data;
+  } else {
+    console.error("An error occurred while fetching leaderboard data");
+  }
+}
+
+export async function writeToLeaderboard(
+  entry: {
+    id: number;
+    name: string;
+    score: number;
+    points: number;
+    gameMode: string;
+    foundWords: string[];
+    recentFoundWords: string[];
+  },
+  setSubmittedScore: Dispatch<SetStateAction<boolean>>
+) {
   try {
     const response = await fetch("/.netlify/functions/leaderboardActions", {
       method: "POST",
@@ -35,6 +57,9 @@ export async function writeToLeaderboard(entry: {
     }
 
     const data = await response.json();
+    if (data) {
+      setSubmittedScore(true);
+    }
     console.log("Leaderboard entry added:", data);
   } catch (error) {
     console.error("Error writing to leaderboard:", error);

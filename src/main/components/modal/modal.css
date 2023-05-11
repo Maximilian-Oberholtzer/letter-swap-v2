@@ -285,6 +285,12 @@ input:focus + .slider {
   border-radius: 50%;
 }
 
+.settings-username-input {
+  all: unset;
+  text-align: right;
+  font-weight: 700;
+}
+
 /* Support */
 .support-link-container {
   display: flex;
@@ -346,6 +352,43 @@ input:focus + .slider {
   background-color: var(--light-button-background-hover) !important;
 }
 
+/* Leaderboard Modal */
+.leaderboard-select-container {
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.leaderboard-select-dark {
+  background-color: var(--dark-tile-color);
+  color: var(--dark-text);
+}
+
+.leaderboard-select-light {
+  background-color: var(--light-tile-color);
+  color: var(--light-text);
+}
+
+.leaderboard-select {
+  cursor: pointer;
+  margin: 0rem;
+  border: none;
+  text-align: center;
+  border-radius: 0.3rem;
+  font-weight: 700;
+}
+
+.leaderboard-table-container {
+  display: flex;
+  justify-content: center;
+}
+
+.leaderboard-table {
+  text-align: center;
+  width: 95%;
+}
+
 /* Media Queries for responsiveness */
 
 /* X-Small */
@@ -379,6 +422,10 @@ input:focus + .slider {
   }
   .settings-text {
     font-size: 0.9rem !important;
+  }
+  .settings-username-input {
+    width: 7.25rem;
+    font-size: 0.9rem;
   }
   .switch {
     width: 2.5rem !important;
@@ -414,6 +461,17 @@ input:focus + .slider {
     width: 100% !important;
     height: 16rem !important;
   }
+  .leaderboard-select {
+    font-size: 0.95rem !important;
+    height: 2.25rem !important;
+    width: 6rem !important;
+  }
+  .leaderboard-table {
+    font-size: 0.85rem !important;
+  }
+  .leaderboard-table-cell {
+    padding: 0.15rem 0.75rem !important;
+  }
 }
 
 /* Small */
@@ -446,6 +504,10 @@ input:focus + .slider {
     padding: 0.75rem 0rem;
   }
   .settings-text {
+    font-size: 1rem;
+  }
+  .settings-username-input {
+    width: 8rem;
     font-size: 1rem;
   }
   .switch {
@@ -482,6 +544,17 @@ input:focus + .slider {
     width: 95%;
     height: 20rem;
   }
+  .leaderboard-select {
+    font-size: 1rem;
+    height: 2.5rem;
+    width: 7rem;
+  }
+  .leaderboard-table {
+    font-size: 0.95rem;
+  }
+  .leaderboard-table-cell {
+    padding: 0.15rem 1.1rem;
+  }
 }
 
 /* Large */
@@ -517,6 +590,10 @@ input:focus + .slider {
   .settings-text {
     font-size: 1.25rem;
   }
+  .settings-username-input {
+    width: 10rem;
+    font-size: 1.25rem;
+  }
   .switch {
     width: 3.75rem;
     height: 2.1rem;
@@ -550,5 +627,16 @@ input:focus + .slider {
   .responsive-bar-chart-container {
     width: 75%;
     height: 30rem;
+  }
+  .leaderboard-select {
+    font-size: 1.25rem;
+    height: 3rem;
+    width: 10rem;
+  }
+  .leaderboard-table {
+    font-size: 1.5rem;
+  }
+  .leaderboard-table-cell {
+    padding: 0.15rem 2.25rem;
   }
 }

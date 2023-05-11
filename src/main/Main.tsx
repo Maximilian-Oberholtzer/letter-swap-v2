@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useReducer } from "react";
 import { useTheme } from "../theme/Theme";
 import "./main.css";
 import Menu from "./components/menu/Menu";
@@ -14,6 +14,7 @@ import LeaderboardModal from "./components/modal/LeaderboardModal";
 import SettingsModal from "./components/modal/SettingsModal";
 import SupportModal from "./components/modal/SupportModal";
 import { getDaysElapsedSince } from "../DayCounter";
+import { readAllLeaderboards } from "./components/leaderboard/leaderboardFunctions";
 
 export type GameMode = "blitz4x4" | "blitz5x5" | "marathon";
 
@@ -34,6 +35,7 @@ export interface GameState {
   weeklyScores: (number | null)[];
   weeklyPoints: (number | null)[];
   gameId: number;
+  submittedScore: boolean;
 }
 
 function getDefaultGameState(gameMode: string): GameState {
@@ -53,13 +55,13 @@ function getDefaultGameState(gameMode: string): GameState {
         recentFoundWords: [],
         points: 0,
         gameStarted: false,
-        hasPlayed: false,
         hasPlayedToday: false,
         playCount: 0,
         lastPlayedPuzzle: getDaysElapsedSince(),
         weeklyScores: Array.from({ length: 7 }, () => null),
         weeklyPoints: Array.from({ length: 7 }, () => null),
         gameId: generateGameId(),
+        submittedScore: false,
       };
 }
 
@@ -69,11 +71,21 @@ const Main = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
+  //username controller
+  const [username, setUsername] = useState<string>(() => {
+    const username = localStorage.getItem("username");
+    return username ? JSON.parse(username) : "";
+  });
   //sound controller
   const [soundEnabled, setSoundEnabled] = useState(() => {
     const soundEnabled = localStorage.getItem("soundEnabled");
     return soundEnabled ? JSON.parse(soundEnabled) : false;
   });
+
+  useEffect(() => {
+    localStorage.setItem("username", JSON.stringify(username));
+    localStorage.setItem("soundEnabled", JSON.stringify(soundEnabled));
+  }, [username, soundEnabled]);
 
   //game user state - local storage
   const [blitz4x4State, setBlitz4x4State] = useState<GameState>(() =>
@@ -140,6 +152,40 @@ const Main = () => {
     localStorage.setItem("marathonActive", JSON.stringify(marathonActive));
   }, [menuActive, blitz4x4Active, blitz5x5Active, marathonActive]);
 
+  // LEADERBOARD LOAD DATA
+  const [leaderboardData, setLeaderboardData] = useState<any[]>([]);
+  const [fetchError, setFetchError] = useState(false);
+  useEffect(() => {
+    const fetchLeaderboards = async () => {
+      const gameModes = ["blitz4x4", "blitz5x5", "marathon"];
+      const leaderboardData = await Promise.all(
+        gameModes.map(async (gameMode) => {
+          const data = await readAllLeaderboards(gameMode);
+          if (data) {
+            return {
+              gameMode,
+              data,
+            };
+          } else {
+            console.error(`Error fetching ${gameMode} leaderboard`);
+            setFetchError(true);
+            return null;
+          }
+        })
+      );
+
+      // Filter out any failed fetches
+      const validLeaderboards = leaderboardData.filter(Boolean);
+      setLeaderboardData(validLeaderboards);
+    };
+
+    fetchLeaderboards();
+  }, [
+    blitz4x4State.submittedScore,
+    blitz5x5State.submittedScore,
+    marathonState.submittedScore,
+  ]);
+
   //MODAL handling
   const [instructionsModal, setInstructionsModal] = useState<boolean>(false);
   const [statisticsModal, setStatisticsModal] = useState<boolean>(false);
@@ -167,7 +213,11 @@ const Main = () => {
     {
       isOpen: leaderboardModal,
       component: (
-        <LeaderboardModal closeModal={() => setLeaderboardModal(false)} />
+        <LeaderboardModal
+          closeModal={() => setLeaderboardModal(false)}
+          leaderboardData={leaderboardData}
+          fetchError={fetchError}
+        />
       ),
     },
     {
@@ -177,6 +227,8 @@ const Main = () => {
           closeModal={() => setSettingsModal(false)}
           soundEnabled={soundEnabled}
           setSoundEnabled={setSoundEnabled}
+          username={username}
+          setUsername={setUsername}
         />
       ),
     },
@@ -262,6 +314,7 @@ const Main = () => {
                   gameState={blitz4x4State}
                   setGameState={setBlitz4x4State}
                   soundEnabled={soundEnabled}
+                  username={username}
                 />
               )}
               {blitz5x5Active && (
@@ -270,6 +323,7 @@ const Main = () => {
                   gameState={blitz5x5State}
                   setGameState={setBlitz5x5State}
                   soundEnabled={soundEnabled}
+                  username={username}
                 />
               )}
               {marathonActive && (
@@ -278,6 +332,7 @@ const Main = () => {
                   gameState={marathonState}
                   setGameState={setMarathonState}
                   soundEnabled={soundEnabled}
+                  username={username}
                 />
               )}
             </div>

@@ -6,16 +6,44 @@ interface SettingsModalProps {
   closeModal: () => void;
   soundEnabled: boolean;
   setSoundEnabled: Dispatch<SetStateAction<boolean>>;
+  username: string;
+  setUsername: Dispatch<SetStateAction<string>>;
 }
 
+const handleInputChange = (
+  event: React.ChangeEvent<HTMLInputElement>,
+  setUsername: Dispatch<SetStateAction<string>>
+) => {
+  setUsername(event.target.value);
+};
+
 const SettingsModal = (props: SettingsModalProps) => {
-  const { closeModal, soundEnabled, setSoundEnabled } = props;
+  const { closeModal, soundEnabled, setSoundEnabled, username, setUsername } =
+    props;
 
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === "dark";
 
   const SettingsNode: ReactNode = (
     <div className="modal-content-container">
+      <div className="settings-container">
+        <div className="settings-text">
+          <b>Username</b>
+        </div>
+        <input
+          className="settings-username-input"
+          maxLength={8}
+          type="text"
+          placeholder="User"
+          value={username}
+          onChange={(event) => handleInputChange(event, setUsername)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              closeModal();
+            }
+          }}
+        />
+      </div>
       <div className="settings-container">
         <div className="settings-text">
           <b>Dark Theme</b>
