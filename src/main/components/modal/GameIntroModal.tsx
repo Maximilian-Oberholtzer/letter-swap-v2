@@ -29,19 +29,24 @@ const GameIntroModal = (props: GameIntroModalProps) => {
     <div className="modal-content-container">
       <div className="modal-text text-align-center">
         Create as many {gameMode === "blitz4x4" ? "4-letter" : "5-letter"} words
-        as possible{" "}
+        as possible
         {gameMode === "blitz4x4" ? (
           <>
-            within <b>3 MINUTES</b>. Finding a word will <b>ADD</b> 3 seconds to
-            the timer.
+            {" "}
+            within <b>3 MINUTES</b> given <b>5 SWAPS</b>. Finding a word will{" "}
+            <b>ADD</b> 3 seconds to the timer.
           </>
         ) : gameMode === "blitz5x5" ? (
           <>
-            within <b>5 MINUTES</b>. Finding a word will <b>ADD</b> 5 seconds to
-            the timer.
+            {" "}
+            within <b>5 MINUTES</b> given <b>10 SWAPS</b>. Finding a word will{" "}
+            <b>ADD</b> 5 seconds to the timer.
           </>
         ) : (
-          "."
+          <>
+            {" "}
+            given <b>15 SWAPS</b>.
+          </>
         )}{" "}
         Each puzzle has a <b>FIXED</b> letter sequence per day.
       </div>
