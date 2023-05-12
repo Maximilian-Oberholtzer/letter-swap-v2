@@ -32,7 +32,7 @@ const SettingsModal = (props: SettingsModalProps) => {
         </div>
         <input
           className="settings-username-input"
-          maxLength={8}
+          maxLength={10}
           type="text"
           placeholder="User"
           value={username}

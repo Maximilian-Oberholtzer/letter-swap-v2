@@ -424,8 +424,8 @@ input:focus + .slider {
     font-size: 0.9rem !important;
   }
   .settings-username-input {
-    width: 7.25rem;
-    font-size: 0.9rem;
+    width: 8.2rem !important;
+    font-size: 0.9rem !important;
   }
   .switch {
     width: 2.5rem !important;
@@ -507,7 +507,7 @@ input:focus + .slider {
     font-size: 1rem;
   }
   .settings-username-input {
-    width: 8rem;
+    width: 9.5rem;
     font-size: 1rem;
   }
   .switch {
@@ -591,7 +591,7 @@ input:focus + .slider {
     font-size: 1.25rem;
   }
   .settings-username-input {
-    width: 10rem;
+    width: 11.5rem;
     font-size: 1.25rem;
   }
   .switch {

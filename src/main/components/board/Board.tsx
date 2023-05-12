@@ -53,6 +53,7 @@ const Board = (props: BoardProps) => {
   const setTimerProgress = useSetGameState("timerProgress");
   const setTimerStarted = useSetGameState("timerStarted");
   const setTimerStartTime = useSetGameState("timerStartTime");
+  const setTimerTimeAdjustment = useSetGameState("timerTimeAdjustment");
   const setSwapCount = useSetGameState("swapCount");
   const setFoundWords = useSetGameState("foundWords");
   const setRecentFoundWords = useSetGameState("recentFoundWords");
@@ -132,11 +133,13 @@ const Board = (props: BoardProps) => {
 
   // BLITZ TIMER VARIABLES
   const duration = gameMode === "blitz4x4" ? 3 * 60 * 1001 : 5 * 60 * 1001;
+  // const duration = 10 * 1001;
 
   // RESET GAME
   const resetGame = useCallback(() => {
     setGameStarted(false);
     setHasPlayedToday(false);
+    setTimerTimeAdjustment(0);
     setSubmittedScore(false);
     setGameId(generateGameId());
     //reset events from timer - blitz only
@@ -173,6 +176,7 @@ const Board = (props: BoardProps) => {
     setHasPlayedToday,
     duration,
     gameMode,
+    setTimerTimeAdjustment,
     gameState.timerStartTime,
     setTimerProgress,
     setTimerStarted,
@@ -250,7 +254,7 @@ const Board = (props: BoardProps) => {
       let animationFrameId: number;
       const updateTimer = () => {
         const now = new Date().getTime();
-        let diff = duration - (now - start);
+        let diff = duration - (now - start) + gameState.timerTimeAdjustment;
 
         if (gameState.swapCount <= 0) {
           cancelAnimationFrame(animationFrameId);
@@ -258,19 +262,31 @@ const Board = (props: BoardProps) => {
         }
 
         //Handle end of timer logic -- don't allow user to flip a tile when timer is super low
-        if (diff <= 250) {
-          if (isFlipping) {
-            setIsFlippingFinal(true);
-          }
-          if (diff < 0) {
-            cancelAnimationFrame(animationFrameId);
-            if (gameState.swapCount > 0 && !isFlippingFound) {
-              setTimerStarted(false);
-              handleGameFinish();
-              return;
-            }
+        if (diff < 0) {
+          setIsFlippingFinal(true);
+          cancelAnimationFrame(animationFrameId);
+          setTimerProgress(0);
+          if (gameState.swapCount > 0 && !isFlippingFound) {
+            setTimerStarted(false);
+            handleGameFinish();
+            return;
           }
         }
+
+        // if (diff <= 250) {
+        //   if (isFlipping) {
+        //     setIsFlippingFinal(true);
+        //   }
+        //   if (diff < 0) {
+        //     cancelAnimationFrame(animationFrameId);
+        //     setTimerProgress(0);
+        //     if (gameState.swapCount > 0 && !isFlippingFound) {
+        //       setTimerStarted(false);
+        //       handleGameFinish();
+        //       return;
+        //     }
+        //   }
+        // }
 
         setTimerTimeLeft(diff);
         setTimerProgress((diff / duration) * 100);
@@ -289,6 +305,7 @@ const Board = (props: BoardProps) => {
     duration,
     resetGame,
     gameState.timerStartTime,
+    gameState.timerTimeAdjustment,
     setTimerProgress,
     setTimerStartTime,
     setTimerStarted,
@@ -344,6 +361,25 @@ const Board = (props: BoardProps) => {
       setEffect,
       soundEnabled
     );
+
+    //Add time depending on game mode
+    if (foundWord) {
+      if (gameMode === "blitz4x4") {
+        const remainingTime = duration - gameState.timerTimeLeft;
+        if (remainingTime >= 3000) {
+          setTimerTimeAdjustment(gameState.timerTimeAdjustment + 3000);
+        } else {
+          setTimerTimeAdjustment(gameState.timerTimeAdjustment + remainingTime);
+        }
+      } else if (gameMode === "blitz5x5") {
+        const remainingTime = duration - gameState.timerTimeLeft;
+        if (remainingTime >= 5000) {
+          setTimerTimeAdjustment(gameState.timerTimeAdjustment + 5000);
+        } else {
+          setTimerTimeAdjustment(gameState.timerTimeAdjustment + remainingTime);
+        }
+      }
+    }
 
     //Animate swap counter if swap was used
     const swapCounter = document.querySelector(".swaps-container");
@@ -484,12 +520,12 @@ const Board = (props: BoardProps) => {
                 width: `${gameState.timerProgress}%`,
                 backgroundColor:
                   gameMode === "blitz4x4"
-                    ? minutes === 0 && seconds <= 30
+                    ? minutes <= 0 && seconds <= 30
                       ? "var(--red)"
                       : minutes * 60 + seconds > 90
                       ? "var(--green)"
                       : "var(--yellow)"
-                    : minutes === 0
+                    : minutes <= 0
                     ? "var(--red)"
                     : minutes * 60 + seconds > 150
                     ? "var(--green)"

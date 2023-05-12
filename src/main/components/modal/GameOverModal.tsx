@@ -58,7 +58,7 @@ const GameOverModal = (props: GameOverModalProps) => {
   if (
     username === "" ||
     bannedWords.includes(username.toLowerCase()) ||
-    username.length > 8
+    username.length > 10
   ) {
     name = "User" + gameState.gameId.toString().substring(0, 4);
   } else {

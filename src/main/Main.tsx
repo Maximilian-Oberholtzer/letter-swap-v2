@@ -13,6 +13,8 @@ import InstructionsModal from "./components/modal/InstructionsModal";
 import LeaderboardModal from "./components/modal/LeaderboardModal";
 import SettingsModal from "./components/modal/SettingsModal";
 import SupportModal from "./components/modal/SupportModal";
+import { trackPageView } from "../analytics";
+import { useLocation } from "react-router-dom";
 import { getDaysElapsedSince } from "../DayCounter";
 import { readAllLeaderboards } from "./components/leaderboard/leaderboardFunctions";
 
@@ -26,6 +28,7 @@ export interface GameState {
   timerProgress: number;
   timerStarted: boolean;
   timerStartTime: string;
+  timerTimeAdjustment: number;
   foundWords: string[];
   recentFoundWords: string[];
   points: number;
@@ -51,6 +54,7 @@ function getDefaultGameState(gameMode: string): GameState {
         timerProgress: 100,
         timerStarted: false,
         timerStartTime: new Date().getTime(),
+        timerTimeAdjustment: 0,
         foundWords: [],
         recentFoundWords: [],
         points: 0,
@@ -67,6 +71,10 @@ function getDefaultGameState(gameMode: string): GameState {
 
 const Main = () => {
   //google analytics
+  const location = useLocation();
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location]);
 
   const { theme } = useTheme();
   const isDark = theme === "dark";
