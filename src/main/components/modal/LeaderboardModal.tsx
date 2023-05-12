@@ -97,7 +97,7 @@ const LeaderboardModal = (props: LeaderboardModalProps) => {
                           ? "🥉"
                           : index + 1 + selectedLeaderboard.length}
                       </td>
-                      <td className="leaderboard-table-cell">MMMMMMMM</td>
+                      <td className="leaderboard-table-cell">-</td>
                       <td className="leaderboard-table-cell">-</td>
                       <td className="leaderboard-table-cell">-</td>
                     </tr>
