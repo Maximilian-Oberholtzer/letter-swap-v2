@@ -52,15 +52,16 @@ export async function writeToLeaderboard(
       }),
     });
 
+    if (response.ok) {
+      setSubmittedScore(true);
+    }
+
     if (!response.ok) {
       throw new Error(`Error writing to leaderboard: ${response.status}`);
     }
 
     const data = await response.json();
-    if (data) {
-      setSubmittedScore(true);
-    }
-    console.log("Leaderboard entry added:", data);
+    console.log(data);
   } catch (error) {
     console.error("Error writing to leaderboard:", error);
   }

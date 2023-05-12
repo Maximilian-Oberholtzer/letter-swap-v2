@@ -55,8 +55,12 @@ const GameOverModal = (props: GameOverModalProps) => {
 
   //Set valid username for table entry
   let name = "";
-  if (username === "" || bannedWords.includes(username.toLowerCase())) {
-    name = "User";
+  if (
+    username === "" ||
+    bannedWords.includes(username.toLowerCase()) ||
+    username.length > 8
+  ) {
+    name = "User" + gameState.gameId.toString().substring(0, 4);
   } else {
     name = username;
   }
@@ -78,6 +82,7 @@ const GameOverModal = (props: GameOverModalProps) => {
       console.log("Entry added to db");
     }
   }, [
+    name,
     gameMode,
     gameState.foundWords,
     gameState.gameId,

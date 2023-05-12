@@ -6,11 +6,10 @@ import { useTheme } from "../../../theme/Theme";
 interface LeaderboardModalProps {
   closeModal: () => void;
   leaderboardData: any[];
-  fetchError: boolean;
 }
 
 const LeaderboardModal = (props: LeaderboardModalProps) => {
-  const { closeModal, leaderboardData, fetchError } = props;
+  const { closeModal, leaderboardData } = props;
 
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -50,8 +49,10 @@ const LeaderboardModal = (props: LeaderboardModalProps) => {
         </select>
       </div>
 
-      {fetchError ? (
-        <p>Error fetching leaderboard data ❌</p>
+      {leaderboardData.length === 0 ? (
+        <p className="modal-text text-align-center">
+          Error fetching leaderboard data ❌
+        </p>
       ) : (
         <div className="leaderboard-table-container">
           <table className="leaderboard-table">
@@ -88,9 +89,15 @@ const LeaderboardModal = (props: LeaderboardModalProps) => {
                   .map((_, index) => (
                     <tr key={index}>
                       <td className="leaderboard-table-cell">
-                        {index + 1 + selectedLeaderboard.length}
+                        {index + selectedLeaderboard.length === 0
+                          ? "🥇"
+                          : index + selectedLeaderboard.length === 1
+                          ? "🥈"
+                          : index + selectedLeaderboard.length === 2
+                          ? "🥉"
+                          : index + 1 + selectedLeaderboard.length}
                       </td>
-                      <td className="leaderboard-table-cell">-</td>
+                      <td className="leaderboard-table-cell">MMMMMMMM</td>
                       <td className="leaderboard-table-cell">-</td>
                       <td className="leaderboard-table-cell">-</td>
                     </tr>

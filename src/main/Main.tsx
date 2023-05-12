@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect, useReducer } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useTheme } from "../theme/Theme";
 import "./main.css";
 import Menu from "./components/menu/Menu";
@@ -154,7 +154,6 @@ const Main = () => {
 
   // LEADERBOARD LOAD DATA
   const [leaderboardData, setLeaderboardData] = useState<any[]>([]);
-  const [fetchError, setFetchError] = useState(false);
   useEffect(() => {
     const fetchLeaderboards = async () => {
       const gameModes = ["blitz4x4", "blitz5x5", "marathon"];
@@ -168,7 +167,6 @@ const Main = () => {
             };
           } else {
             console.error(`Error fetching ${gameMode} leaderboard`);
-            setFetchError(true);
             return null;
           }
         })
@@ -216,7 +214,6 @@ const Main = () => {
         <LeaderboardModal
           closeModal={() => setLeaderboardModal(false)}
           leaderboardData={leaderboardData}
-          fetchError={fetchError}
         />
       ),
     },
