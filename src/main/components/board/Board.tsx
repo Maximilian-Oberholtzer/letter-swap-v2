@@ -137,6 +137,7 @@ const Board = (props: BoardProps) => {
   const resetGame = useCallback(() => {
     setGameStarted(false);
     setHasPlayedToday(false);
+    setSubmittedScore(false);
     setGameId(generateGameId());
     //reset events from timer - blitz only
     if (gameMode === "blitz4x4" || gameMode === "blitz5x5") {
@@ -167,6 +168,7 @@ const Board = (props: BoardProps) => {
   }, [
     setGameState,
     setGameId,
+    setSubmittedScore,
     setGameStarted,
     setHasPlayedToday,
     duration,

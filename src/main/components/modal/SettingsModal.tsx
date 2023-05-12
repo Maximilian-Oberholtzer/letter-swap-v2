@@ -37,11 +37,6 @@ const SettingsModal = (props: SettingsModalProps) => {
           placeholder="User"
           value={username}
           onChange={(event) => handleInputChange(event, setUsername)}
-          onKeyDown={(event) => {
-            if (event.key === "Enter") {
-              closeModal();
-            }
-          }}
         />
       </div>
       <div className="settings-container">

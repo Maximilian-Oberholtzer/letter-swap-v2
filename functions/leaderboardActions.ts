@@ -139,25 +139,56 @@ const writeToLeaderboard = async (entry: GameData) => {
     game_mode: entry.gameMode,
   };
 
-  const { data, error } = await supabase
-    .from("leaderboardv2")
-    .insert([leaderboardEntry]);
+  let isValidScore = validateScore(entry);
 
-  if (error) {
-    console.error("Error writing to leaderboard:", error);
+  if (isValidScore) {
+    const { data, error } = await supabase
+      .from("leaderboardv2")
+      .insert([leaderboardEntry]);
+
+    if (error) {
+      console.error("Error writing to leaderboard:", error);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          message: "An error occurred while writing to the leaderboard",
+          error,
+        }),
+      };
+    }
+
     return {
-      statusCode: 500,
-      body: JSON.stringify({
-        message: "An error occurred while writing to the leaderboard",
-        error,
-      }),
+      statusCode: 200,
+      body: JSON.stringify(data),
+    };
+  } else {
+    return {
+      statusCode: 400,
+      body: "Fraudulent entry detected.",
     };
   }
+};
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(data),
-  };
+const validateScore = (entry: GameData): boolean => {
+  let validScore = true;
+  let countedWords = [""];
+
+  for (let word of entry.foundWords) {
+    if (countedWords.includes(word)) {
+      validScore = false;
+    }
+    countedWords.push(word);
+  }
+
+  if (entry.foundWords.length !== entry.score) {
+    validScore = false;
+  }
+
+  if (entry.id.toString().length !== 8) {
+    validScore = false;
+  }
+
+  return validScore;
 };
 
 exports.handler = async (event: any) => {
