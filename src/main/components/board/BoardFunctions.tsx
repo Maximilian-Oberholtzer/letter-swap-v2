@@ -1,9 +1,11 @@
 import { Dispatch, SetStateAction } from "react";
-import { wordsFiveLetters } from "../../../words/words5letters";
-import { wordsFourLetters } from "../../../words/words4letters";
 import randomSeed from "random-seed";
 import moment from "moment-timezone";
 import { Howl } from "howler";
+import words from "an-array-of-english-words";
+
+const wordsFourLetters = words.filter((word) => word.length === 4);
+const wordsFiveLetters = words.filter((word) => word.length === 5);
 
 const pointMap: { [key: string]: number } = {
   A: 1,
