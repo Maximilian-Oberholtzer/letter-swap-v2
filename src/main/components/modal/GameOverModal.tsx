@@ -79,7 +79,7 @@ const GameOverModal = (props: GameOverModalProps) => {
     //Check if entry should be added
     if (entry.points > 0 && !gameState.submittedScore) {
       writeToLeaderboard(entry, setSubmittedScore);
-      console.log("Entry added to db");
+      // console.log("Entry added to db");
     }
   }, [
     name,
@@ -190,6 +190,9 @@ const GameOverModal = (props: GameOverModalProps) => {
         </div>
 
         <button
+          id="share-button"
+          type="button"
+          aria-label="Share"
           onClick={() => {
             handleShare(
               gameState.foundWords.length,
@@ -198,7 +201,7 @@ const GameOverModal = (props: GameOverModalProps) => {
               ModalTitle
             );
           }}
-          className={`share-button ${
+          className={`share-button outline ${
             isDark ? "share-button-dark" : "share-button-light"
           }`}
           style={{

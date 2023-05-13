@@ -1,7 +1,7 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import Modal from "./Modal";
 import { GameState } from "../../Main";
-import Plotly from "plotly.js-dist-min";
+import { PlotParams } from "react-plotly.js";
 import createPlotlyComponent from "react-plotly.js/factory";
 import { Data, Layout } from "plotly.js";
 import { useTheme } from "../../../theme/Theme";
@@ -22,7 +22,16 @@ const StatisticsModal = (props: StatisticsModalProps) => {
   const isDark = theme === "dark";
 
   // Create the custom Plot component
-  const Plot = createPlotlyComponent(Plotly);
+  const [Plot, setPlot] = useState<React.ComponentType<PlotParams> | null>(
+    null
+  );
+  useEffect(() => {
+    import("plotly.js-dist-min")
+      .then((Plotly) => {
+        setPlot(() => createPlotlyComponent(Plotly.default));
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
   //Define y values for chart
   const weeklyPoints = [
@@ -188,15 +197,17 @@ const StatisticsModal = (props: StatisticsModalProps) => {
       <div className="statistics-bar-chart-container">
         <div className="responsive-bar-chart-container">
           {" "}
-          <Plot
-            data={[trace1, trace2, trace3]}
-            layout={layout}
-            config={config} // Pass the config object to the Plot component
-            useResizeHandler
-            className={`statistics-plot ${
-              isDark ? "statistics-plot-dark" : "statistics-plot-light"
-            }`}
-          />
+          {Plot && (
+            <Plot
+              data={[trace1, trace2, trace3]}
+              layout={layout}
+              config={config} // Pass the config object to the Plot component
+              useResizeHandler
+              className={`statistics-plot ${
+                isDark ? "statistics-plot-dark" : "statistics-plot-light"
+              }`}
+            />
+          )}
         </div>
       </div>
     </div>

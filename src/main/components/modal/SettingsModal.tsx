@@ -69,7 +69,7 @@ const SettingsModal = (props: SettingsModalProps) => {
         </div>
         <a
           href="mailto:max.oberholtzer@yahoo.com?subject=LetterSwap%20Feedback"
-          className="feedback-link"
+          className="feedback-link outline"
         >
           Email
         </a>

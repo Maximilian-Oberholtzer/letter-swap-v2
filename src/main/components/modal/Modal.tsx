@@ -37,7 +37,13 @@ const Modal = (props: ModalProps) => {
       >
         <div className="modal-title-container">
           <header className="modal-title">{modalTitle}</header>
-          <button className="modal-close-button" onClick={handleClose}>
+          <button
+            id="close-button"
+            type="button"
+            aria-label="Close"
+            className="modal-close-button outline"
+            onClick={handleClose}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

@@ -60,7 +60,10 @@ const Appbar = (props: AppbarProps) => {
         <div className="drawer-title-container">
           <div className="drawer-title">Menu</div>
           <button
-            className="modal-close-button margin-unset"
+            id="close-button"
+            type="button"
+            aria-label="Close"
+            className="modal-close-button margin-unset outline"
             onClick={handleDrawerClose}
           >
             <svg
@@ -129,7 +132,10 @@ const Appbar = (props: AppbarProps) => {
       {/* Modals */}
       <div className="appbar-left-container">
         <button
-          className="appbar-svg-button"
+          id="back-button"
+          type="button"
+          aria-label="Back"
+          className="appbar-svg-button outline"
           onClick={() => {
             boardFadeOut();
           }}
@@ -156,7 +162,10 @@ const Appbar = (props: AppbarProps) => {
 
       <div className="appbar-right-container">
         <button
-          className="appbar-svg-button"
+          id="drawer-button"
+          type="button"
+          aria-label="Drawer"
+          className="appbar-svg-button outline"
           onClick={() => {
             setShowDrawer(true);
           }}

@@ -60,8 +60,8 @@ export async function writeToLeaderboard(
       throw new Error(`Error writing to leaderboard: ${response.status}`);
     }
 
-    const data = await response.json();
-    console.log(data);
+    // const data = await response.json();
+    // console.log(data);
   } catch (error) {
     console.error("Error writing to leaderboard:", error);
   }
