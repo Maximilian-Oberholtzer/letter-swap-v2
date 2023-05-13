@@ -141,7 +141,10 @@ const Menu = (props: MenuProps) => {
       <Title />
       <div className="title-subtext">Create as many words as possible.</div>
       <button
-        className={`menu-button ${
+        id="4x4-blitz-button"
+        type="button"
+        aria-label="4x4Blitz"
+        className={`menu-button outline ${
           isDark ? "menu-button-dark" : "menu-button-light"
         }`}
         onClick={() => {
@@ -151,7 +154,10 @@ const Menu = (props: MenuProps) => {
         4x4 Blitz ⚡
       </button>
       <button
-        className={`menu-button ${
+        id="5x5-blitz-button"
+        type="button"
+        aria-label="5x5Blitz"
+        className={`menu-button outline ${
           isDark ? "menu-button-dark" : "menu-button-light"
         }`}
         onClick={() => {
@@ -161,7 +167,10 @@ const Menu = (props: MenuProps) => {
         5x5 Blitz ⏰
       </button>
       <button
-        className={`menu-button ${
+        id="marathon-button"
+        type="button"
+        aria-label="Marathon"
+        className={`menu-button outline ${
           isDark ? "menu-button-dark" : "menu-button-light"
         }`}
         onClick={() => {
@@ -173,7 +182,10 @@ const Menu = (props: MenuProps) => {
       <div className="menu-bottom-container">
         {buttons.map(({ name, openModal, svgContent }) => (
           <button
-            className={`menu-svg-button ${
+            id={`${name}-button`}
+            type="button"
+            aria-label={name}
+            className={`menu-svg-button outline ${
               isDark ? "menu-svg-button-dark" : "menu-svg-button-light"
             }`}
             key={name}
@@ -239,7 +251,7 @@ const Menu = (props: MenuProps) => {
       <div className="game-menu-socials-container">
         {socialButtons.map(({ name, link, svgContent }) => (
           <a
-            className="game-menu-socials-link"
+            className="game-menu-socials-link outline"
             href={link}
             target="_blank"
             rel="noreferrer"

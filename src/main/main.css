@@ -35,6 +35,11 @@
   width: 100%;
 }
 
+/* Accessibility styling */
+.outline:focus-visible {
+  outline: 0.15rem solid #234bcf;
+}
+
 /* Menu and board component fade animations */
 .fade-out-left {
   animation: fade-out-left 0.3s ease-in-out;

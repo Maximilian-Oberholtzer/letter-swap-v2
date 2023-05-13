@@ -31,7 +31,7 @@ const SupportModal = (props: SupportModalProps) => {
           href="https://www.buymeacoffee.com/maxoberholtzer"
           target="_blank"
           rel="noreferrer"
-          className={`support-link ${
+          className={`support-link outline ${
             isDark ? "support-link-dark" : "support-link-light"
           }`}
         >

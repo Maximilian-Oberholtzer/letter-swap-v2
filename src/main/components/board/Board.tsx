@@ -168,6 +168,16 @@ const Board = (props: BoardProps) => {
     setGameState((prevState) => ({ ...prevState, points: 0 }));
     setGameState((prevState) => ({ ...prevState, foundWords: [] }));
     setGameState((prevState) => ({ ...prevState, recentFoundWords: [] }));
+    if (DAY === 0) {
+      setGameState((prevState) => ({
+        ...prevState,
+        weeklyScores: Array.from({ length: 7 }, () => null),
+      }));
+      setGameState((prevState) => ({
+        ...prevState,
+        weeklyPoints: Array.from({ length: 7 }, () => null),
+      }));
+    }
   }, [
     setGameState,
     setGameId,
@@ -272,21 +282,6 @@ const Board = (props: BoardProps) => {
             return;
           }
         }
-
-        // if (diff <= 250) {
-        //   if (isFlipping) {
-        //     setIsFlippingFinal(true);
-        //   }
-        //   if (diff < 0) {
-        //     cancelAnimationFrame(animationFrameId);
-        //     setTimerProgress(0);
-        //     if (gameState.swapCount > 0 && !isFlippingFound) {
-        //       setTimerStarted(false);
-        //       handleGameFinish();
-        //       return;
-        //     }
-        //   }
-        // }
 
         setTimerTimeLeft(diff);
         setTimerProgress((diff / duration) * 100);
