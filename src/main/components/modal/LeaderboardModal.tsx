@@ -26,7 +26,7 @@ const LeaderboardModal = (props: LeaderboardModalProps) => {
     <div className="modal-content-container">
       <div className="leaderboard-select-container">
         <select
-          className={`leaderboard-select ${
+          className={`leaderboard-select outline ${
             isDark ? "leaderboard-select-dark" : "leaderboard-select-light"
           }`}
           value={selectedGameMode}
@@ -37,7 +37,7 @@ const LeaderboardModal = (props: LeaderboardModalProps) => {
           <option value="marathon">Marathon</option>
         </select>
         <select
-          className={`leaderboard-select ${
+          className={`leaderboard-select outline ${
             isDark ? "leaderboard-select-dark" : "leaderboard-select-light"
           }`}
           value={selectedLeaderboardType}
