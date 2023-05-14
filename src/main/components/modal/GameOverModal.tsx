@@ -12,6 +12,7 @@ import { getDaysElapsedSince } from "../../../DayCounter";
 import { intervalToDuration } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 import { writeToLeaderboard } from "../leaderboard/leaderboardFunctions";
+import { isMobile } from "react-device-detect";
 import { bannedWords } from "../../../words/bannedWords";
 
 interface GameOverModalProps {
@@ -39,11 +40,22 @@ const handleShare = async (
     url: window.location.href,
   };
 
-  if (typeof navigator.share === "function") {
-    try {
-      await navigator.share(data);
-    } catch (error) {
-      console.error("Error sharing:", error);
+  if (isMobile) {
+    if (typeof navigator.share === "function") {
+      try {
+        await navigator.share(data);
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    } else {
+      navigator.clipboard
+        .writeText(`${data.title}\n${data.text}\n${data.url}`)
+        .then(() => {
+          setCopyToClipboard(true);
+        })
+        .catch((err) => {
+          console.error("Error trying to copy text to clipboard: ", err);
+        });
     }
   } else {
     navigator.clipboard
