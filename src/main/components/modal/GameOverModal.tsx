@@ -27,22 +27,32 @@ const handleShare = async (
   score: number,
   points: number,
   rank: string,
-  gameTitle: string
+  gameTitle: string,
+  setCopyToClipboard: Dispatch<SetStateAction<boolean>>
 ) => {
-  if (navigator.share) {
+  const data = {
+    title: `Daily LetterSwap #${getDaysElapsedSince() + 1}`,
+    text: `${gameTitle}: ${rank}\n${score} ${
+      score === 1 ? "word" : "words"
+    } for ${points} points.`,
+    url: window.location.href,
+  };
+
+  if (navigator.canShare()) {
     try {
-      await navigator.share({
-        title: "LetterSwap",
-        text: `My ${gameTitle} rank today: ${rank}\n${score} ${
-          score === 1 ? "word" : "words"
-        } for ${points} points.`,
-        url: window.location.href,
-      });
+      await navigator.share(data);
     } catch (error) {
       console.error("Error sharing:", error);
     }
   } else {
-    console.warn("Web Share API not supported on this device.");
+    navigator.clipboard
+      .writeText(`${data.title}\n${data.text}\n${data.url}`)
+      .then(() => {
+        setCopyToClipboard(true);
+      })
+      .catch((err) => {
+        console.error("Error trying to copy text to clipboard: ", err);
+      });
   }
 };
 
@@ -52,6 +62,22 @@ const GameOverModal = (props: GameOverModalProps) => {
 
   const { theme } = useTheme();
   const isDark = theme === "dark";
+
+  const [copyToClipboard, setCopyToClipboard] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (copyToClipboard) {
+      const copyToClipboardPopup = document.querySelector(
+        ".copy-to-clipboard-popup"
+      );
+      setTimeout(() => {
+        copyToClipboardPopup?.classList.add("popup-fade-out");
+      }, 1780);
+      setTimeout(() => {
+        setCopyToClipboard(false);
+      }, 2000);
+    }
+  }, [copyToClipboard]);
 
   //Set valid username for table entry
   let name = "";
@@ -174,6 +200,20 @@ const GameOverModal = (props: GameOverModalProps) => {
 
   const GameOverNode: ReactNode = (
     <div className="modal-content-container">
+      {/* Copy To Clipboard Popup */}
+      {copyToClipboard && (
+        <div
+          className="copy-to-clipboard-popup"
+          style={{
+            backgroundColor: isDark
+              ? "var(--light-background)"
+              : "var(--dark-background)",
+            color: isDark ? "var(--light-text)" : "var(--dark-text)",
+          }}
+        >
+          Copied results to clipboard
+        </div>
+      )}
       <div className="modal-text text-align-center">Today's Rank: {rank}</div>
       <div className="modal-text text-align-center">
         You found{" "}
@@ -198,7 +238,8 @@ const GameOverModal = (props: GameOverModalProps) => {
               gameState.foundWords.length,
               gameState.points,
               rank,
-              ModalTitle
+              ModalTitle,
+              setCopyToClipboard
             );
           }}
           className={`share-button outline ${
