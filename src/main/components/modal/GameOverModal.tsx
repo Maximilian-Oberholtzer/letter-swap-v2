@@ -20,6 +20,7 @@ interface GameOverModalProps {
   gameState: GameState;
   setSubmittedScore: Dispatch<SetStateAction<boolean>>;
   username: string;
+  setCopyToClipboard: Dispatch<SetStateAction<boolean>>;
 }
 
 //Function to share score at end of the game
@@ -38,7 +39,7 @@ const handleShare = async (
     url: window.location.href,
   };
 
-  if (navigator.canShare()) {
+  if (typeof navigator.share === "function") {
     try {
       await navigator.share(data);
     } catch (error) {
@@ -57,27 +58,17 @@ const handleShare = async (
 };
 
 const GameOverModal = (props: GameOverModalProps) => {
-  const { closeModal, gameMode, gameState, setSubmittedScore, username } =
-    props;
+  const {
+    closeModal,
+    gameMode,
+    gameState,
+    setSubmittedScore,
+    username,
+    setCopyToClipboard,
+  } = props;
 
   const { theme } = useTheme();
   const isDark = theme === "dark";
-
-  const [copyToClipboard, setCopyToClipboard] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (copyToClipboard) {
-      const copyToClipboardPopup = document.querySelector(
-        ".copy-to-clipboard-popup"
-      );
-      setTimeout(() => {
-        copyToClipboardPopup?.classList.add("popup-fade-out");
-      }, 1780);
-      setTimeout(() => {
-        setCopyToClipboard(false);
-      }, 2000);
-    }
-  }, [copyToClipboard]);
 
   //Set valid username for table entry
   let name = "";
@@ -200,20 +191,6 @@ const GameOverModal = (props: GameOverModalProps) => {
 
   const GameOverNode: ReactNode = (
     <div className="modal-content-container">
-      {/* Copy To Clipboard Popup */}
-      {copyToClipboard && (
-        <div
-          className="copy-to-clipboard-popup"
-          style={{
-            backgroundColor: isDark
-              ? "var(--light-background)"
-              : "var(--dark-background)",
-            color: isDark ? "var(--light-text)" : "var(--dark-text)",
-          }}
-        >
-          Copied results to clipboard
-        </div>
-      )}
       <div className="modal-text text-align-center">Today's Rank: {rank}</div>
       <div className="modal-text text-align-center">
         You found{" "}

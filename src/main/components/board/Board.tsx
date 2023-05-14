@@ -405,6 +405,22 @@ const Board = (props: BoardProps) => {
     nextLetterArr[gameState.moveCount + 2],
   ];
 
+  // FOR GAME OVER POPUP - Copy to clipboard component
+  const [copyToClipboard, setCopyToClipboard] = useState<boolean>(false);
+  useEffect(() => {
+    if (copyToClipboard) {
+      const copyToClipboardPopup = document.querySelector(
+        ".copy-to-clipboard-popup"
+      );
+      setTimeout(() => {
+        copyToClipboardPopup?.classList.add("popup-fade-out");
+      }, 1780);
+      setTimeout(() => {
+        setCopyToClipboard(false);
+      }, 2000);
+    }
+  }, [copyToClipboard]);
+
   // Conditional Styles
   const mergeStyles = (
     ...styles: React.CSSProperties[]
@@ -471,7 +487,22 @@ const Board = (props: BoardProps) => {
           gameState={gameState}
           setSubmittedScore={setSubmittedScore}
           username={username}
+          setCopyToClipboard={setCopyToClipboard}
         />
+      )}
+      {/* Copy To Clipboard Popup */}
+      {copyToClipboard && (
+        <div
+          className="copy-to-clipboard-popup"
+          style={{
+            backgroundColor: isDark
+              ? "var(--light-background)"
+              : "var(--dark-background)",
+            color: isDark ? "var(--light-text)" : "var(--dark-text)",
+          }}
+        >
+          Copied results to clipboard
+        </div>
       )}
       {/* HUD */}
       <div className="hud-container">

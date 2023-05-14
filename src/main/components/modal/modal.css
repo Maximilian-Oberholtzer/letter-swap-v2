@@ -361,9 +361,10 @@ input:focus + .slider {
   font-size: 1.25rem;
   padding: 0.5rem;
   white-space: nowrap;
-  top: 4rem;
+  top: 5rem;
   left: 50%;
   justify-content: center;
+  z-index: 10000;
 }
 
 .popup-fade-out {
