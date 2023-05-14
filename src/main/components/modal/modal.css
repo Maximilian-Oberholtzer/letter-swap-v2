@@ -351,6 +351,41 @@ input:focus + .slider {
 .share-button-light:hover {
   background-color: var(--light-button-background-hover) !important;
 }
+.copy-to-clipboard-popup {
+  display: flex;
+  position: fixed;
+  transform: translateX(-50%);
+  border-radius: 0.3rem;
+  font-weight: 700;
+  animation: popup-fade-in 0.3s;
+  font-size: 1.25rem;
+  padding: 0.5rem;
+  white-space: nowrap;
+  top: 4rem;
+  left: 50%;
+  justify-content: center;
+}
+
+.popup-fade-out {
+  animation: popup-fade-out 0.3s;
+}
+@keyframes popup-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes popup-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 
 /* Leaderboard Modal */
 .leaderboard-select-container {
