@@ -1,47 +1,55 @@
-# Getting Started with Create React App
+<h2 align="center">
+  <a href="https://letterswap.io">LetterSwap: Daily Word Game</a> 
+</h2>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p align="center">
+  <img src="https://github.com/Maximilian-Oberholtzer/letter-swap-v2/blob/main/public/LetterSwapV2Iphone.png" />  
+</p>
 
-## Available Scripts
+<h2>
+  🎮 How to Play
+</h2>
 
-In the project directory, you can run:
+<h3>Create as many words as possible.</h3>
 
-### `npm start`
+ <ul>
+   <li>
+     Tap on any tile to place the <b>NEXT</b> letter.
+   </li>
+   <li>
+      A <b>SWAP</b> is used if a tile with a letter on it is replaced, <b>UNLESS</b> a word was found in the process.
+   </li>
+   <li>
+      Creating a word <b>CLEARS</b> the row. Words can be created in <b>ANY DIRECTION</b>. Words must span the <b>ENTIRE</b> row. Duplicate words are <b>NOT</b> counted.
+   </li>
+   <li>
+      Tap on the <b>BOTTOM BOX</b> to view your previous found words.
+   </li>
+   <li>
+     Running out of swaps <b>ENDS</b> the game.
+   </li>
+ </ul>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+ <h2>
+  🛠 Installation & Setup
+ </h2>
+ <ol>
+   <li>
+      Clone this repository
+   </li>
+   <li>
+      Installation: <code>npm install</code>
+   </li>
+   <li>
+      Run locally: <code>npm start</code>
+   </li>
+   <li>
+     Open  <a href="http://localhost:3000">http://localhost:3000</a> to view in browser
+   </li>
+ </ol>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+ <h2>
+   💖 Thank you for visiting
+ </h2>
+ <p>Please leave a ⭐ on this repo if you like it!</p>
  
