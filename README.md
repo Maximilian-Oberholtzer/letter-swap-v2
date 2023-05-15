@@ -47,6 +47,28 @@
      Open  <a href="http://localhost:3000">http://localhost:3000</a> to view in browser
    </li>
  </ol>
+ 
+ <h2>
+  🎨 Packages / Libraries / Technologies
+</h2>
+
+ <ul>
+   <li>
+     <a href="https://netlify.com">Netlify</a>: deployments and serverless function
+   </li>
+   <li>
+     <a href="https://supabase.com">Supabase</a>: database for leaderboard
+   </li>
+   <li>
+      <a href="https://plotly.com/javascript/">Plotly.js</a>: statistics bar chart
+   </li>
+   <li>
+     <a href="https://www.npmjs.com/package/an-array-of-english-words">an-array-of-english-words</a>: dictionary for 4-letter/5-letter words
+   </li>
+   <li>
+     <a href="https://www.npmjs.com/package/howler">Howler</a>: sound effects
+   </li>
+ </ul>
 
  <h2>
    💖 Thank you for visiting
