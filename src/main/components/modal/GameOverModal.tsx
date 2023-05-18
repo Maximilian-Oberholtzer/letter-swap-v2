@@ -34,7 +34,9 @@ const handleShare = async (
 ) => {
   const data = {
     title: `Daily LetterSwap #${getDaysElapsedSince() + 1}`,
-    text: `${gameTitle}: ${rank}\n${score} ${
+    text: `Daily LetterSwap #${
+      getDaysElapsedSince() + 1
+    }\n${gameTitle}: ${rank}\n${score} ${
       score === 1 ? "word" : "words"
     } for ${points} points.`,
     url: window.location.href,
